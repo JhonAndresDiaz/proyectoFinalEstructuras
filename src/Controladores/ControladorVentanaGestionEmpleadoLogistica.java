@@ -24,15 +24,28 @@ public class ControladorVentanaGestionEmpleadoLogistica {
         for (int i = 0; i < listaAerolineas.size(); i++) {
             Aerolinea aerolinea = listaAerolineas.get(i);
             for (int j = 0; j < aerolinea.getListaEmpleadosAerolinea().size(); j++) {
-                if(aerolinea.getListaEmpleadosAerolinea().get(j).equals(id)){
+                if(aerolinea.getListaEmpleadosAerolinea().get(j).getIdentificacion().equals(id)){
                     return listaAerolineas.get(i);
                 }
             }
         }
         return null;    
     }
+    
+    public Aerolinea buscarAerolineaCodigoAero(int codigo){
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            if(listaAerolineas.get(i).getCodigoAerolinea() == codigo){
+                return listaAerolineas.get(i);
+            }  
+        }
+        return null;    
+    }
    
     public LSE<EmpleadoLogistica> conseguirEmpleados(Aerolinea aerolinea) {
+        if (aerolinea == null) {
+            return new LSE<EmpleadoLogistica>();
+        }
+
         LSE<EmpleadoLogistica> lista = new LSE<>();
         Nodo<Aerolinea> nodoAerolinea = listaAerolineas.getPrimero();
 
@@ -42,7 +55,9 @@ public class ControladorVentanaGestionEmpleadoLogistica {
                 Nodo<Persona> nodoEmpleado = aerolineaActual.getListaEmpleadosAerolinea().getPrimero();
 
                 while (nodoEmpleado != null) {
-                    lista.add((EmpleadoLogistica) nodoEmpleado.getDato());
+                    if (nodoEmpleado.getDato() instanceof EmpleadoLogistica) {
+                        lista.add((EmpleadoLogistica) nodoEmpleado.getDato());
+                    }
                     nodoEmpleado = nodoEmpleado.getNodoSiguiente();
                 }
             }
@@ -51,17 +66,18 @@ public class ControladorVentanaGestionEmpleadoLogistica {
         return lista;
     }
 
-    public Persona buscarViajeroId(String identificacion){
+    public Viajero buscarViajeroId(String identificacion) {
         for (int i = 0; i < listaUsuarios.size(); i++) {
-            if(listaUsuarios.get(i).getRol().equals("Viajero")){
+            if (listaUsuarios.get(i).getRol().equals("Viajero")) {
                 Viajero viajero = (Viajero) listaUsuarios.get(i);
-                if(viajero.getIdentificacion().equals(identificacion)){
-                    return (Persona) listaUsuarios.get(i);
+                if (viajero.getIdentificacion().equals(identificacion)) {
+                    return viajero;
                 }
             }
         }
-        return null;    
+        return null;
     }
+
     
     public Persona buscarCapitanVuelo(String identificacion){
         for (int i = 0; i < listaAerolineas.size(); i++) {
@@ -141,33 +157,47 @@ public class ControladorVentanaGestionEmpleadoLogistica {
         return null;
     }
     
+    public Persona validarCorreo2(String correo){
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            Usuario usuario = listaUsuarios.get(i);
+            if(usuario.getCorreo().equals(correo)){
+                return (Persona) usuario;
+            }
+        }
+        return null;
+    }
+    
     public boolean validarMismoEmpleado(EmpleadoLogistica persona) {
-        
         Persona buscarInformacion = buscarInformacion(persona.getIdentificacion());
-        
-        if(persona.getNombres().equals(buscarInformacion.getNombres()) && persona.getApellidos().equals(buscarInformacion.getApellidos())
-            && persona.getEdad() == buscarInformacion.getEdad() && persona.getGenero().equals(buscarInformacion.getGenero()) 
-            && persona.getNumTelefono().equals(buscarInformacion.getNumTelefono()) ) {
-            return true;
+
+        if (buscarInformacion != null) {
+            if (persona.getNombres().equals(buscarInformacion.getNombres()) &&
+                persona.getApellidos().equals(buscarInformacion.getApellidos()) &&
+                persona.getEdad() == buscarInformacion.getEdad() &&
+                persona.getGenero().equals(buscarInformacion.getGenero()) &&
+                persona.getNumTelefono().equals(buscarInformacion.getNumTelefono())) {
+                return true;
+            }
         }
         return false;
     }
-    
-    public void guardarEmpleadoLog(EmpleadoLogistica persona) {
+
+    public void guardarEmpleadoLog(Aerolinea aerolinea, EmpleadoLogistica persona) {
         
         CapitanVuelo capitanBuscado = (CapitanVuelo) buscarCapitanVuelo(persona.getIdentificacion());
         Viajero viajeroBuscado = (Viajero) buscarViajeroId(persona.getIdentificacion());
         Persona correoBuscado = validarCorreo(persona.getCorreo());
+        Persona correoBuscado2 = validarCorreo2(persona.getCorreo());
         GestorMantenimiento gestorBuscado = (GestorMantenimiento) buscarGestorMantenimiento(persona.getIdentificacion());
         AdministradorAerolinea adAeroBuscado = (AdministradorAerolinea) buscarAdminAerolineaId(persona.getIdentificacion());
         EmpleadoLogistica empleadoBuscado = (EmpleadoLogistica) buscarEmpleadoLogistica(persona.getIdentificacion());
                 
-        boolean personaYaExiste = viajeroBuscado != null || correoBuscado != null || capitanBuscado != null || gestorBuscado != null || adAeroBuscado != null || empleadoBuscado != null ;
+        boolean personaYaExiste = viajeroBuscado != null || correoBuscado != null || correoBuscado2 != null || capitanBuscado != null || gestorBuscado != null || adAeroBuscado != null || empleadoBuscado != null ;
             
         if(personaYaExiste) {
             if (empleadoBuscado != null) {
                 throw new EmpleadoLogisticaRegistradoException();
-            }else if (correoBuscado != null) {
+            }else if (correoBuscado != null || correoBuscado2 != null) {
                 throw new CorreoRegistradoException();
             }else if(gestorBuscado != null){
                 throw new GestorRegistradoException();
@@ -176,26 +206,22 @@ public class ControladorVentanaGestionEmpleadoLogistica {
             }else if(capitanBuscado != null){
                 throw new CapitanVueloRegistradoException();
             }else if (viajeroBuscado != null) {
-                Aerolinea aerolinea = buscarAerolineaCodigo(persona.getIdentificacion());
-                if(aerolinea != null){
-                   if (validarMismoEmpleado(persona)) {
-                        aerolinea.getListaEmpleadosAerolinea().add(persona);
-                        Singleton.getInstancia().escribirAerolineas();
-                    }else {
-                        throw new InformacionViajeroException();   
-                    } 
-                }    
-            }
-        }else {
-            Aerolinea aerolinea = buscarAerolineaCodigo(persona.getIdentificacion());
-            if(aerolinea != null){
                 if (validarMismoEmpleado(persona)) {
-                    aerolinea.getListaEmpleadosAerolinea().add(persona);
-                    Singleton.getInstancia().escribirAerolineas();
+                    Aerolinea aerolineaBuscada = buscarAerolineaCodigoAero(aerolinea.getCodigoAerolinea());
+                    if (aerolineaBuscada != null) {
+                        aerolineaBuscada.getListaEmpleadosAerolinea().add(persona);
+                        Singleton.getInstancia().escribirAerolineas();
+                    }
                 }else {
                     throw new InformacionViajeroException();   
-                } 
-            }  
+                }  
+            }
+        }else {
+            Aerolinea aerolineaBuscada = buscarAerolineaCodigoAero(aerolinea.getCodigoAerolinea());
+            if (aerolineaBuscada != null) {
+                aerolineaBuscada.getListaEmpleadosAerolinea().add(persona);
+                Singleton.getInstancia().escribirAerolineas();
+            }
         }
     }
     

@@ -75,6 +75,9 @@ public class VentanaMenuPrincipalEmpleadoLogistica extends javax.swing.JFrame {
         jLabel10.setText("Gestionar vuelos");
         jLabel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel10MouseEntered(evt);
             }
@@ -284,6 +287,12 @@ public class VentanaMenuPrincipalEmpleadoLogistica extends javax.swing.JFrame {
     private void jLabel12MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseExited
         panelSolicitudes.setBackground(new Color(65, 92, 117));
     }//GEN-LAST:event_jLabel12MouseExited
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        this.dispose();
+        JFrame v2 = new VentanaGestionVuelos(empleadoLogistica);
+        v2.setVisible(true);
+    }//GEN-LAST:event_jLabel10MouseClicked
 
     
 

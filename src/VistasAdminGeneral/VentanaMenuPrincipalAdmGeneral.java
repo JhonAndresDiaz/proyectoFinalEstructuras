@@ -11,14 +11,12 @@ import javax.swing.JFrame;
  */
 public class VentanaMenuPrincipalAdmGeneral extends javax.swing.JFrame {
 
-    private Persona administradorGeneral;
         
     /**
      * Creates new form VentanaMenuPrincipalAdmGeneral
      */
-    public VentanaMenuPrincipalAdmGeneral(Persona adminGeneral) {
+    public VentanaMenuPrincipalAdmGeneral() {
         initComponents();
-        this.administradorGeneral = adminGeneral;
     }
 
     /**
@@ -356,7 +354,7 @@ public class VentanaMenuPrincipalAdmGeneral extends javax.swing.JFrame {
 
     private void btnGestionGestorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGestionGestorMouseClicked
         this.dispose();
-        JFrame v2 = new VentanaGestionGestorMantenimiento(administradorGeneral);
+        JFrame v2 = new VentanaGestionGestorMantenimiento();
         v2.setVisible(true);
     }//GEN-LAST:event_btnGestionGestorMouseClicked
 
@@ -386,13 +384,13 @@ public class VentanaMenuPrincipalAdmGeneral extends javax.swing.JFrame {
 
     private void btnGestionAerolineasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGestionAerolineasMouseClicked
         this.dispose();
-        JFrame v2 = new VentanaGestionAerolinea(administradorGeneral);
+        JFrame v2 = new VentanaGestionAerolinea();
         v2.setVisible(true);
     }//GEN-LAST:event_btnGestionAerolineasMouseClicked
 
     private void btnGestionAdminAeroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGestionAdminAeroMouseClicked
         this.dispose();
-        JFrame v2 = new VentanaSeleccionarAerolinea(administradorGeneral);
+        JFrame v2 = new VentanaSeleccionarAerolinea();
         v2.setVisible(true);
     }//GEN-LAST:event_btnGestionAdminAeroMouseClicked
 

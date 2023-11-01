@@ -119,6 +119,16 @@ public class ControladorVentanaGestionAerolinea {
         return null;
     }
     
+    public Persona validarCorreo2(String correo){
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            Usuario usuario = listaUsuarios.get(i);
+            if(usuario.getCorreo().equals(correo)){
+                return (Persona) usuario;
+            }
+        }
+        return null;
+    }
+    
     public Persona buscarInformacion(String identificacion){
         for (int i = 0; i < listaUsuarios.size(); i++) {
             if(listaUsuarios.get(i).getRol().equals("Viajero")){
@@ -149,7 +159,7 @@ public class ControladorVentanaGestionAerolinea {
             throw new CodigoAerolineaExisteException();
         }
 
-        if(validarCorreo(admin.getCorreo()) != null) {
+        if(validarCorreo(admin.getCorreo()) != null || validarCorreo2(admin.getCorreo()) != null) {
             throw new CorreoRegistradoException();
         }
 

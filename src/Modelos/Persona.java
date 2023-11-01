@@ -1,10 +1,12 @@
 package Modelos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author diazje
  */
-public class Persona extends Usuario {
+public class Persona extends Usuario implements Serializable {
     
     protected String identificacion;
     protected String nombres;

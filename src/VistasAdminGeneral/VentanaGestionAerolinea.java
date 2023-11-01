@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
  */
 public class VentanaGestionAerolinea extends javax.swing.JFrame {
 
-    private Persona administradorGeneral;
     private ControladorVentanaGestionAerolinea controlador;
     Date hoy = new Date();
     LocalDate fecha = new  java.sql.Date(hoy.getTime()).toLocalDate();
@@ -24,9 +23,8 @@ public class VentanaGestionAerolinea extends javax.swing.JFrame {
     /**
      * Creates new form VentanaGestionAerolinea
      */
-    public VentanaGestionAerolinea(Persona adminGeneral) {
+    public VentanaGestionAerolinea() {
         initComponents();
-        this.administradorGeneral = adminGeneral;
         this.controlador = new ControladorVentanaGestionAerolinea();
         txtFechaRegistro.setText(fecha.toString());
     }
@@ -313,7 +311,7 @@ public class VentanaGestionAerolinea extends javax.swing.JFrame {
 
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
         this.dispose();
-        JFrame v2 = new VentanaMenuPrincipalAdmGeneral(administradorGeneral);
+        JFrame v2 = new VentanaMenuPrincipalAdmGeneral();
         v2.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
@@ -378,7 +376,7 @@ public class VentanaGestionAerolinea extends javax.swing.JFrame {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         this.dispose();
-        JFrame v2 = new VentanaVerAerolineas(administradorGeneral);
+        JFrame v2 = new VentanaVerAerolineas();
         v2.setVisible(true);
     }//GEN-LAST:event_jLabel2MouseClicked
 

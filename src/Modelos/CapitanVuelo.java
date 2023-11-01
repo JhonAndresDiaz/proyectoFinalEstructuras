@@ -1,5 +1,6 @@
 package Modelos;
 
+import Util.LSE;
 import java.io.Serializable;
 
 /**

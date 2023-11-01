@@ -1,12 +1,15 @@
 package VistasAdminAerolinea;
 
 import Controladores.ControladorVentanaGestionAviones;
+import Excepciones.YaExisteNumeroAvionException;
 import Modelos.AdministradorAerolinea;
 import Modelos.Aerolinea;
 import Modelos.Avion;
+import Util.LSE;
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,6 +19,7 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
 
     private AdministradorAerolinea administradorAerolinea;
     private ControladorVentanaGestionAviones controlador;
+    DefaultTableModel modelo;
     
     /**
      * Creates new form VentanaGestionAviones
@@ -23,7 +27,11 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     public VentanaGestionAviones(AdministradorAerolinea adminAerolinea) {
         initComponents();
         this.administradorAerolinea = adminAerolinea; 
-        this.controlador = new ControladorVentanaGestionAviones();
+        this.controlador = new ControladorVentanaGestionAviones();   
+        Aerolinea aerolinea1 = controlador.buscarAerolineaPersona(administradorAerolinea.getIdentificacion());
+        txtNombreAerolinea.setText(aerolinea1.getNombreAerolinea());
+        modelo = (DefaultTableModel)tabla.getModel();
+        actualizarTabla();
     }
 
     /**
@@ -54,6 +62,12 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        btnLimpiar = new javax.swing.JLabel();
+        btnVer = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -76,21 +90,21 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(65, 92, 117));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel14.setText("Registrar");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 140, -1));
+        jLabel14.setText("Aviones registrados");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, 250, -1));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 170, 10));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(65, 92, 117));
         jLabel1.setText("Nombre de Aerolínea:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 30, -1, -1));
 
         txtNombreAerolinea.setEditable(false);
         txtNombreAerolinea.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtNombreAerolinea.setForeground(new java.awt.Color(65, 92, 117));
         txtNombreAerolinea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNombreAerolinea.setBorder(null);
-        jPanel1.add(txtNombreAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 120, -1));
+        jPanel1.add(txtNombreAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 30, 120, -1));
         jPanel1.add(txtCantidadFilas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 170, -1));
 
         jLabel7.setForeground(new java.awt.Color(65, 92, 117));
@@ -146,11 +160,11 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Número", "Filas", "Columnas bloques", "Ubicacion"
+                "Número", "Filas", "Columnas bloques"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -159,15 +173,79 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         });
         tabla.setSelectionBackground(new java.awt.Color(65, 92, 117));
         tabla.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla);
         if (tabla.getColumnModel().getColumnCount() > 0) {
             tabla.getColumnModel().getColumn(0).setResizable(false);
             tabla.getColumnModel().getColumn(1).setResizable(false);
             tabla.getColumnModel().getColumn(2).setResizable(false);
-            tabla.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 430, 210));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, 430, 220));
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel15.setText("Registrar");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 140, -1));
+
+        jPanel3.setBackground(new java.awt.Color(65, 92, 117));
+
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEliminar.setText("Eliminar");
+        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 410, 120, 30));
+
+        jPanel4.setBackground(new java.awt.Color(65, 92, 117));
+
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 410, -1, -1));
+
+        btnVer.setText("ver");
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 370, 100, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -258,17 +336,35 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
             int fila = Integer.parseInt(txtCantidadFilas.getText());
             String bloquesSeleccionados = String.valueOf(cboBloques.getSelectedItem());
             int bloques = Integer.parseInt(bloquesSeleccionados);
-            Avion avion = new Avion(numero, ubicacion, fila, bloques);
+            Aerolinea aerolinea = controlador.buscarAerolineaPersona(administradorAerolinea.getIdentificacion());
+            Avion avion = new Avion(numero, fila, bloques);
             
             try{
-//                controlador.guardarAvion(aerolineaRecibida.getCodigoAerolinea(), avion);
+                controlador.guardarAvion(aerolinea, avion);
                 JOptionPane.showMessageDialog(null, "Se registró el avión correctamente");
                 limpiarCampos();
-            }catch (Exception e) {
-                e.printStackTrace();
+                actualizarTabla();
+            }catch (YaExisteNumeroAvionException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
     }//GEN-LAST:event_btnAgregarMouseClicked
+
+    private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarMouseClicked
+
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        int numero = Integer.parseInt(txtNumero.getText());
+        Avion avion = controlador.buscarNumeroAvion(numero);
+        this.dispose();
+        JFrame v2 = new VentanaVerAvion(administradorAerolinea, avion);
+        v2.setVisible(true);
+    }//GEN-LAST:event_btnVerActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaMouseClicked
 
     public void limpiarCampos() {
         txtCantidadFilas.setText(null);
@@ -276,15 +372,40 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         txtUbicacion.setText(null);
         cboBloques.setSelectedIndex(0);
     }
+    
+    private void actualizarTabla(){
+        Aerolinea aerolinea = controlador.buscarAerolineaPersona(administradorAerolinea.getIdentificacion());
+        LSE<Avion> aviones = controlador.conseguirAviones(aerolinea);
+        try{
+            for (int i = 0; i < 3 ; i++) {
+                for (int j = 0; j < modelo.getRowCount(); j++) {
+                    modelo.removeRow(j);
+                }   
+            }
+        }catch(NullPointerException e){
+        }
+            try{
+                for (int i = 0; i < aviones.size() ; i++) {
+                    Avion aux = aviones.get(i);                   
+                    Object[] ob = {aux.getNumero(), aux.getFila(), aux.getBloque()};
+                    modelo.addRow(ob);                    
+                }
+            }catch(NullPointerException e){        
+            }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAgregar;
+    private javax.swing.JLabel btnEliminar;
+    private javax.swing.JLabel btnLimpiar;
     private javax.swing.JMenu btnRegresar;
+    private javax.swing.JButton btnVer;
     private javax.swing.JMenu btnVolver;
     private javax.swing.JComboBox<String> cboBloques;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -293,6 +414,8 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tabla;

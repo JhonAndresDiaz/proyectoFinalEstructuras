@@ -302,61 +302,39 @@ public class VentanaLogin extends javax.swing.JFrame {
         }else {
             String correo = txtCorreo.getText();
             String contrasenia = txtContrasenia.getText();
+            Persona usuarioAutenticado = controlador.buscarUsuario(correo, contrasenia);
+            Persona admin = controlador.crearAdministradorGeneral();
 
-            Persona persona = controlador.buscarPersona(correo);
-            Persona adminGeneral = controlador.crearAdministradorGeneral();
+            if(usuarioAutenticado != null) {
+                this.dispose();
+                JFrame v2 = null;
 
-            String rol = (persona != null) ? persona.getRol() : "";
+                String rol = usuarioAutenticado.getRol();
 
-            switch (rol){
-                case "Viajero":
-                if (persona.getContrasenia().equals(contrasenia)) {
-                    this.dispose();
-                    JFrame v2 = new VentanaMenuPrincipalViajero((Viajero) persona);
+                if(rol.equals("Viajero")) {
+                    v2 = new VentanaMenuPrincipalViajero((Viajero) usuarioAutenticado);
+                }else if (rol.equals("Gestor Mantenimiento")) {
+                    v2 = new VentanaPrincipalGestorMantenimiento((GestorMantenimiento) usuarioAutenticado);
+                }else if (rol.equals("Administrador Aerolinea")) {
+                    v2 = new VentanaMenuPrincipalAdAerolinea((AdministradorAerolinea) usuarioAutenticado);
+                }else if (rol.equals("Capitan Vuelo")) {
+                    v2 = new VentanaMenuPrincipalCapitanVuelo((CapitanVuelo) usuarioAutenticado);
+                }else if (rol.equals("Empleado Logistica")) {
+                    v2 = new VentanaMenuPrincipalEmpleadoLogistica((EmpleadoLogistica) usuarioAutenticado);
+                }
+                if (v2 != null) {
                     v2.setVisible(true);
                     return;
                 }
-                break;
-                case "Administrador Aerolinea":
-                if (persona.getContrasenia().equals(contrasenia)) {
+            }else{
+                Persona adminGeneral = controlador.crearAdministradorGeneral();
+                if (adminGeneral != null && adminGeneral.getCorreo().equals(correo) && adminGeneral.getContrasenia().equals(contrasenia)) {
                     this.dispose();
-                    JFrame v2 = new VentanaMenuPrincipalAdAerolinea((AdministradorAerolinea) persona);
+                    JFrame v2 = new VentanaMenuPrincipalAdmGeneral();
                     v2.setVisible(true);
                     return;
                 }
-                break;
-                case "Empleado Logistica":
-                if (persona.getContrasenia().equals(contrasenia)) {
-                    this.dispose();
-                    JFrame v2 = new VentanaMenuPrincipalEmpleadoLogistica((EmpleadoLogistica) persona);
-                    v2.setVisible(true);
-                    return;
-                }
-                break;
-                case "Gestor Mantenimiento":
-                if (persona.getContrasenia().equals(contrasenia)) {
-                    this.dispose();
-                    JFrame v2 = new VentanaPrincipalGestorMantenimiento((GestorMantenimiento) persona);
-                    v2.setVisible(true);
-                    return;
-                }
-                break;
-                case "Capitan Vuelo":
-                if (persona.getContrasenia().equals(contrasenia)) {
-                    this.dispose();
-                    JFrame v2 = new VentanaMenuPrincipalCapitanVuelo((CapitanVuelo) persona);
-                    v2.setVisible(true);
-                    return;
-                }
-                break;
-            default:
-                if(correo.equals(adminGeneral.getCorreo()) && contrasenia.equals(adminGeneral.getContrasenia())) {
-                    this.dispose();
-                    JFrame v2 = new VentanaMenuPrincipalAdmGeneral(adminGeneral);
-                    v2.setVisible(true);
-                }else {
-                    mostrarMensajeError();
-                }
+                mostrarMensajeError();
             }
         }
     }//GEN-LAST:event_btnIngresarMouseClicked

@@ -64,13 +64,22 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         return null;    
     }
     
-    public Aerolinea buscarAeroNombre(String nombre){
+    public Aerolinea buscarAerolineaNombre(String nombre){
         for (int i = 0; i < listaAerolineas.size(); i++) {
             if(listaAerolineas.get(i).getNombreAerolinea().equals(nombre)){
                 return listaAerolineas.get(i);
             }  
         }
         return null;    
+    }
+    
+    public boolean buscarAeroNombre(String nombre){
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            if(listaAerolineas.get(i).getNombreAerolinea().equals(nombre)){
+                return true;
+            }  
+        }
+        return false;    
     }
     
     public Aerolinea buscarAdAerolinea(String id) {
@@ -164,6 +173,16 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         return null;
     }
     
+    public Persona validarCorreo2(String correo){
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            Usuario usuario = listaUsuarios.get(i);
+            if(usuario.getCorreo().equals(correo)){
+                return (Persona) usuario;
+            }
+        }
+        return null;
+    }
+    
     public Persona buscarInformacion(String identificacion){
         for (int i = 0; i < listaUsuarios.size(); i++) {
             if(listaUsuarios.get(i).getRol().equals("Viajero")){
@@ -188,9 +207,25 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         return false;
     }
     
+    public void editarAerolinea(Aerolinea aerolinea){
+        
+        Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
+        boolean validarNombre = buscarAeroNombre(aerolinea.getNombreAerolinea());
+        
+        if(aerolinea != null){
+            if(!validarNombre){
+                aerolineaBuscada.setNombreAerolinea(aerolinea.getNombreAerolinea());
+                aerolineaBuscada.setPais(aerolinea.getPais());
+                Singleton.getInstancia().escribirAerolineas();
+            }else {
+               
+            } 
+        }
+    }
+    
     public void guardarAerolinea(Aerolinea aerolinea, AdministradorAerolinea admin) {
         
-        if(validarCorreo(admin.getCorreo()) != null) {
+        if(validarCorreo(admin.getCorreo()) != null || validarCorreo2(admin.getCorreo()) != null) {
             throw new CorreoRegistradoException();
         }
 

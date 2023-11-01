@@ -2,7 +2,6 @@
 package Singleton;
 
 import Modelos.Aerolinea;
-import Modelos.Avion;
 import Modelos.Usuario;
 import Util.LSE;
 import java.io.FileInputStream;
@@ -17,7 +16,6 @@ public class Singleton {
     
     LSE<Aerolinea> listaAerolineas;
     LSE<Usuario> listaUsuarios;
-    Avion[][] aviones;
     
     private Singleton(){
         listaAerolineas = leerAerolineas();  
@@ -36,15 +34,7 @@ public class Singleton {
         this.listaAerolineas = listaAerolineas;
     }
     
-    public Avion[][] getAviones() {
-        return aviones;
-    }
-   
-    public void Aviones(Avion[][] aviones) {
-        this.aviones = aviones;
-    }
-    
-     public LSE<Usuario> getUsuarios(){
+    public LSE<Usuario> getUsuarios(){
         return listaUsuarios;
     }
      

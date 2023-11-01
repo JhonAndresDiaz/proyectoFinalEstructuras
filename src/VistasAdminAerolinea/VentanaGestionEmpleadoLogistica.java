@@ -504,11 +504,12 @@ public class VentanaGestionEmpleadoLogistica extends javax.swing.JFrame {
             String tarjetaProfesional = txtTarjetaProfesional.getText();
             String correo = txtCorreo.getText();
             String contrasenia = txtContrasenia.getText();
-
+            
+            Aerolinea aerolinea = controlador.buscarAerolineaCodigo(administradorAerolinea.getIdentificacion());
             EmpleadoLogistica empleadoLogistica = new EmpleadoLogistica(tarjetaProfesional, aniosExperiencia, rutasAsignadas, identificacion, nombres, apellidos, edad, genero, telefono, correo, contrasenia, "Empleado Logistica");
 
             try{
-                controlador.guardarEmpleadoLog(empleadoLogistica);
+                controlador.guardarEmpleadoLog(aerolinea, empleadoLogistica);
                 JOptionPane.showMessageDialog(null, "Se registró correctamente el Empleado de Logistica: " + nombres + " " + apellidos + "\n con identificación número: " + identificacion);
                 limpiarCampos();
                 actualizarTabla();

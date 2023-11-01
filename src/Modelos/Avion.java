@@ -1,7 +1,10 @@
 package Modelos;
 
 import Util.LSE;
+import Util.Nodo;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -15,33 +18,62 @@ public class Avion implements Serializable{
     private String estado; 
     
     private int numero;
-    private String ubicacion;
-    private Vuelo vuelo;
     private Mantenimiento mantenimiento;
     private LSE<Vuelo> cronograma;
     private int fila;
     private int bloque;
 
-    public Avion() {
-        this.estado = DISPONIBLE;
-        cronograma = new LSE<>();
-    }
-    
-    public Avion(int numero, String ubicacion, int fila, int bloque){
+    public Avion(int numero, int fila, int bloque){
         this.numero = numero;
-        this.ubicacion = ubicacion;
         this.fila = fila;
         this.bloque = bloque;
+        this.estado = DISPONIBLE;
+        cronograma = new LSE<>();
     }
 
     public Avion(String estado, int numero, Vuelo vuelo, Mantenimiento mantenimiento, LSE<Vuelo> cronograma) {
         this.estado = estado;
         this.numero = numero;
-        this.vuelo = vuelo;
         this.mantenimiento = mantenimiento;
         this.cronograma = cronograma;
+    }    
+    
+     public boolean estaOcupado(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
+        Nodo<Vuelo> current = cronograma.getPrimero();
+        while (current != null) {
+            Vuelo vuelo = current.getDato();
+            if (vuelo.getFechaVuelo().equals(fecha) && vuelo.horariosSeCruzan(horaInicio, horaFin)) {
+                return true;
+            }
+            current = current.getNodoSiguiente();
+        }
+        return false;
     }
+     
+//    public boolean estaOcupado(LocalTime horaInicio, LocalTime horaFin) {
+//        Nodo<Vuelo> current = cronograma.getPrimero();
+//        while (current != null) {
+//            Vuelo vuelo = current.getDato();
+//            if (vuelo.horariosSeCruzan(horaInicio, horaFin)) {
+//                return true;
+//            }
+//            current = current.getNodoSiguiente();
+//        }
+//        return false;
+//    }
 
+//    public boolean estaOcupado(LocalTime horaInicio, LocalTime horaFin) {
+//        Nodo<Vuelo> current = cronograma.getPrimero();
+//        while (current != null) {
+//            Vuelo vuelo = current.getDato();
+//            if (vuelo.horariosSeCruzan(horaInicio, horaFin)) {
+//                return true;
+//            }
+//            current = current.getNodoSiguiente();
+//        }
+//        return false;
+//    }
+//    
     public String getEstado() {
         return estado;
     }
@@ -58,14 +90,6 @@ public class Avion implements Serializable{
         this.numero = numero;
     }
 
-    public Vuelo getVuelo() {
-        return vuelo;
-    }
-
-    public void setVuelo(Vuelo vuelo) {
-        this.vuelo = vuelo;
-    }
-
     public Mantenimiento getMantenimiento() {
         return mantenimiento;
     }
@@ -80,5 +104,21 @@ public class Avion implements Serializable{
 
     public void setCronograma(LSE<Vuelo> cronograma) {
         this.cronograma = cronograma;
+    }
+
+    public int getFila() {
+        return fila;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public int getBloque() {
+        return bloque;
+    }
+
+    public void setBloque(int bloque) {
+        this.bloque = bloque;
     }
 }

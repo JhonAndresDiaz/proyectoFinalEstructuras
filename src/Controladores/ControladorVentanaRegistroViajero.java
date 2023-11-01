@@ -113,6 +113,16 @@ public class ControladorVentanaRegistroViajero {
         return null;
     }
     
+    public Persona validarCorreo2(String correo){
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            Usuario usuario = listaUsuarios.get(i);
+            if(usuario.getCorreo().equals(correo)){
+                return (Persona) usuario;
+            }
+        }
+        return null;
+    }
+    
     public Persona buscarInformacion(String identificacion){
         for (int i = 0; i < listaAerolineas.size(); i++) {
             Aerolinea aerolinea = listaAerolineas.get(i);
@@ -145,13 +155,14 @@ public class ControladorVentanaRegistroViajero {
         CapitanVuelo capitanBuscado = (CapitanVuelo) buscarCapitanVuelo(persona.getIdentificacion());
         EmpleadoLogistica empleadoBuscado = (EmpleadoLogistica) buscarEmpleadoLogistica(persona.getIdentificacion());
         Persona correoBuscado = validarCorreo(persona.getCorreo());
-
-        boolean personaYaExiste = viajeroBuscado != null || correoBuscado != null || gestorBuscado != null || adAeroBuscado != null || capitanBuscado != null || empleadoBuscado != null;
+        Persona correoBuscado2 = validarCorreo2(persona.getCorreo());
+        
+        boolean personaYaExiste = viajeroBuscado != null || correoBuscado != null || correoBuscado2 != null || gestorBuscado != null || adAeroBuscado != null || capitanBuscado != null || empleadoBuscado != null;
 
         if(personaYaExiste) {
             if(viajeroBuscado != null) {
                 throw new ViajeroRegistradoException();
-            }else if (correoBuscado != null) {
+            }else if (correoBuscado != null || correoBuscado2 != null) {
                 throw new CorreoRegistradoException();
             }else if (gestorBuscado != null || adAeroBuscado != null || capitanBuscado != null || empleadoBuscado != null) {
                 if(validarMismaInfoViajero(persona)) {

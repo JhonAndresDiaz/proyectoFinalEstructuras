@@ -16,16 +16,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
 
-    private Persona administradorGeneral;
     DefaultTableModel modelo;
     private ControladorVentanaGestionGestorMantenimiento controlador;
     
     /**
      * Creates new form VentanaGestionGestorMantenimiento
      */
-    public VentanaGestionGestorMantenimiento(Persona adminGeneral) {
+    public VentanaGestionGestorMantenimiento() {
         initComponents();
-        this.administradorGeneral = adminGeneral;
         modelo = (DefaultTableModel)tabla.getModel();
         this.controlador = new ControladorVentanaGestionGestorMantenimiento();
         actualizarTabla();
@@ -643,7 +641,7 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
 
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
         this.dispose();
-        JFrame v2 = new VentanaMenuPrincipalAdmGeneral(administradorGeneral);
+        JFrame v2 = new VentanaMenuPrincipalAdmGeneral();
         v2.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 

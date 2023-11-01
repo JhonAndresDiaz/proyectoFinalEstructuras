@@ -436,9 +436,10 @@
         <Component class="javax.swing.JComboBox" name="cboCertificado">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
-                <StringItem index="0" value="Est&#xe1;ndar"/>
-                <StringItem index="1" value="Especial"/>
+              <StringArray count="3">
+                <StringItem index="0" value=""/>
+                <StringItem index="1" value="Est&#xe1;ndar"/>
+                <StringItem index="2" value="Especial"/>
               </StringArray>
             </Property>
           </Properties>

@@ -14,10 +14,7 @@ public class Aerolinea implements Serializable {
     private String pais;
     private LSE<Avion> listaAviones;
     private LSE<Persona> listaEmpleadosAerolinea;
-//    private LSE<AdministradorAerolinea> listaAdministradores;
-//    private LSE<EmpleadoLogistica> listaEmpleados;
-//    private LSE<CapitanVuelo> listaCapitanes;
-
+    
     public Aerolinea(String nombreAerolinea, int codigoAerolinea, String pais, LSE<Avion> listaAviones) {
         this.nombreAerolinea = nombreAerolinea;
         this.codigoAerolinea = codigoAerolinea;

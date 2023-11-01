@@ -27,6 +27,7 @@ public class VentanaGestionCapitanVuelo extends javax.swing.JFrame {
     public VentanaGestionCapitanVuelo(AdministradorAerolinea adminAerolinea) {
         initComponents();
         this.administradorAerolinea = adminAerolinea; 
+        this.controlador = new ControladorVentanaGestionCapitanVuelo();
         modelo = (DefaultTableModel)tabla.getModel();
         actualizarTabla();
     }
@@ -217,7 +218,7 @@ public class VentanaGestionCapitanVuelo extends javax.swing.JFrame {
         jLabel17.setText("Licencia del piloto");
         jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 110, -1));
 
-        cboCertificado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estándar", "Especial" }));
+        cboCertificado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Estándar", "Especial" }));
         jPanel1.add(cboCertificado, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 310, 120, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -497,7 +498,7 @@ public class VentanaGestionCapitanVuelo extends javax.swing.JFrame {
             String contrasenia = txtContrasenia.getText();
 
             CapitanVuelo capitanVuelo = new CapitanVuelo(licencia, tipoCertificado, identificacion, nombres, apellidos, edad, genero, telefono, correo, contrasenia, "Capitan Vuelo");
-            Aerolinea aerolinea = controlador.buscarAdAerolinea(capitanVuelo.getIdentificacion());
+            Aerolinea aerolinea = controlador.buscarAdAerolinea(administradorAerolinea.getIdentificacion());
             
             try{
                 controlador.guardarCapitanVuelo(capitanVuelo, aerolinea);

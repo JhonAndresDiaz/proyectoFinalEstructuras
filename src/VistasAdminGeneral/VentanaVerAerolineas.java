@@ -15,16 +15,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VentanaVerAerolineas extends javax.swing.JFrame {
 
-    private Persona administradorGeneral;
     private ControladorVentanaGestionAerolinea controlador;
     DefaultTableModel modelo;
 
     /**
      * Creates new form VentanaVerAerolineas
      */
-    public VentanaVerAerolineas(Persona adminGeneral) {
+    public VentanaVerAerolineas() {
         initComponents();
-        this.administradorGeneral = adminGeneral;
         this.controlador = new ControladorVentanaGestionAerolinea();
         modelo = (DefaultTableModel)tabla.getModel();
         actualizarTabla();
@@ -140,7 +138,7 @@ public class VentanaVerAerolineas extends javax.swing.JFrame {
 
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
         this.dispose();
-        JFrame v2 = new VentanaGestionAerolinea(administradorGeneral);
+        JFrame v2 = new VentanaGestionAerolinea();
         v2.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
