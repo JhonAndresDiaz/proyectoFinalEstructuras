@@ -34,19 +34,19 @@ public class ControladorVentanaGestionVuelos {
         return listaAviones;
     }
     
-    public LSE<Vuelo> obtenerVuelos(Aerolinea aerolineaRecibida){
+    public LSE<Vuelo> obtenerVuelos(Aerolinea aerolineaRecibida) {
         LSE<Vuelo> listaVuelos = new LSE<>();
-        
+
         for (int i = 0; i < aerolineaRecibida.getListaAviones().size(); i++) {
             Avion avion = aerolineaRecibida.getListaAviones().get(i);
             for (int j = 0; j < avion.getCronograma().size(); j++) {
                 Vuelo vuelo = avion.getCronograma().get(j);
                 listaVuelos.add(vuelo);
             }
-            return listaVuelos; 
         }
-        return new LSE<>();
+        return listaVuelos;
     }
+
     
     public LSE<CapitanVuelo> conseguirCapitanes(Aerolinea aerolinea) {
         LSE<CapitanVuelo> lista = new LSE<>();

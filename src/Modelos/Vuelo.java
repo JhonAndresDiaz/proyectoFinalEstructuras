@@ -38,18 +38,19 @@ public class Vuelo implements Serializable {
         this.estado = estado;
     }
     
-//    public boolean horariosSeCruzan(LocalTime horaInicio, LocalTime horaFin) {
-//        return (horaVuelo.isBefore(horaFin) || horaVuelo.equals(horaFin)) &&
-//           (tiempoFin.isAfter(horaInicio) || tiempoFin.equals(horaInicio));
-//    }
-    
     public boolean horariosSeCruzan(LocalTime horaInicio, LocalTime horaFin) {
-        return !horaVuelo.isAfter(horaFin) && !tiempoFin.isBefore(horaInicio);
+        return (horaVuelo.isBefore(horaFin) || horaVuelo.equals(horaFin)) &&
+           (tiempoFin.isAfter(horaInicio) || tiempoFin.equals(horaInicio));
     }
+    
+//    public boolean horariosSeCruzan(LocalTime horaInicio, LocalTime horaFin) {
+//        return !horaVuelo.isAfter(horaFin) && !tiempoFin.isBefore(horaInicio);
+//    }
 
     public boolean estaAvionDisponible(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
-        return !avion.estaOcupado(fecha, horaInicio, horaFin);
+        return avion.estaOcupado(fecha, horaInicio, horaFin);
     }
+    
 
     public boolean estaCapitanDisponible(CapitanVuelo capitan, LocalDate fecha) {
         Avion avion = this.getAvion();

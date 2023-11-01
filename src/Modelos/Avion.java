@@ -38,42 +38,30 @@ public class Avion implements Serializable{
         this.cronograma = cronograma;
     }    
     
-     public boolean estaOcupado(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
-        Nodo<Vuelo> current = cronograma.getPrimero();
-        while (current != null) {
-            Vuelo vuelo = current.getDato();
-            if (vuelo.getFechaVuelo().equals(fecha) && vuelo.horariosSeCruzan(horaInicio, horaFin)) {
+    public boolean estaOcupado(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
+        Nodo<Vuelo> primerVuelo = cronograma.getPrimero();
+        while (primerVuelo != null) {
+            Vuelo vuelo = primerVuelo.getDato();
+            if (vuelo.horariosSeCruzan(horaInicio, horaFin) && vuelo.getFechaVuelo().equals(fecha)) {
                 return true;
             }
-            current = current.getNodoSiguiente();
+            primerVuelo = primerVuelo.getNodoSiguiente();
         }
         return false;
     }
-     
+            
 //    public boolean estaOcupado(LocalTime horaInicio, LocalTime horaFin) {
-//        Nodo<Vuelo> current = cronograma.getPrimero();
-//        while (current != null) {
-//            Vuelo vuelo = current.getDato();
+//        Nodo<Vuelo> primerVuelo = cronograma.getPrimero();
+//        while (primerVuelo != null) {
+//            Vuelo vuelo = primerVuelo.getDato();
 //            if (vuelo.horariosSeCruzan(horaInicio, horaFin)) {
 //                return true;
 //            }
-//            current = current.getNodoSiguiente();
+//            primerVuelo = primerVuelo.getNodoSiguiente();
 //        }
 //        return false;
 //    }
-
-//    public boolean estaOcupado(LocalTime horaInicio, LocalTime horaFin) {
-//        Nodo<Vuelo> current = cronograma.getPrimero();
-//        while (current != null) {
-//            Vuelo vuelo = current.getDato();
-//            if (vuelo.horariosSeCruzan(horaInicio, horaFin)) {
-//                return true;
-//            }
-//            current = current.getNodoSiguiente();
-//        }
-//        return false;
-//    }
-//    
+    
     public String getEstado() {
         return estado;
     }
