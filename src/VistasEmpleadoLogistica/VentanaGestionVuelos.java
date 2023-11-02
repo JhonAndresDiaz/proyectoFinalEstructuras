@@ -7,6 +7,7 @@ import Util.LSE;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -78,6 +79,8 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         txtNumeroAvion = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         txtDuracionHoras = new javax.swing.JTextField();
+        cboInicioHora1 = new javax.swing.JComboBox<>();
+        cboInicioMin1 = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -172,6 +175,12 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(65, 92, 117));
         jLabel10.setText("Destino");
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
+
+        dataChooserFecha.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dataChooserFechaPropertyChange(evt);
+            }
+        });
         jPanel1.add(dataChooserFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 130, -1));
 
         jLabel11.setForeground(new java.awt.Color(65, 92, 117));
@@ -179,11 +188,10 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, -1));
 
         cboInicioHora.setForeground(new java.awt.Color(0, 0, 0));
-        cboInicioHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "" }));
+        cboInicioHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
         jPanel1.add(cboInicioHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 70, 30));
 
         cboInicioMin.setForeground(new java.awt.Color(0, 0, 0));
-        cboInicioMin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "00", "30" }));
         jPanel1.add(cboInicioMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 240, 70, 30));
 
         jLabel12.setForeground(new java.awt.Color(65, 92, 117));
@@ -288,6 +296,14 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jLabel17.setText("Seleccione una Avión");
         jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
         jPanel1.add(txtDuracionHoras, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, 100, 30));
+
+        cboInicioHora1.setForeground(new java.awt.Color(0, 0, 0));
+        cboInicioHora1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "" }));
+        jPanel1.add(cboInicioHora1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, 70, 30));
+
+        cboInicioMin1.setForeground(new java.awt.Color(0, 0, 0));
+        cboInicioMin1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "00", "30" }));
+        jPanel1.add(cboInicioMin1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 290, 70, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -437,6 +453,10 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         v2.setVisible(true);
     }//GEN-LAST:event_jLabel1MouseClicked
 
+    private void dataChooserFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataChooserFechaPropertyChange
+        actualizarComboBoxHorasMinutos();
+    }//GEN-LAST:event_dataChooserFechaPropertyChange
+
     public void limpiarCampos() {
         dataChooserFecha.setDate(null);
         txtNumeroVuelo.setText(null);
@@ -492,13 +512,56 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
             }
     }
     
+    private void actualizarComboBoxHorasMinutos() {
+        Date selectedDate = dataChooserFecha.getDate();
+
+        if (selectedDate != null) {
+            Calendar calHoy = Calendar.getInstance();
+            Calendar calSeleccionado = Calendar.getInstance();
+            calSeleccionado.setTime(selectedDate);
+
+            int horaActual = calHoy.get(Calendar.HOUR_OF_DAY);
+            int minutoActual = calHoy.get(Calendar.MINUTE);
+
+            if (calSeleccionado.get(Calendar.YEAR) == calHoy.get(Calendar.YEAR)
+                    && calSeleccionado.get(Calendar.MONTH) == calHoy.get(Calendar.MONTH)
+                    && calSeleccionado.get(Calendar.DAY_OF_MONTH) == calHoy.get(Calendar.DAY_OF_MONTH)) {
+                cboInicioHora.removeAllItems();
+                cboInicioMin.removeAllItems();
+                if (minutoActual < 30) {
+                    for (int i = horaActual; i < 24; i++) {
+                        cboInicioHora.addItem(String.valueOf(i));
+                    }
+                    cboInicioMin.addItem("30");
+                }else {
+                    for (int i = horaActual + 1; i < 24; i++) {
+                        cboInicioHora.addItem(String.valueOf(i));
+                    }
+                    cboInicioMin.addItem("0");
+                    cboInicioMin.addItem("30");
+                }
+            } else {
+                // No es el día de hoy, muestra todas las horas y minutos disponibles.
+                cboInicioHora.removeAllItems();
+                cboInicioMin.removeAllItems();
+                for (int i = 0; i < 24; i++) {
+                    cboInicioHora.addItem(String.valueOf(i));
+                }
+                cboInicioMin.addItem("0");
+                cboInicioMin.addItem("30");
+            }
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnGuardar;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
     private javax.swing.JComboBox<String> cboCapitanVuelo;
     private javax.swing.JComboBox<String> cboInicioHora;
+    private javax.swing.JComboBox<String> cboInicioHora1;
     private javax.swing.JComboBox<String> cboInicioMin;
+    private javax.swing.JComboBox<String> cboInicioMin1;
     private com.toedter.calendar.JDateChooser dataChooserFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
