@@ -44,7 +44,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -54,7 +53,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         cboBloques = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        txtUbicacion = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtNumero = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -76,10 +74,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel6.setForeground(new java.awt.Color(65, 92, 117));
-        jLabel6.setText("Ubicación");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(65, 92, 117));
@@ -105,23 +99,22 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         txtNombreAerolinea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNombreAerolinea.setBorder(null);
         jPanel1.add(txtNombreAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 30, 120, -1));
-        jPanel1.add(txtCantidadFilas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 170, -1));
+        jPanel1.add(txtCantidadFilas, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 170, -1));
 
         jLabel7.setForeground(new java.awt.Color(65, 92, 117));
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, -1, -1));
 
         cboBloques.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "2", "3" }));
-        jPanel1.add(cboBloques, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 170, -1));
+        jPanel1.add(cboBloques, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 170, -1));
 
         jLabel8.setForeground(new java.awt.Color(65, 92, 117));
         jLabel8.setText("Bloques por columna");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, -1, -1));
-        jPanel1.add(txtUbicacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 170, -1));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, -1, -1));
 
         jLabel9.setForeground(new java.awt.Color(65, 92, 117));
         jLabel9.setText("Cantidad de filas");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
-        jPanel1.add(txtNumero, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 170, -1));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+        jPanel1.add(txtNumero, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 170, -1));
 
         jPanel2.setBackground(new java.awt.Color(65, 92, 117));
 
@@ -140,18 +133,20 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 120, 30));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 170, 30));
 
         jLabel10.setForeground(new java.awt.Color(65, 92, 117));
         jLabel10.setText("Número de avión");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
 
         tabla.setBackground(new java.awt.Color(255, 255, 255));
         tabla.setForeground(new java.awt.Color(65, 92, 117));
@@ -205,14 +200,18 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 410, 120, 30));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 380, 120, 30));
 
         jPanel4.setBackground(new java.awt.Color(65, 92, 117));
 
@@ -230,14 +229,18 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 410, -1, -1));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 380, -1, -1));
 
         btnVer.setText("ver");
         btnVer.addActionListener(new java.awt.event.ActionListener() {
@@ -245,7 +248,7 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
                 btnVerActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 370, 100, 30));
+        jPanel1.add(btnVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 100, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -293,7 +296,7 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
         );
 
         pack();
@@ -323,7 +326,7 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverMouseReleased
 
     private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
-        if(txtNumero.getText().isEmpty() || txtCantidadFilas.getText().isEmpty() || txtUbicacion.getText().isEmpty() || cboBloques.getSelectedIndex() == 0) {
+        if(txtNumero.getText().isEmpty() || txtCantidadFilas.getText().isEmpty() || cboBloques.getSelectedIndex() == 0) {
             if(cboBloques.getSelectedIndex() == 0){
                 JOptionPane.showMessageDialog(null, "Seleccione una bloque de columna para registrar un avión");
             }else {
@@ -332,7 +335,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
             }
         }else {
             int numero = Integer.parseInt(txtNumero.getText());
-            String ubicacion = txtUbicacion.getText();
             int fila = Integer.parseInt(txtCantidadFilas.getText());
             String bloquesSeleccionados = String.valueOf(cboBloques.getSelectedItem());
             int bloques = Integer.parseInt(bloquesSeleccionados);
@@ -369,7 +371,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     public void limpiarCampos() {
         txtCantidadFilas.setText(null);
         txtNumero.setText(null);
-        txtUbicacion.setText(null);
         cboBloques.setSelectedIndex(0);
     }
     
@@ -407,7 +408,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -422,6 +422,5 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     private javax.swing.JTextField txtCantidadFilas;
     private javax.swing.JTextField txtNombreAerolinea;
     private javax.swing.JTextField txtNumero;
-    private javax.swing.JTextField txtUbicacion;
     // End of variables declaration//GEN-END:variables
 }

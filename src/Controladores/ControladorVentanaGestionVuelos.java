@@ -196,57 +196,70 @@ public class ControladorVentanaGestionVuelos {
     }
     
     public void guardarVuelo(Aerolinea aerolinea, Avion avion, Vuelo vuelo) {
+        
         Vuelo vueloBuscado = vueloBuscado(vuelo.getNumVuelo());
 
         if (vueloBuscado != null) {
             throw new YaExisteNumeroVueloException();
-        } else {
-            Avion avionBuscado = buscarNumeroAvion(avion.getNumero());
-            Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
+        }
 
-            if (avionBuscado != null && aerolineaBuscada != null) {
-                LocalDate fechaVuelo = vuelo.getFechaVuelo();
-                LocalTime horaInicio = vuelo.getHoraVuelo();
-                LocalTime horaFin = vuelo.getTiempoFin();
-            
-                if (!vuelo.estaAvionDisponible(fechaVuelo, horaInicio, horaFin)) {
-                    if (!vuelo.estaCapitanDisponible(vuelo.getCapitan(), fechaVuelo)) {
-                        for (int i = 0; i < aerolineaBuscada.getListaAviones().size(); i++) {
-                            Avion avionRecorrido = aerolineaBuscada.getListaAviones().get(i);
-                            if (avionRecorrido.getNumero() == avionBuscado.getNumero()) {
-                                avionRecorrido.getCronograma().add(vuelo);
-                                Singleton.getInstancia().escribirAerolineas();
-                            }
-                        }
-                    } else {
-                        throw new CapitanNoDisponibleException();
-                    }
-                } else {
-                    throw new AvionNoDisponibleException();
-                }
+        Avion avionBuscado = buscarNumeroAvion(avion.getNumero());
+        Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
+        
+        LocalDate fechaVuelo = vuelo.getFechaVuelo();
+        LocalTime horaInicio = vuelo.getHoraVuelo();
+        LocalTime horaFin = vuelo.getTiempoFin();
+
+        if (avion.estaOcupado(fechaVuelo, horaInicio, horaFin)) {
+            throw new AvionNoDisponibleException();
+        }
+
+        if (aerolinea.estaCapitanDisponible(vuelo.getCapitan(), fechaVuelo, horaInicio, horaFin)) {
+            throw new CapitanNoDisponibleException();
+        }
+        
+        for (int i = 0; i < aerolineaBuscada.getListaAviones().size(); i++) {
+            Avion avionRecorrido = aerolineaBuscada.getListaAviones().get(i);
+            if (avionRecorrido.getNumero() == avionBuscado.getNumero()) {
+                avionRecorrido.getCronograma().add(vuelo);
+                Singleton.getInstancia().escribirAerolineas();
+                return;
             }
         }
     }
-    
+
 //    public void guardarVuelo(Aerolinea aerolinea, Avion avion, Vuelo vuelo) {
-//        
 //        Vuelo vueloBuscado = vueloBuscado(vuelo.getNumVuelo());
-//        
-//        if(vueloBuscado != null){
+//
+//        if (vueloBuscado != null) {
 //            throw new YaExisteNumeroVueloException();
-//        }else {
+//        } else {
 //            Avion avionBuscado = buscarNumeroAvion(avion.getNumero());
 //            Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
-//            if(avionBuscado != null && aerolineaBuscada != null){
-//                for (int i = 0; i < aerolineaBuscada.getListaAviones().size(); i++) {
-//                    Avion avionRecorrido = aerolineaBuscada.getListaAviones().get(i);
-//                    if(avionRecorrido.getNumero() == avionBuscado.getNumero()){
-//                        aerolineaBuscada.getListaAviones().get(i).getCronograma().add(vuelo);
-//                        Singleton.getInstancia().escribirAerolineas();
+//
+//            if (avionBuscado != null && aerolineaBuscada != null) {
+//                LocalDate fechaVuelo = vuelo.getFechaVuelo();
+//                LocalTime horaInicio = vuelo.getHoraVuelo();
+//                LocalTime horaFin = vuelo.getTiempoFin();
+//            
+//                if (!vuelo.estaAvionDisponible(fechaVuelo, horaInicio, horaFin)) {
+//                    if (!vuelo.estaCapitanDisponible(vuelo.getCapitan(), fechaVuelo, horaInicio, horaFin)) {
+//                        for (int i = 0; i < aerolineaBuscada.getListaAviones().size(); i++) {
+//                            Avion avionRecorrido = aerolineaBuscada.getListaAviones().get(i);
+//                            if (avionRecorrido.getNumero() == avionBuscado.getNumero()) {
+//                                avionRecorrido.getCronograma().add(vuelo);
+//                                Singleton.getInstancia().escribirAerolineas();
+//                            }
+//                        }
+//                    } else {
+//                        throw new CapitanNoDisponibleException();
 //                    }
+//                } else {
+//                    throw new AvionNoDisponibleException();
 //                }
 //            }
-//        }    
+//        }
 //    }
+    
 
 }

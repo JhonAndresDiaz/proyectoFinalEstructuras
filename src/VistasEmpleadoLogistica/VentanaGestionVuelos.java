@@ -30,6 +30,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         this.empleadoLogistica = empleadoLogistica;
         this.controlador = new ControladorVentanaGestionVuelos();
         modelo = (DefaultTableModel)tabla.getModel();
+        dataChooserFecha.setMinSelectableDate(new Date());
         actualizarTabla();
     }
 

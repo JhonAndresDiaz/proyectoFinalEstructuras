@@ -50,18 +50,6 @@ public class Avion implements Serializable{
         return false;
     }
             
-//    public boolean estaOcupado(LocalTime horaInicio, LocalTime horaFin) {
-//        Nodo<Vuelo> primerVuelo = cronograma.getPrimero();
-//        while (primerVuelo != null) {
-//            Vuelo vuelo = primerVuelo.getDato();
-//            if (vuelo.horariosSeCruzan(horaInicio, horaFin)) {
-//                return true;
-//            }
-//            primerVuelo = primerVuelo.getNodoSiguiente();
-//        }
-//        return false;
-//    }
-    
     public String getEstado() {
         return estado;
     }

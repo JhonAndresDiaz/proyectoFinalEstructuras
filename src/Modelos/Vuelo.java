@@ -42,30 +42,26 @@ public class Vuelo implements Serializable {
         return (horaVuelo.isBefore(horaFin) || horaVuelo.equals(horaFin)) &&
            (tiempoFin.isAfter(horaInicio) || tiempoFin.equals(horaInicio));
     }
-    
-//    public boolean horariosSeCruzan(LocalTime horaInicio, LocalTime horaFin) {
-//        return !horaVuelo.isAfter(horaFin) && !tiempoFin.isBefore(horaInicio);
-//    }
 
     public boolean estaAvionDisponible(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
         return avion.estaOcupado(fecha, horaInicio, horaFin);
     }
     
-
-    public boolean estaCapitanDisponible(CapitanVuelo capitan, LocalDate fecha) {
-        Avion avion = this.getAvion();
-        LSE<Vuelo> cronogramaAvion = avion.getCronograma();
-
-        Nodo<Vuelo> current = cronogramaAvion.getPrimero();
-        while (current != null) {
-            Vuelo vuelo = current.getDato();
-            if (vuelo.getCapitan() == capitan && vuelo.getFechaVuelo().equals(fecha) && vuelo.horariosSeCruzan(horaVuelo, tiempoFin)) {
-                return true;
-            }
-            current = current.getNodoSiguiente();
-        }
-        return false;
-    }
+//    public boolean estaCapitanDisponible(CapitanVuelo capitan, LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
+//        
+//        Nodo<Vuelo> primerVuelo = avion.getCronograma().getPrimero();
+//
+//        while(primerVuelo != null) {
+//            Vuelo vuelo = primerVuelo.getDato();
+//            if (vuelo != null) {
+//                if (vuelo.getCapitan().getIdentificacion() == capitan.getIdentificacion() & vuelo.getFechaVuelo().equals(fecha) && vuelo.horariosSeCruzan(horaInicio, horaFin)) {
+//                    return true; 
+//                }
+//            }
+//            primerVuelo = primerVuelo.getNodoSiguiente();
+//        }
+//        return false;
+//    }
     
     public Avion getAvion() {
         return avion;
