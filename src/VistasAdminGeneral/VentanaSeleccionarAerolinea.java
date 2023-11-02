@@ -2,9 +2,7 @@ package VistasAdminGeneral;
 
 import Controladores.ControladorVentanaGestionAdministradoresAerolinea;
 import Excepciones.*;
-import Modelos.AdministradorAerolinea;
-import Modelos.Aerolinea;
-import Modelos.Persona;
+import Modelos.*;
 import Util.LSE;
 import java.awt.Color;
 import java.time.LocalDate;
@@ -91,12 +89,10 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         txtNombreAerolinea = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        btnEditarAerolinea = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        btnEliminarAerolinea = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         txtCodigoAerolinea = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        btnEditarAerolinea = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
@@ -413,6 +409,12 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         jLabel22.setText("Código");
         jPanel1.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
 
+        jPanel4.setBackground(new java.awt.Color(65, 92, 117));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtCodigoAerolinea.setEditable(false);
+        jPanel4.add(txtCodigoAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 147, 270, -1));
+
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         btnEditarAerolinea.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -430,41 +432,18 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnEditarAerolinea, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnEditarAerolinea, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnEditarAerolinea, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnEditarAerolinea, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 490, 120, 30));
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-
-        btnEliminarAerolinea.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminarAerolinea.setForeground(new java.awt.Color(65, 92, 117));
-        btnEliminarAerolinea.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnEliminarAerolinea.setText("Eliminar");
-        btnEliminarAerolinea.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnEliminarAerolinea, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnEliminarAerolinea, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 490, 120, -1));
-
-        jPanel4.setBackground(new java.awt.Color(65, 92, 117));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtCodigoAerolinea.setEditable(false);
-        jPanel4.add(txtCodigoAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 147, 270, -1));
+        jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 130, -1));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 310, 330));
 
@@ -730,16 +709,27 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
 
     private void cboAerolineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAerolineaActionPerformed
         String nombre = (String) cboAerolinea.getSelectedItem();
-        if(nombre.equals("-Seleccionar-")){
+        if (nombre != null && nombre.equals("-Seleccionar-")) {
             modelo.setRowCount(0);
             limpiarCampos();
-        }else {
+        } else if (nombre != null) {
             Aerolinea aerolineaBuscada = controlador.buscarAerolineaNombre(nombre);
             txtNombreAerolinea.setText(aerolineaBuscada.getNombreAerolinea());
             txtCodigoAerolinea.setText(String.valueOf(aerolineaBuscada.getCodigoAerolinea()));
             txtPaisAerolinea.setText(aerolineaBuscada.getPais());
             actualizarTabla(aerolineaBuscada.getCodigoAerolinea());
         }
+//        String nombre = (String) cboAerolinea.getSelectedItem();
+//        if(nombre.equals("-Seleccionar-")){
+//            modelo.setRowCount(0);
+//            limpiarCampos();
+//        }else {
+//            Aerolinea aerolineaBuscada = controlador.buscarAerolineaNombre(nombre);
+//            txtNombreAerolinea.setText(aerolineaBuscada.getNombreAerolinea());
+//            txtCodigoAerolinea.setText(String.valueOf(aerolineaBuscada.getCodigoAerolinea()));
+//            txtPaisAerolinea.setText(aerolineaBuscada.getPais());
+//            actualizarTabla(aerolineaBuscada.getCodigoAerolinea());
+//        }
     }//GEN-LAST:event_cboAerolineaActionPerformed
 
     private void btnEditarAerolineaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarAerolineaMouseClicked
@@ -750,7 +740,18 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
             int codigo = Integer.parseInt(txtCodigoAerolinea.getText());
             String pais = txtPaisAerolinea.getText();
             
+            Aerolinea buscar = controlador.buscarAerolineaCodigo(codigo);
+            Aerolinea aerolineaGuardar = new Aerolinea( nombre, buscar.getCodigoAerolinea(), pais, buscar.getListaAviones(), buscar.getListaEmpleadosAerolinea());
             
+            try{
+                controlador.editarAerolinea(aerolineaGuardar);
+                JOptionPane.showMessageDialog(null, "Se editó correctamente la aerolinea");
+                limpiarCampos();
+                cboAerolinea.removeAllItems();
+                actualizarComboBox();
+            }catch (NombreAerolineaEstaEnUsoException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnEditarAerolineaMouseClicked
 
@@ -815,7 +816,6 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
     private javax.swing.JLabel btnEditar2;
     private javax.swing.JLabel btnEditarAerolinea;
     private javax.swing.JLabel btnEliminar1;
-    private javax.swing.JLabel btnEliminarAerolinea;
     private javax.swing.JLabel btnLimpiar;
     private javax.swing.JLabel btnRegistrar;
     private javax.swing.JMenu btnRegresar;
@@ -846,7 +846,6 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

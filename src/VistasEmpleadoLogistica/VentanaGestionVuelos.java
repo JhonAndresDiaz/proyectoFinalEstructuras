@@ -425,8 +425,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
             }catch (YaExisteNumeroVueloException | CapitanNoDisponibleException | AvionNoDisponibleException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
-        }
-        
+        }   
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void dataChooserFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataChooserFechaPropertyChange
@@ -451,8 +450,8 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         txtNombreAerolinea.setText(null);
         txtNumeroAvion.setText(null);
         txtDuracionHoras.setText(null);
-        cboInicioHora.setSelectedIndex(0);
-        cboInicioMin.setSelectedIndex(0);
+        cboInicioHora.removeAllItems();
+        cboInicioMin.removeAllItems();
         cboCapitanVuelo.setSelectedIndex(0);
     }
     

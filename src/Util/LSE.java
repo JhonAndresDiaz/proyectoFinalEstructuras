@@ -22,6 +22,10 @@ public class LSE<T> implements Serializable {
     public Nodo<T> getPrimero() {
         return primero;
     }
+    
+    public void setPrimero(Nodo<T> primero) {
+        this.primero = primero;
+    }
 
     public void add(T dato){
         Nodo<T> nuevo = new Nodo<>(dato);
@@ -111,6 +115,33 @@ public class LSE<T> implements Serializable {
         }
     }
     
+    public void remove(T dato) {
+        if (primero == null) {
+            return; // La lista está vacía, no hay nada que eliminar.
+        }
+
+        if (primero.getDato().equals(dato)) {
+            // El nodo a eliminar es el primero de la lista.
+            primero = primero.getNodoSiguiente();
+            size--;
+            return;
+        }
+
+        Nodo<T> nodoActual = primero;
+        Nodo<T> nodoAnterior = null;
+
+        while (nodoActual != null && !nodoActual.getDato().equals(dato)) {
+            nodoAnterior = nodoActual;
+            nodoActual = nodoActual.getNodoSiguiente();
+        }
+
+        if (nodoActual != null) {
+            // El nodo a eliminar se encontró en la lista.
+            nodoAnterior.setNodoSiguiente(nodoActual.getNodoSiguiente());
+            size--;
+        }
+    }
+
     public boolean isEmpty() {
         return primero == null;
     }

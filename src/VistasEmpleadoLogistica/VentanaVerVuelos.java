@@ -23,7 +23,6 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
     private EmpleadoLogistica empleadoLogistica;
     private ControladorVentanaGestionVuelos controlador;
     DefaultTableModel modelo;
-
     
     /**
      * Creates new form VentanaVerVuelos
@@ -232,6 +231,11 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnEliminar.setText("Eliminar");
+        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelEliminarLayout = new javax.swing.GroupLayout(panelEliminar);
         panelEliminar.setLayout(panelEliminarLayout);
@@ -352,13 +356,17 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
 
             if (fechaVuelo.isBefore(fechaActual)) {
                 btnEditar.setEnabled(false);
+                panelEditar.setEnabled(false);
                 btnEliminar.setEnabled(false);
+                panelEliminar.setEnabled(false);
                 dataChooserFecha.setEnabled(false); 
                 
             } else {
                 dataChooserFecha.setEnabled(true);
                 btnEditar.setEnabled(true);
+                panelEditar.setEnabled(true);
                 btnEliminar.setEnabled(true);
+                panelEliminar.setEnabled(false);
             }
         }
     }//GEN-LAST:event_tablaMouseClicked
@@ -409,22 +417,39 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             Avion avionBuscado = controlador.buscarNumeroAvion(numeroAvion);
             
             int numeroVuelo = Integer.parseInt(txtNumeroVuelo.getText());
-            Vuelo vueloBuscado = controlador.vueloBuscado(numeroVuelo);
+            Vuelo vueloAntiguo = controlador.vueloBuscado(numeroVuelo);
             
             Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
-            Vuelo vueloFinal = new Vuelo(avionBuscado, vueloBuscado.getCapitan(), numero, origen, destino, duracion, fecha, horaInicio, horaFin, controlador.obtenerListaViajeros(numeroVuelo) , "Espera");
+            Vuelo vueloFinal = new Vuelo(avionBuscado, vueloAntiguo.getCapitan(), numero, origen, destino, duracion, fecha, horaInicio, horaFin, controlador.obtenerListaViajeros(numeroVuelo) , "Espera");
 
             try{
-                controlador.editarVuelo(vueloBuscado, avionBuscado, aerolinea);
+                controlador.editarVuelo(aerolinea, vueloFinal.getAvion(), vueloFinal);
                 JOptionPane.showMessageDialog(null, "La informacion del vuelo sido actualizada");
                 limpiarCampos();
                 actualizarTabla();
-            }catch(AvionNoDisponibleException | CapitanNoDisponibleException | ExistenViajerosEnListaException ex) {
+            }catch (ExistenViajerosEnListaException | AvionNoDisponibleException | CapitanNoDisponibleException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 actualizarTabla();
             }
         }
     }//GEN-LAST:event_btnEditarMouseClicked
+
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+        if (txtNumeroVuelo.getText().isEmpty()){
+            JOptionPane.showMessageDialog( null , "Ingrese un numero de vuelo para eliminarlo del sistema");
+            return;
+        }else {
+            int codigo = Integer.parseInt(txtNumeroVuelo.getText());
+            try{
+                controlador.eliminarVuelo(codigo);;
+                JOptionPane.showMessageDialog(null, "Vuelo eliminado correctamente");
+                limpiarCampos();
+                actualizarTabla();
+            }catch(ExistenViajerosEnListaException | NumeroCodigoVueloNoExisteException ex){
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnEliminarMouseClicked
 
     public void limpiarCampos() {
         dataChooserFecha.setDate(null);
@@ -436,26 +461,41 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         cboInicioMin.removeAllItems();
     }
     
-    private void actualizarTabla(){
+    private void actualizarTabla() {
         Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
         LSE<Vuelo> vuelos = controlador.obtenerVuelos(aerolinea);
-        try{
-            for (int i = 0; i < 3 ; i++) {
-                for (int j = 0; j < modelo.getRowCount(); j++) {
-                    modelo.removeRow(j);
-                }   
-            }
-        }catch(NullPointerException e){
+
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
         }
-            try{
-                for (int i = 0; i < vuelos.size() ; i++) {
-                    Vuelo aux = vuelos.get(i);                   
-                    Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(),  aux.getHoraVuelo(), aux.getTiempoFin(), aux.getCapitan().getNombres(), aux.getAvion().getNumero()};
-                    modelo.addRow(ob);                    
-                }
-            }catch(NullPointerException e){        
-            }
-    }
+
+        for (int i = 0; i < vuelos.size(); i++) {
+            Vuelo aux = vuelos.get(i);
+            Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getCapitan().getNombres(), aux.getAvion().getNumero()};
+            modelo.addRow(ob);
+        }
+    }  
+    
+//    private void actualizarTabla(){
+//        Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
+//        LSE<Vuelo> vuelos = controlador.obtenerVuelos(aerolinea);
+//        try{
+//            for (int i = 0; i < 3 ; i++) {
+//                for (int j = 0; j < modelo.getRowCount(); j++) {
+//                    modelo.removeRow(j);
+//                }   
+//            }
+//        }catch(NullPointerException e){
+//        }
+//            try{
+//                for (int i = 0; i < vuelos.size() ; i++) {
+//                    Vuelo aux = vuelos.get(i);                   
+//                    Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(),  aux.getHoraVuelo(), aux.getTiempoFin(), aux.getCapitan().getNombres(), aux.getAvion().getNumero()};
+//                    modelo.addRow(ob);                    
+//                }
+//            }catch(NullPointerException e){        
+//            }
+//    }
     
     private void actualizarComboBoxHorasMinutos() {
         Date selectedDate = dataChooserFecha.getDate();

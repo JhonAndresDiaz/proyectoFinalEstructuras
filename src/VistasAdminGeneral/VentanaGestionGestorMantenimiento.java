@@ -625,7 +625,7 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Gestor de mantenimiento eliminado correctamente");
                 limpiarCampos();
                 actualizarTabla();
-            }catch(IdentificacionNoExisteException ex){
+            }catch(ExistenViajerosEnListaException  ex){
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }

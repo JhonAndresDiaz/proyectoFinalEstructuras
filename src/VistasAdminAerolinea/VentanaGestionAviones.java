@@ -65,7 +65,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JLabel();
-        btnVer = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -242,14 +241,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 380, -1, -1));
 
-        btnVer.setText("ver");
-        btnVer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 100, 30));
-
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
 
@@ -356,14 +347,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarMouseClicked
 
-    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
-        int numero = Integer.parseInt(txtNumero.getText());
-        Avion avion = controlador.buscarNumeroAvion(numero);
-        this.dispose();
-        JFrame v2 = new VentanaVerAvion(administradorAerolinea, avion);
-        v2.setVisible(true);
-    }//GEN-LAST:event_btnVerActionPerformed
-
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaMouseClicked
@@ -400,7 +383,6 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnLimpiar;
     private javax.swing.JMenu btnRegresar;
-    private javax.swing.JButton btnVer;
     private javax.swing.JMenu btnVolver;
     private javax.swing.JComboBox<String> cboBloques;
     private javax.swing.JLabel jLabel1;

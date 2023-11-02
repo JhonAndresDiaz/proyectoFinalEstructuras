@@ -86,15 +86,19 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         for (int i = 0; i < listaAerolineas.size(); i++) {
             Aerolinea aerolinea = listaAerolineas.get(i);
             for (int j = 0; j < aerolinea.getListaEmpleadosAerolinea().size(); j++) {
-                AdministradorAerolinea administrador = (AdministradorAerolinea) aerolinea.getListaEmpleadosAerolinea().get(j);
-                if (administrador.getIdentificacion().equals(id)) {
-                    return aerolinea;
+                Persona persona = aerolinea.getListaEmpleadosAerolinea().get(j);
+
+                if (persona instanceof AdministradorAerolinea) {
+                    AdministradorAerolinea administrador = (AdministradorAerolinea) persona;
+                    if (administrador.getIdentificacion().equals(id)) {
+                        return aerolinea;
+                    }
                 }
             }
         }
         return null;
     }
-    
+
     public Persona buscarViajeroId(String identificacion){
         for (int i = 0; i < listaUsuarios.size(); i++) {
             if(listaUsuarios.get(i).getRol().equals("Viajero")){
@@ -218,9 +222,34 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
                 aerolineaBuscada.setPais(aerolinea.getPais());
                 Singleton.getInstancia().escribirAerolineas();
             }else {
-               
+                throw new NombreAerolineaEstaEnUsoException();
             } 
         }
+    }
+    
+    public void eliminarAerolinea(int codigo) {
+        Aerolinea aux = buscarAerolineaCodigo(codigo);
+
+        if (aux != null) {
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolinea = listaAerolineas.get(i);
+                for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+                    Avion avion = aerolinea.getListaAviones().get(j);
+                    for (int k = 0; k < avion.getCronograma().size(); k++) {
+                        Vuelo vuelo = avion.getCronograma().get(k);
+                        if(vuelo.getListaViajeros().isEmpty()) {
+                            listaAerolineas.remove(i); 
+                            Singleton.getInstancia().escribirAerolineas();
+                            return;               
+                        } else {
+                            throw new ExistenViajerosEnListaException();
+                        }
+                    }
+                }             
+            }
+        } else {
+            throw new NumeroCodigoVueloNoExisteException();
+        }      
     }
     
     public void guardarAerolinea(Aerolinea aerolinea, AdministradorAerolinea admin) {

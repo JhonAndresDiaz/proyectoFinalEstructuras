@@ -109,6 +109,9 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
         btnVuelosProgramados.setText("Vuelos programados");
         btnVuelosProgramados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnVuelosProgramados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVuelosProgramadosMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnVuelosProgramadosMouseEntered(evt);
             }
@@ -503,6 +506,12 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
     private void btnHistorialViajesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorialViajesMouseExited
         panelHistorial.setBackground(new Color(65, 92, 117));
     }//GEN-LAST:event_btnHistorialViajesMouseExited
+
+    private void btnVuelosProgramadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVuelosProgramadosMouseClicked
+        this.dispose();
+        JFrame v2 = new VentanaVuelosProgramados(viajero);
+        v2.setVisible(true);
+    }//GEN-LAST:event_btnVuelosProgramadosMouseClicked
 
     public void llenarInformacion(){
         txtNombres.setText(viajero.getNombres());

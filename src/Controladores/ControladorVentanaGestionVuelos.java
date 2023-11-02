@@ -7,6 +7,7 @@ import Util.LSE;
 import Util.Nodo;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -40,18 +41,49 @@ public class ControladorVentanaGestionVuelos {
     }
     
     public LSE<Vuelo> obtenerVuelos(Aerolinea aerolineaRecibida) {
-        LSE<Vuelo> listaVuelos = new LSE<>();
+        Aerolinea aerolinea = buscarAerolineaCodigo(aerolineaRecibida.getCodigoAerolinea());
 
-        for (int i = 0; i < aerolineaRecibida.getListaAviones().size(); i++) {
-            Avion avion = aerolineaRecibida.getListaAviones().get(i);
-            for (int j = 0; j < avion.getCronograma().size(); j++) {
-                Vuelo vuelo = avion.getCronograma().get(j);
-                listaVuelos.add(vuelo);
+        if (aerolinea == null) {
+            return new LSE<Vuelo>(); 
+        }
+
+        LSE<Vuelo> listaVuelos = new LSE();
+
+        for (int i = 0; i < aerolinea.getListaAviones().size(); i++) {
+            Avion avion = aerolinea.getListaAviones().get(i);
+
+            if (avion != null && avion.getCronograma() != null) {
+                for (int j = 0; j < avion.getCronograma().size(); j++) {
+                    Vuelo vuelo = avion.getCronograma().get(j);
+
+                    if (vuelo != null) {
+                        listaVuelos.add(vuelo);
+                    }
+                }
             }
         }
         return listaVuelos;
     }
 
+    
+//    public LSE<Vuelo> obtenerVuelos(Aerolinea aerolineaRecibida) {
+//        
+//        Aerolinea aerolinea = buscarAerolineaCodigo(aerolineaRecibida.getCodigoAerolinea());
+//        if (aerolinea == null) {
+//            JOptionPane.showMessageDialog(null, "no");
+//        }
+//
+//        LSE<Vuelo> listaVuelos = new LSE();
+//
+//        for (int i = 0; i < aerolinea.getListaAviones().size(); i++) {
+//            Avion avion = aerolinea.getListaAviones().get(i);
+//            for (int j = 0; j < avion.getCronograma().size(); j++) {
+//                Vuelo vuelo = avion.getCronograma().get(j);
+//                listaVuelos.add(vuelo);
+//            }
+//        }
+//        return listaVuelos;
+//    }
     
     public LSE<CapitanVuelo> conseguirCapitanes(Aerolinea aerolinea) {
         LSE<CapitanVuelo> lista = new LSE<>();
@@ -212,64 +244,159 @@ public class ControladorVentanaGestionVuelos {
         }
     }
     
-    public void editarVuelo(Vuelo vueloEditado, Avion avion, Aerolinea aerolinea) {
-        Vuelo vueloBuscado = vueloBuscado(vueloEditado.getNumVuelo());
+    public void editarVuelo(Aerolinea aerolinea, Avion avion, Vuelo vueloNuevo) {
+        Vuelo vueloAntiguo = vueloBuscado(vueloNuevo.getNumVuelo());
+        if (aerolinea != null && avion != null) {
+            LocalDate fechaVueloNuevo = vueloNuevo.getFechaVuelo();
+            LocalTime horaInicioNuevo = vueloNuevo.getHoraVuelo();
+            LocalTime horaFinNuevo = vueloNuevo.getTiempoFin();
 
-        if (avion.estaOcupado(vueloEditado.getFechaVuelo(), vueloEditado.getHoraVuelo(), vueloEditado.getTiempoFin())) {
+            if (avion.estaOcupado(fechaVueloNuevo, horaInicioNuevo, horaFinNuevo)) {
+                throw new AvionNoDisponibleException();
+            }
+
+            if (aerolinea.estaCapitanDisponible(vueloNuevo.getCapitan(), fechaVueloNuevo, horaInicioNuevo, horaFinNuevo)) {
+                throw new CapitanNoDisponibleException();
+            }
+
+            if (!vueloAntiguo.getListaViajeros().isEmpty()) {
+                throw new ExistenViajerosEnListaException();
+            }
+
+            avion.getCronograma().remove(vueloAntiguo);
+            avion.getCronograma().add(vueloNuevo);
+            Singleton.getInstancia().escribirAerolineas();
+        } else {
             throw new AvionNoDisponibleException();
         }
-
-        if (aerolinea.estaCapitanDisponible(vueloEditado.getCapitan(), vueloEditado.getFechaVuelo(), vueloEditado.getHoraVuelo(), vueloEditado.getTiempoFin())) {
-            throw new CapitanNoDisponibleException();
-        }
-        
-        if(!vueloBuscado.getListaViajeros().isEmpty()){
-            throw new ExistenViajerosEnListaException();
-        }
-
-            vueloBuscado.setFechaVuelo(vueloEditado.getFechaVuelo());
-            vueloBuscado.setOrigen(vueloEditado.getOrigen());
-            vueloBuscado.setDestino(vueloEditado.getDestino());
-            vueloBuscado.setDuracion(vueloEditado.getDuracion());
-            vueloBuscado.setTiempoFin(vueloEditado.getTiempoFin());
-            vueloBuscado.setHoraVuelo(vueloEditado.getHoraVuelo());
-            Singleton.getInstancia().escribirAerolineas();
-         
     }
 
-
-//    public void guardarVuelo(Aerolinea aerolinea, Avion avion, Vuelo vuelo) {
+//    public void editarVuelo(Aerolinea aerolinea, Avion avion, Vuelo vuelo) {
+//        
 //        Vuelo vueloBuscado = vueloBuscado(vuelo.getNumVuelo());
+// 
+//        LocalDate fechaVuelo = vuelo.getFechaVuelo();
+//        LocalTime horaInicio = vuelo.getHoraVuelo();
+//        LocalTime horaFin = vuelo.getTiempoFin();
+//        
+//        if (avion.estaOcupado(fechaVuelo, horaInicio, horaFin)) {
+//            throw new AvionNoDisponibleException();
+//        }
 //
-//        if (vueloBuscado != null) {
-//            throw new YaExisteNumeroVueloException();
+//        if (aerolinea.estaCapitanDisponible(vuelo.getCapitan(), fechaVuelo, horaInicio, horaFin)) {
+//            throw new CapitanNoDisponibleException();
+//        }
+//        
+//        if (!vuelo.getListaViajeros().isEmpty()) {
+//            throw new ExistenViajerosEnListaException();
+//        }
+//
+//        Avion avionBuscado = buscarNumeroAvion(vuelo.getAvion().getNumero());
+//        if (avionBuscado != null) {
+//            avionBuscado.getCronograma().remove(vueloBuscado);
 //        } else {
-//            Avion avionBuscado = buscarNumeroAvion(avion.getNumero());
-//            Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
+//            throw new IdentificacionNoExisteException();
+//        }
+//        avionBuscado.getCronograma().add(vueloNuevo);
+//        Singleton.getInstancia().escribirAerolineas();
+//    }
+
+//    
+//    public void editarVuelo(int numeroVueloAntiguo, Vuelo vueloNuevo, Aerolinea aerolinea, Avion avion) {
+//        if (aerolinea != null && avion != null) {
+//            Vuelo vueloAntiguo = vueloBuscado(numeroVueloAntiguo);
 //
-//            if (avionBuscado != null && aerolineaBuscada != null) {
-//                LocalDate fechaVuelo = vuelo.getFechaVuelo();
-//                LocalTime horaInicio = vuelo.getHoraVuelo();
-//                LocalTime horaFin = vuelo.getTiempoFin();
-//            
-//                if (!vuelo.estaAvionDisponible(fechaVuelo, horaInicio, horaFin)) {
-//                    if (!vuelo.estaCapitanDisponible(vuelo.getCapitan(), fechaVuelo, horaInicio, horaFin)) {
-//                        for (int i = 0; i < aerolineaBuscada.getListaAviones().size(); i++) {
-//                            Avion avionRecorrido = aerolineaBuscada.getListaAviones().get(i);
-//                            if (avionRecorrido.getNumero() == avionBuscado.getNumero()) {
-//                                avionRecorrido.getCronograma().add(vuelo);
-//                                Singleton.getInstancia().escribirAerolineas();
-//                            }
-//                        }
+//            if (vueloAntiguo == null) {
+//            }
+//
+//            LocalDate fechaVueloAntiguo = vueloAntiguo.getFechaVuelo();
+//
+//            Vuelo vueloExistente = buscarVueloPorNumeroYFecha(vueloNuevo.getNumVuelo(), fechaVueloAntiguo);
+//            if (vueloExistente != null && !vueloExistente.equals(vueloAntiguo)) {
+//            }
+//
+//            LSE<Vuelo> cronogramaAvion = avion.getCronograma();
+//            Nodo<Vuelo> nodoActual = cronogramaAvion.getPrimero();
+//            Nodo<Vuelo> nodoAnterior = null;
+//
+//            while (nodoActual != null) {
+//                Vuelo vuelo = nodoActual.getDato();
+//
+//                if (vuelo.equals(vueloAntiguo)) {
+//                    if (!vuelo.getListaViajeros().isEmpty()) {
+//                        throw new ExistenViajerosEnListaException();
+//                    }
+//
+//                    if (nodoAnterior == null) {
+//                        cronogramaAvion.setPrimero(nodoActual.getNodoSiguiente());
 //                    } else {
+//                        nodoAnterior.setNodoSiguiente(nodoActual.getNodoSiguiente());
+//                    }
+//
+//                    LocalDate fechaVueloNuevo = vueloNuevo.getFechaVuelo();
+//                    LocalTime horaInicioNuevo = vueloNuevo.getHoraVuelo();
+//                    LocalTime horaFinNuevo = vueloNuevo.getTiempoFin();
+//
+//                    if (avion.estaOcupado(fechaVueloNuevo, horaInicioNuevo, horaFinNuevo)) {
+//                        throw new AvionNoDisponibleException();
+//                    }
+//
+//                    if (aerolinea.estaCapitanDisponible(vueloNuevo.getCapitan(), fechaVueloNuevo, horaInicioNuevo, horaFinNuevo)) {
 //                        throw new CapitanNoDisponibleException();
 //                    }
-//                } else {
-//                    throw new AvionNoDisponibleException();
+//
+//                    cronogramaAvion.add(vueloNuevo);
+//                    Singleton.getInstancia().escribirAerolineas();
+//                    return;
 //                }
+//                nodoAnterior = nodoActual;
+//                nodoActual = nodoActual.getNodoSiguiente();
 //            }
 //        }
+//        throw new AvionNoDisponibleException();
 //    }
-    
 
+    private Vuelo buscarVueloPorNumeroYFecha(int numeroVuelo, LocalDate fechaVuelo) {
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            Aerolinea aerolinea = listaAerolineas.get(i);
+            for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+                Avion avion = aerolinea.getListaAviones().get(j);
+                for (int k = 0; k < avion.getCronograma().size(); k++) {
+                    Vuelo vuelo = avion.getCronograma().get(k);
+                    if (vuelo.getNumVuelo() == numeroVuelo && vuelo.getFechaVuelo().equals(fechaVuelo)) {
+                        return vuelo;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    
+    public void eliminarVuelo(int codigo) {
+        Vuelo aux = vueloBuscado(codigo);
+
+        if (aux != null) {
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolinea = listaAerolineas.get(i);
+                for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+                    Avion avion = aerolinea.getListaAviones().get(j);
+                    for (int k = 0; k < avion.getCronograma().size(); k++) {
+                        Vuelo vuelo = avion.getCronograma().get(k);
+                        if (vuelo.getListaViajeros().isEmpty()) {
+                            if (vuelo.getNumVuelo() == aux.getNumVuelo()) {
+                                avion.getCronograma().remove(k); 
+                                Singleton.getInstancia().escribirAerolineas();
+                                return; 
+                            }
+                        } else {
+                            throw new ExistenViajerosEnListaException();
+                        }
+                    }
+                }             
+            }
+        } else {
+            throw new NumeroCodigoVueloNoExisteException();
+        }      
+    }
 }

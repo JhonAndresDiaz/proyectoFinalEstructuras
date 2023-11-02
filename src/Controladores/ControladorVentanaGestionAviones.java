@@ -78,19 +78,31 @@ public class ControladorVentanaGestionAviones {
         return null;    
     }
    
-    public void guardarAvion(Aerolinea aerolinea, Avion avion) {
-        
+//    public void guardarAvion(Aerolinea aerolinea, Avion avion) {
+//        
+//        Avion avionBuscado = buscarNumeroAvion(avion.getNumero());
+//        
+//        if(avionBuscado != null){
+//            throw new YaExisteNumeroAvionException();
+//        }else {
+//            Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
+//            if(aerolineaBuscada != null){
+//                aerolineaBuscada.getListaAviones().add(avion);
+//                Singleton.getInstancia().escribirAerolineas();
+//            }
+//        }    
+//    } 
+    
+        public void guardarAvion(Aerolinea aerolinea, Avion avion) {
         Avion avionBuscado = buscarNumeroAvion(avion.getNumero());
-        
-        if(avionBuscado != null){
+
+        if (avionBuscado != null) {
             throw new YaExisteNumeroAvionException();
-        }else {
-            Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
-            if(aerolineaBuscada != null){
-                aerolineaBuscada.getListaAviones().add(avion);
-                Singleton.getInstancia().escribirAerolineas();
-            }
-        }    
-    } 
+        } else {
+            aerolinea.getListaAviones().add(avion);
+            Singleton.getInstancia().escribirAerolineas();
+        }
+    }
+
     
 }
