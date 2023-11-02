@@ -67,20 +67,16 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         cboInicioMin = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
+        btnGestion = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         txtOrigen = new javax.swing.JTextField();
         txtNumeroAvion = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         txtDuracionHoras = new javax.swing.JTextField();
-        cboInicioHora1 = new javax.swing.JComboBox<>();
-        cboInicioMin1 = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -101,17 +97,12 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(65, 92, 117));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel14.setText("Gestión");
+        jLabel14.setText("Agregar");
         jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 140, -1));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 170, 10));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/aleta.png"))); // NOI18N
         jLabel1.setText("jLabel1");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 60, 70));
 
         jLabel6.setForeground(new java.awt.Color(65, 92, 117));
@@ -137,7 +128,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Aerolinea", "Numero", "Filas", "Bloques"
+                "Aerolinea", "Numero Avión", "Filas", "Bloques"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -200,43 +191,59 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(65, 92, 117));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Limpiar");
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 130, 30));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 120, 30));
 
         jPanel3.setBackground(new java.awt.Color(65, 92, 117));
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("Editar");
+        btnGestion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnGestion.setForeground(new java.awt.Color(255, 255, 255));
+        btnGestion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnGestion.setText("Gestionar vuelos");
+        btnGestion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGestion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGestionMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(btnGestion, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(btnGestion, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 360, 120, -1));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 360, 120, -1));
 
         jPanel4.setBackground(new java.awt.Color(65, 92, 117));
 
@@ -244,6 +251,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnGuardar.setText("Guardar");
+        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnGuardarMouseClicked(evt);
@@ -254,34 +262,16 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 360, 120, -1));
-
-        jPanel5.setBackground(new java.awt.Color(65, 92, 117));
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("Eliminar");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 360, 120, -1));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 130, -1));
 
         jLabel13.setForeground(new java.awt.Color(65, 92, 117));
         jLabel13.setText("Origen");
@@ -296,14 +286,6 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jLabel17.setText("Seleccione una Avión");
         jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
         jPanel1.add(txtDuracionHoras, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, 100, 30));
-
-        cboInicioHora1.setForeground(new java.awt.Color(0, 0, 0));
-        cboInicioHora1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "" }));
-        jPanel1.add(cboInicioHora1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, 70, 30));
-
-        cboInicioMin1.setForeground(new java.awt.Color(0, 0, 0));
-        cboInicioMin1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "00", "30" }));
-        jPanel1.add(cboInicioMin1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 290, 70, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -351,7 +333,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
         );
 
         pack();
@@ -394,10 +376,10 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaMouseClicked
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        if(txtNumeroVuelo.getText().isEmpty() || txtOrigen.getText().isEmpty() || txtDestino.getText().isEmpty() || dataChooserFecha.getDate() == null || cboInicioHora.getSelectedIndex() == 0 || cboInicioMin.getSelectedIndex() == 0 || txtNombreAerolinea.getText().isEmpty() || cboCapitanVuelo.getSelectedIndex() == 0 || txtDuracionHoras.getText().isEmpty()) {
+        if(txtNumeroVuelo.getText().isEmpty() || txtOrigen.getText().isEmpty() || txtDestino.getText().isEmpty() || dataChooserFecha.getDate() == null || cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1 || txtNombreAerolinea.getText().isEmpty() || cboCapitanVuelo.getSelectedIndex() == 0 || txtDuracionHoras.getText().isEmpty()) {
             if(cboCapitanVuelo.getSelectedIndex() == 0){
                 JOptionPane.showMessageDialog(null, "Seleccione un capitán de vuelo");
-            }else if(cboInicioHora.getSelectedIndex() == 0 || cboInicioMin.getSelectedIndex() == 0) {
+            }else if(cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1) {
                 JOptionPane.showMessageDialog(null, "Complete todos los campos de horarios");
             }else if(dataChooserFecha.getDate() == null){
                 JOptionPane.showMessageDialog(null, "Seleccione una fecha para el vuelo");
@@ -447,15 +429,19 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnGuardarMouseClicked
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        this.dispose();
-        JFrame v2 = new VentanaVerVuelos(empleadoLogistica);
-        v2.setVisible(true);
-    }//GEN-LAST:event_jLabel1MouseClicked
-
     private void dataChooserFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataChooserFechaPropertyChange
         actualizarComboBoxHorasMinutos();
     }//GEN-LAST:event_dataChooserFechaPropertyChange
+
+    private void btnGestionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGestionMouseClicked
+        this.dispose();
+        JFrame v2 = new VentanaVerVuelos(empleadoLogistica);
+        v2.setVisible(true);
+    }//GEN-LAST:event_btnGestionMouseClicked
+
+    private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarMouseClicked
 
     public void limpiarCampos() {
         dataChooserFecha.setDate(null);
@@ -541,7 +527,6 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
                     cboInicioMin.addItem("30");
                 }
             } else {
-                // No es el día de hoy, muestra todas las horas y minutos disponibles.
                 cboInicioHora.removeAllItems();
                 cboInicioMin.removeAllItems();
                 for (int i = 0; i < 24; i++) {
@@ -554,14 +539,14 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnGestion;
     private javax.swing.JLabel btnGuardar;
+    private javax.swing.JLabel btnLimpiar;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
     private javax.swing.JComboBox<String> cboCapitanVuelo;
     private javax.swing.JComboBox<String> cboInicioHora;
-    private javax.swing.JComboBox<String> cboInicioHora1;
     private javax.swing.JComboBox<String> cboInicioMin;
-    private javax.swing.JComboBox<String> cboInicioMin1;
     private com.toedter.calendar.JDateChooser dataChooserFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -569,12 +554,9 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -584,7 +566,6 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tabla;

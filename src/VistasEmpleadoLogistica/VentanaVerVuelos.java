@@ -1,12 +1,17 @@
 package VistasEmpleadoLogistica;
 
 import Controladores.ControladorVentanaGestionVuelos;
-import Modelos.Aerolinea;
-import Modelos.EmpleadoLogistica;
-import Modelos.Vuelo;
+import Excepciones.*;
+import Modelos.*;
 import Util.LSE;
 import java.awt.Color;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,6 +33,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         this.empleadoLogistica = empleadoLogistica;
         this.controlador = new ControladorVentanaGestionVuelos();
         modelo = (DefaultTableModel)tabla.getModel();
+        dataChooserFecha.setMinSelectableDate(new Date());
         actualizarTabla();
     }
 
@@ -43,6 +49,28 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        txtNumeroVuelo = new javax.swing.JTextField();
+        txtDestino = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        dataChooserFecha = new com.toedter.calendar.JDateChooser();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        txtOrigen = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        cboInicioHora = new javax.swing.JComboBox<>();
+        cboInicioMin = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
+        txtDuracionHoras = new javax.swing.JTextField();
+        panelLimpiar = new javax.swing.JPanel();
+        btnLimpiar = new javax.swing.JLabel();
+        panelEditar = new javax.swing.JPanel();
+        btnEditar = new javax.swing.JLabel();
+        panelEliminar = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JLabel();
+        txtNumeroDeAvion = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -50,25 +78,37 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel1MouseEntered(evt);
+            }
+        });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        tabla.setBackground(new java.awt.Color(255, 255, 255));
+        tabla.setForeground(new java.awt.Color(65, 92, 117));
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "N° Vuelo", "Origen", "Destino", "Fecha", "Hora inico", "Hora FIN", "Capitan", "Avion"
+                "N° Vuelo", "Origen", "Destino", "Fecha", "Hora inico", "Hora fin", "Capitan", "Avion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, false, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tabla.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tabla.setSelectionBackground(new java.awt.Color(65, 92, 117));
+        tabla.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tabla);
@@ -78,10 +118,140 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             tabla.getColumnModel().getColumn(2).setResizable(false);
             tabla.getColumnModel().getColumn(3).setResizable(false);
             tabla.getColumnModel().getColumn(4).setResizable(false);
+            tabla.getColumnModel().getColumn(5).setResizable(false);
             tabla.getColumnModel().getColumn(6).setResizable(false);
+            tabla.getColumnModel().getColumn(7).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 820, 260));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 820, 170));
+
+        jLabel6.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel6.setText("N° vuelo");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, -1, -1));
+
+        txtNumeroVuelo.setEditable(false);
+        jPanel1.add(txtNumeroVuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 160, 30));
+        jPanel1.add(txtDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 160, 30));
+
+        jLabel10.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel10.setText("Destino");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(311, 250, 60, -1));
+
+        dataChooserFecha.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dataChooserFechaPropertyChange(evt);
+            }
+        });
+        jPanel1.add(dataChooserFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 330, 160, 30));
+
+        jLabel11.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel11.setText("Fecha");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 310, 50, -1));
+
+        jLabel13.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel13.setText("Origen");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, 50, -1));
+        jPanel1.add(txtOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 330, 160, 30));
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("Seleccione un vuelo para Gestionarlo");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(-6, 20, 870, -1));
+
+        jLabel8.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("N° Avion");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 250, 70, -1));
+
+        cboInicioHora.setForeground(new java.awt.Color(0, 0, 0));
+        cboInicioHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        jPanel1.add(cboInicioHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, 70, 30));
+
+        cboInicioMin.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(cboInicioMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 270, 70, 30));
+
+        jLabel12.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel12.setText("Duración (En horas)");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 310, -1, -1));
+        jPanel1.add(txtDuracionHoras, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 330, 160, 30));
+
+        panelLimpiar.setBackground(new java.awt.Color(65, 92, 117));
+
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLimpiarMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelLimpiarLayout = new javax.swing.GroupLayout(panelLimpiar);
+        panelLimpiar.setLayout(panelLimpiarLayout);
+        panelLimpiarLayout.setHorizontalGroup(
+            panelLimpiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+        );
+        panelLimpiarLayout.setVerticalGroup(
+            panelLimpiarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 390, 160, 30));
+
+        panelEditar.setBackground(new java.awt.Color(65, 92, 117));
+
+        btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEditar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEditar.setText("Editar");
+        btnEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditarMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelEditarLayout = new javax.swing.GroupLayout(panelEditar);
+        panelEditar.setLayout(panelEditarLayout);
+        panelEditarLayout.setHorizontalGroup(
+            panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+        );
+        panelEditarLayout.setVerticalGroup(
+            panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 390, 160, -1));
+
+        panelEliminar.setBackground(new java.awt.Color(65, 92, 117));
+
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEliminar.setText("Eliminar");
+
+        javax.swing.GroupLayout panelEliminarLayout = new javax.swing.GroupLayout(panelEliminar);
+        panelEliminar.setLayout(panelEliminarLayout);
+        panelEliminarLayout.setHorizontalGroup(
+            panelEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+        );
+        panelEliminarLayout.setVerticalGroup(
+            panelEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 390, 160, -1));
+
+        txtNumeroDeAvion.setEditable(false);
+        jPanel1.add(txtNumeroDeAvion, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 270, 80, 30));
+
+        jLabel9.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel9.setText("Hora Inicio");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, -1, -1));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -125,11 +295,11 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
         );
 
         pack();
@@ -158,6 +328,114 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         btnVolver.setForeground(new Color(65, 92, 117));
     }//GEN-LAST:event_btnVolverMouseReleased
 
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        int row = tabla.getSelectedRow();   
+        txtNumeroVuelo.setText(modelo.getValueAt(row, 0).toString());
+        txtNumeroDeAvion.setText(modelo.getValueAt(row, 7).toString());
+        int numeroVuelo = Integer.parseInt(txtNumeroVuelo.getText());
+        Vuelo vueloBuscado = controlador.vueloBuscado(numeroVuelo);
+        if (vueloBuscado != null) {
+            txtNumeroVuelo.setText(String.valueOf(vueloBuscado.getNumVuelo()));
+            txtDestino.setText(vueloBuscado.getDestino());
+            txtOrigen.setText(vueloBuscado.getOrigen());
+            txtDuracionHoras.setText(String.valueOf(vueloBuscado.getDuracion()));
+            LocalTime dato = vueloBuscado.getHoraVuelo();
+            int horas = dato.getHour();
+            int minutos = dato.getMinute();
+            cboInicioHora.setSelectedItem(horas);
+            cboInicioMin.setSelectedItem(minutos);
+            LocalDate fechaVuelo = vueloBuscado.getFechaVuelo();
+            Date date = Date.from(fechaVuelo.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            dataChooserFecha.setDate(date);
+
+            LocalDate fechaActual = LocalDate.now();
+
+            if (fechaVuelo.isBefore(fechaActual)) {
+                btnEditar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                dataChooserFecha.setEnabled(false); 
+                
+            } else {
+                dataChooserFecha.setEnabled(true);
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void dataChooserFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataChooserFechaPropertyChange
+        actualizarComboBoxHorasMinutos();
+    }//GEN-LAST:event_dataChooserFechaPropertyChange
+
+    private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
+        btnRegresar.setForeground(new Color(65, 92, 117));
+    }//GEN-LAST:event_jPanel1MouseEntered
+
+    private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarMouseClicked
+
+    private void btnEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarMouseClicked
+        if(txtNumeroVuelo.getText().isEmpty() || txtOrigen.getText().isEmpty() || txtDestino.getText().isEmpty() || dataChooserFecha.getDate() == null || cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1 || txtDuracionHoras.getText().isEmpty()) {
+            if(cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(null, "Complete todos los campos de horarios");
+            }else if(dataChooserFecha.getDate() == null){
+                JOptionPane.showMessageDialog(null, "Seleccione una fecha para el vuelo");
+            }else {
+                JOptionPane.showMessageDialog(null, "Complete todos los campos");
+            }
+        }else {
+            int numero = Integer.parseInt(txtNumeroVuelo.getText());
+            String origen = txtOrigen.getText();
+            String destino = txtDestino.getText();
+            Date x = dataChooserFecha.getDate();
+            LocalDate fecha = new  java.sql.Date(x.getTime()).toLocalDate();
+            
+            int hora = Integer.parseInt((String) cboInicioHora.getSelectedItem());
+            int min = Integer.parseInt((String) cboInicioMin.getSelectedItem());
+            int duracion = Integer.parseInt(txtDuracionHoras.getText());
+
+            int xHour = duracion + hora;
+                if(xHour > 24){
+                    xHour  = xHour-24;  
+                }else{
+                    xHour  = xHour;
+                }
+                
+            LocalTime horaInicio = LocalTime.of(hora, min); 
+            LocalTime horaFin = LocalTime.of(xHour, min);
+            
+            int numeroAvion = Integer.parseInt(txtNumeroDeAvion.getText());
+            Avion avionBuscado = controlador.buscarNumeroAvion(numeroAvion);
+            
+            int numeroVuelo = Integer.parseInt(txtNumeroVuelo.getText());
+            Vuelo vueloBuscado = controlador.vueloBuscado(numeroVuelo);
+            
+            Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
+            Vuelo vueloFinal = new Vuelo(avionBuscado, vueloBuscado.getCapitan(), numero, origen, destino, duracion, fecha, horaInicio, horaFin, controlador.obtenerListaViajeros(numeroVuelo) , "Espera");
+
+            try{
+                controlador.editarVuelo(vueloBuscado, avionBuscado, aerolinea);
+                JOptionPane.showMessageDialog(null, "La informacion del vuelo sido actualizada");
+                limpiarCampos();
+                actualizarTabla();
+            }catch(AvionNoDisponibleException | CapitanNoDisponibleException | ExistenViajerosEnListaException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                actualizarTabla();
+            }
+        }
+    }//GEN-LAST:event_btnEditarMouseClicked
+
+    public void limpiarCampos() {
+        dataChooserFecha.setDate(null);
+        txtNumeroVuelo.setText(null);
+        txtOrigen.setText(null);
+        txtDestino.setText(null);
+        txtDuracionHoras.setText(null);
+        cboInicioHora.removeAllItems();
+        cboInicioMin.removeAllItems();
+    }
+    
     private void actualizarTabla(){
         Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
         LSE<Vuelo> vuelos = controlador.obtenerVuelos(aerolinea);
@@ -178,13 +456,75 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             }catch(NullPointerException e){        
             }
     }
+    
+    private void actualizarComboBoxHorasMinutos() {
+        Date selectedDate = dataChooserFecha.getDate();
+
+        if (selectedDate != null) {
+            Calendar calHoy = Calendar.getInstance();
+            Calendar calSeleccionado = Calendar.getInstance();
+            calSeleccionado.setTime(selectedDate);
+
+            int horaActual = calHoy.get(Calendar.HOUR_OF_DAY);
+            int minutoActual = calHoy.get(Calendar.MINUTE);
+
+            if (calSeleccionado.get(Calendar.YEAR) == calHoy.get(Calendar.YEAR)
+                    && calSeleccionado.get(Calendar.MONTH) == calHoy.get(Calendar.MONTH)
+                    && calSeleccionado.get(Calendar.DAY_OF_MONTH) == calHoy.get(Calendar.DAY_OF_MONTH)) {
+                cboInicioHora.removeAllItems();
+                cboInicioMin.removeAllItems();
+                if (minutoActual < 30) {
+                    for (int i = horaActual; i < 24; i++) {
+                        cboInicioHora.addItem(String.valueOf(i));
+                    }
+                    cboInicioMin.addItem("30");
+                }else {
+                    for (int i = horaActual + 1; i < 24; i++) {
+                        cboInicioHora.addItem(String.valueOf(i));
+                    }
+                    cboInicioMin.addItem("0");
+                    cboInicioMin.addItem("30");
+                }
+            } else {
+                cboInicioHora.removeAllItems();
+                cboInicioMin.removeAllItems();
+                for (int i = 0; i < 24; i++) {
+                    cboInicioHora.addItem(String.valueOf(i));
+                }
+                cboInicioMin.addItem("0");
+                cboInicioMin.addItem("30");
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnEditar;
+    private javax.swing.JLabel btnEliminar;
+    private javax.swing.JLabel btnLimpiar;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
+    private javax.swing.JComboBox<String> cboInicioHora;
+    private javax.swing.JComboBox<String> cboInicioMin;
+    private com.toedter.calendar.JDateChooser dataChooserFecha;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelEditar;
+    private javax.swing.JPanel panelEliminar;
+    private javax.swing.JPanel panelLimpiar;
     private javax.swing.JTable tabla;
+    private javax.swing.JTextField txtDestino;
+    private javax.swing.JTextField txtDuracionHoras;
+    private javax.swing.JTextField txtNumeroDeAvion;
+    private javax.swing.JTextField txtNumeroVuelo;
+    private javax.swing.JTextField txtOrigen;
     // End of variables declaration//GEN-END:variables
 }

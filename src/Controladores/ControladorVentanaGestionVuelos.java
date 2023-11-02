@@ -21,6 +21,11 @@ public class ControladorVentanaGestionVuelos {
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
     }
     
+    public LSE<Viajero> obtenerListaViajeros(int codigo) {
+        Vuelo vuelo = vueloBuscado(codigo);
+        return (vuelo != null && !vuelo.getListaViajeros().isEmpty()) ? vuelo.getListaViajeros() : new LSE<>();
+    }
+    
     public LSE<Avion> traerAerolineas(){
         LSE<Avion> listaAviones = new LSE<>();
         for (int i = 0; i < listaAerolineas.size(); i++) {
@@ -116,27 +121,6 @@ public class ControladorVentanaGestionVuelos {
         return lista;
     }
 
-    
-//    public LSE<Avion> conseguirAviones() {
-//       
-//        LSE<Avion> lista = new LSE<>();
-//        Nodo<Aerolinea> nodoAerolinea = listaAerolineas.getPrimero();
-//
-//        while (nodoAerolinea != null) {
-//            Aerolinea aerolineaActual = nodoAerolinea.getDato();
-//            Nodo<Avion> nodoAvion = aerolineaActual.getListaAviones().getPrimero();
-//
-//            while (nodoAvion != null) {
-//                Avion avion = nodoAvion.getDato();
-//                lista.add(avion);
-//                nodoAvion = nodoAvion.getNodoSiguiente();
-//            }
-//            
-//            nodoAerolinea = nodoAerolinea.getNodoSiguiente();
-//        }
-//        return lista;
-//    }
-
     public Avion buscarNumeroAvion(int numero){
         for (int i = 0; i < listaAerolineas.size(); i++) {
             Aerolinea aerolinea = listaAerolineas.get(i);
@@ -227,6 +211,32 @@ public class ControladorVentanaGestionVuelos {
             }
         }
     }
+    
+    public void editarVuelo(Vuelo vueloEditado, Avion avion, Aerolinea aerolinea) {
+        Vuelo vueloBuscado = vueloBuscado(vueloEditado.getNumVuelo());
+
+        if (avion.estaOcupado(vueloEditado.getFechaVuelo(), vueloEditado.getHoraVuelo(), vueloEditado.getTiempoFin())) {
+            throw new AvionNoDisponibleException();
+        }
+
+        if (aerolinea.estaCapitanDisponible(vueloEditado.getCapitan(), vueloEditado.getFechaVuelo(), vueloEditado.getHoraVuelo(), vueloEditado.getTiempoFin())) {
+            throw new CapitanNoDisponibleException();
+        }
+        
+        if(!vueloBuscado.getListaViajeros().isEmpty()){
+            throw new ExistenViajerosEnListaException();
+        }
+
+            vueloBuscado.setFechaVuelo(vueloEditado.getFechaVuelo());
+            vueloBuscado.setOrigen(vueloEditado.getOrigen());
+            vueloBuscado.setDestino(vueloEditado.getDestino());
+            vueloBuscado.setDuracion(vueloEditado.getDuracion());
+            vueloBuscado.setTiempoFin(vueloEditado.getTiempoFin());
+            vueloBuscado.setHoraVuelo(vueloEditado.getHoraVuelo());
+            Singleton.getInstancia().escribirAerolineas();
+         
+    }
+
 
 //    public void guardarVuelo(Aerolinea aerolinea, Avion avion, Vuelo vuelo) {
 //        Vuelo vueloBuscado = vueloBuscado(vuelo.getNumVuelo());

@@ -43,7 +43,7 @@ public class Aerolinea implements Serializable {
             while(primerVuelo != null) {
                 Vuelo vuelo = primerVuelo.getDato();
                 if (vuelo != null) {
-                    if (vuelo.getCapitan().getIdentificacion() == capitan.getIdentificacion() & vuelo.getFechaVuelo().equals(fecha) && vuelo.horariosSeCruzan(horaInicio, horaFin)) {
+                    if (vuelo.getCapitan().getIdentificacion() == capitan.getIdentificacion() & vuelo.getFechaVuelo().equals(fecha) && vuelo.horariosSeCruzan(horaInicio, horaFin) && vuelo.getEstado().equals("Espera")) {
                         return true; 
                     }
                 }

@@ -42,7 +42,7 @@ public class Avion implements Serializable{
         Nodo<Vuelo> primerVuelo = cronograma.getPrimero();
         while (primerVuelo != null) {
             Vuelo vuelo = primerVuelo.getDato();
-            if (vuelo.horariosSeCruzan(horaInicio, horaFin) && vuelo.getFechaVuelo().equals(fecha)) {
+            if (vuelo.horariosSeCruzan(horaInicio, horaFin) && vuelo.getFechaVuelo().equals(fecha) && vuelo.getEstado().equals("Espera")) {
                 return true;
             }
             primerVuelo = primerVuelo.getNodoSiguiente();
