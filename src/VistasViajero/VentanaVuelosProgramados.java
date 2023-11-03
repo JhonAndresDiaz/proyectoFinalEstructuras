@@ -8,7 +8,6 @@ import Modelos.Vuelo;
 import Util.LSE;
 import java.awt.Color;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**

@@ -11,7 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,8 +20,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
 
     private EmpleadoLogistica empleadoLogistica;
     private ControladorVentanaGestionVuelos controlador;
-    DefaultTableModel modelo;
-      
+
     /**
      * Creates new form VentanaGestionVuelos
      */
@@ -30,9 +28,9 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         initComponents();
         this.empleadoLogistica = empleadoLogistica;
         this.controlador = new ControladorVentanaGestionVuelos();
-        modelo = (DefaultTableModel)tabla.getModel();
         dataChooserFecha.setMinSelectableDate(new Date());
-        actualizarTabla();
+        actualizarComboBoxAviones();
+        actualizarComboBox();
     }
 
     /**
@@ -52,14 +50,9 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtNumeroVuelo = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        txtDestino = new javax.swing.JTextField();
         cboCapitanVuelo = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
-        txtNombreAerolinea = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         dataChooserFecha = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
@@ -73,10 +66,16 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        txtOrigen = new javax.swing.JTextField();
-        txtNumeroAvion = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
         txtDuracionHoras = new javax.swing.JTextField();
+        cboDestino = new javax.swing.JComboBox<>();
+        cboOrigen = new javax.swing.JComboBox<>();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        cboAviones = new javax.swing.JComboBox<>();
+        jLabel16 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -90,104 +89,66 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(65, 92, 117));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Vuelos");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 100, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 100, -1));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(65, 92, 117));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel14.setText("Agregar");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 140, -1));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 170, 10));
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 110, -1));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 330, 10));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/aleta.png"))); // NOI18N
         jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 60, 70));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 60, 70));
 
         jLabel6.setForeground(new java.awt.Color(65, 92, 117));
         jLabel6.setText("N° vuelo");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
-        jPanel1.add(txtNumeroVuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 130, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
+        jPanel1.add(txtNumeroVuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 130, -1));
 
-        jLabel7.setForeground(new java.awt.Color(65, 92, 117));
-        jLabel7.setText("N°");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(541, 20, 30, -1));
-        jPanel1.add(txtDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 130, -1));
-
-        jPanel1.add(cboCapitanVuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 310, 120, -1));
+        jPanel1.add(cboCapitanVuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 130, -1));
 
         jLabel8.setForeground(new java.awt.Color(65, 92, 117));
-        jLabel8.setText("Hora Inicio");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, -1, -1));
-
-        tabla.setBackground(new java.awt.Color(255, 255, 255));
-        tabla.setForeground(new java.awt.Color(65, 92, 117));
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Aerolinea", "Numero Avión", "Filas", "Bloques"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabla.setSelectionBackground(new java.awt.Color(65, 92, 117));
-        tabla.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tabla);
-        if (tabla.getColumnModel().getColumnCount() > 0) {
-            tabla.getColumnModel().getColumn(0).setResizable(false);
-            tabla.getColumnModel().getColumn(1).setResizable(false);
-            tabla.getColumnModel().getColumn(2).setResizable(false);
-            tabla.getColumnModel().getColumn(3).setResizable(false);
-        }
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, 400, 150));
+        jLabel8.setText("Min Inicio");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, -1, -1));
 
         jLabel9.setForeground(new java.awt.Color(65, 92, 117));
         jLabel9.setText("Capitán de vuelo");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, -1, -1));
-
-        txtNombreAerolinea.setEditable(false);
-        jPanel1.add(txtNombreAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 140, -1));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, -1, -1));
 
         jLabel10.setForeground(new java.awt.Color(65, 92, 117));
         jLabel10.setText("Destino");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, -1, -1));
 
         dataChooserFecha.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 dataChooserFechaPropertyChange(evt);
             }
         });
-        jPanel1.add(dataChooserFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 130, -1));
+        jPanel1.add(dataChooserFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 130, -1));
 
         jLabel11.setForeground(new java.awt.Color(65, 92, 117));
-        jLabel11.setText("Fecha");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, -1));
+        jLabel11.setText("Aviones de la Aerolínea");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, -1, -1));
 
         cboInicioHora.setForeground(new java.awt.Color(0, 0, 0));
         cboInicioHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
-        jPanel1.add(cboInicioHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 70, 30));
+        cboInicioHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboInicioHoraActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cboInicioHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 70, 30));
 
         cboInicioMin.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel1.add(cboInicioMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 240, 70, 30));
+        jPanel1.add(cboInicioMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 320, 70, 30));
 
         jLabel12.setForeground(new java.awt.Color(65, 92, 117));
         jLabel12.setText("Duración (En horas)");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, -1, -1));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 360, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(65, 92, 117));
 
@@ -206,9 +167,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +176,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 120, 30));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 480, 160, 30));
 
         jPanel3.setBackground(new java.awt.Color(65, 92, 117));
 
@@ -236,14 +195,16 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnGestion, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(btnGestion, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnGestion, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnGestion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 360, 120, -1));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 530, 160, -1));
 
         jPanel4.setBackground(new java.awt.Color(65, 92, 117));
 
@@ -262,7 +223,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,21 +232,88 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 130, -1));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 430, 160, -1));
 
         jLabel13.setForeground(new java.awt.Color(65, 92, 117));
         jLabel13.setText("Origen");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
-        jPanel1.add(txtOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 130, -1));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, -1, -1));
+        jPanel1.add(txtDuracionHoras, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, 100, 30));
 
-        txtNumeroAvion.setEditable(false);
-        txtNumeroAvion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(txtNumeroAvion, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, 50, -1));
+        cboDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Argentina", "Brasil", "Peru", "Chile", "Ecuador", "Colombia", "Uruguay", "Venezuela", "Paraguay", "Bolivia" }));
+        jPanel1.add(cboDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 130, -1));
 
-        jLabel17.setForeground(new java.awt.Color(65, 92, 117));
-        jLabel17.setText("Seleccione una Avión");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
-        jPanel1.add(txtDuracionHoras, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, 100, 30));
+        cboOrigen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Argentina", "Brasil", "Peru", "Chile", "Ecuador", "Colombia", "Uruguay", "Venezuela", "Paraguay", "Bolivia" }));
+        jPanel1.add(cboOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, 130, -1));
+
+        jLabel15.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel15.setText("Hora Inicio");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, -1, -1));
+
+        jPanel5.setBackground(new java.awt.Color(65, 92, 117));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 70, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 20, 70));
+
+        jPanel6.setBackground(new java.awt.Color(65, 92, 117));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 70, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 10, -1));
+
+        jPanel7.setBackground(new java.awt.Color(65, 92, 117));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 70, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, 10, -1));
+
+        jPanel8.setBackground(new java.awt.Color(65, 92, 117));
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 70, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, -1));
+
+        jPanel1.add(cboAviones, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 130, -1));
+
+        jLabel16.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel16.setText("Fecha");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -329,11 +357,11 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
         );
 
         pack();
@@ -362,21 +390,8 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         btnVolver.setForeground(new Color(65, 92, 117));
     }//GEN-LAST:event_btnVolverMouseReleased
 
-    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
-        int row = tabla.getSelectedRow();
-        txtNombreAerolinea.setText(modelo.getValueAt(row,0).toString());
-        txtNumeroAvion.setText(modelo.getValueAt(row,1).toString());
-        
-        String nombre = txtNombreAerolinea.getText();
-        Aerolinea aerolineaBuscada = controlador.buscarAeroNombre(nombre);
-        if(aerolineaBuscada != null){
-            actualizarComboBox(aerolineaBuscada);
-        }else {
-        }
-    }//GEN-LAST:event_tablaMouseClicked
-
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        if(txtNumeroVuelo.getText().isEmpty() || txtOrigen.getText().isEmpty() || txtDestino.getText().isEmpty() || dataChooserFecha.getDate() == null || cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1 || txtNombreAerolinea.getText().isEmpty() || cboCapitanVuelo.getSelectedIndex() == 0 || txtDuracionHoras.getText().isEmpty()) {
+        if(txtNumeroVuelo.getText().isEmpty() || cboOrigen.getSelectedIndex() == 0 || cboDestino.getSelectedIndex() == 0 || dataChooserFecha.getDate() == null || cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1 || cboCapitanVuelo.getSelectedIndex() == 0 || txtDuracionHoras.getText().isEmpty()) {
             if(cboCapitanVuelo.getSelectedIndex() == 0){
                 JOptionPane.showMessageDialog(null, "Seleccione un capitán de vuelo");
             }else if(cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1) {
@@ -388,8 +403,12 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
             }
         }else {
             int numero = Integer.parseInt(txtNumeroVuelo.getText());
-            String origen = txtOrigen.getText();
-            String destino = txtDestino.getText();
+            String origenSeleccionado = String.valueOf(cboOrigen.getSelectedItem());
+            String origen = String.valueOf(origenSeleccionado.toString());
+            
+            String destinoSeleccionado = String.valueOf(cboDestino.getSelectedItem());
+            String destino = String.valueOf(destinoSeleccionado.toString());
+            
             Date x = dataChooserFecha.getDate();
             LocalDate fecha = new  java.sql.Date(x.getTime()).toLocalDate();
             
@@ -411,7 +430,8 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
             String capitanVuelo = String.valueOf(capitanSeleccionado.toString());
             CapitanVuelo capitan = (CapitanVuelo) controlador.buscarCapitanVuelo(capitanVuelo);
             
-            int numeroAvion = Integer.parseInt(txtNumeroAvion.getText());
+            String avionSeleccionado = String.valueOf(cboAviones.getSelectedItem());
+            int numeroAvion = Integer.parseInt(avionSeleccionado);
             Avion avionBuscado = controlador.buscarNumeroAvion(numeroAvion);
             
             Vuelo vueloFinal = new Vuelo(avionBuscado, capitan, numero, origen, destino, duracion, fecha, horaInicio, horaFin, new LSE<>(), "Espera");
@@ -421,7 +441,6 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
                 controlador.guardarVuelo(aerolinea, avionBuscado, vueloFinal);
                 JOptionPane.showMessageDialog(null, "Se registró el vuelo correctamente");
                 limpiarCampos();
-                actualizarTabla();
             }catch (YaExisteNumeroVueloException | CapitanNoDisponibleException | AvionNoDisponibleException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
@@ -442,21 +461,29 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarMouseClicked
 
+    private void cboInicioHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboInicioHoraActionPerformed
+        Object horaSeleccionadaObject = cboInicioHora.getSelectedItem();
+        if (horaSeleccionadaObject != null) {
+            int horaSeleccionada = Integer.parseInt(horaSeleccionadaObject.toString());
+            actualizarComboBoxMinutos(horaSeleccionada);
+        }
+    }//GEN-LAST:event_cboInicioHoraActionPerformed
+
     public void limpiarCampos() {
         dataChooserFecha.setDate(null);
         txtNumeroVuelo.setText(null);
-        txtOrigen.setText(null);
-        txtDestino.setText(null);
-        txtNombreAerolinea.setText(null);
-        txtNumeroAvion.setText(null);
+        cboOrigen.setSelectedIndex(0);
+        cboDestino.setSelectedIndex(0);
+        cboAviones.setSelectedIndex(0);
         txtDuracionHoras.setText(null);
         cboInicioHora.removeAllItems();
         cboInicioMin.removeAllItems();
         cboCapitanVuelo.setSelectedIndex(0);
     }
     
-    public void actualizarComboBox(Aerolinea aerolinea) {
+    public void actualizarComboBox() {
         cboCapitanVuelo.removeAllItems();
+        Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
         LSE<String> lista = new LSE<>();
 
         try {
@@ -475,26 +502,25 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         }
     }
     
-    private void actualizarTabla(){    
-        Aerolinea aerolinea2 = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
-        LSE<Avion> aviones = controlador.conseguirAviones(aerolinea2);
-        try{
-            for (int i = 0; i < 3 ; i++) {
-                for (int j = 0; j < modelo.getRowCount(); j++) {
-                    modelo.removeRow(j);
-                }   
+    public void actualizarComboBoxAviones() {
+        cboAviones.removeAllItems();
+        Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
+        LSE<String> lista = new LSE<>();
+
+        try {
+            LSE<Avion> listaAviones = controlador.conseguirAviones(aerolinea);
+            for (int i = 0; i < listaAviones.size(); i++) {
+                Avion avion = listaAviones.get(i);
+                String nombres = String.valueOf(avion.getNumero());
+                lista.add(nombres);
             }
-        }catch(NullPointerException e){
+            cboAviones.addItem("-Seleccionar-");
+            for (int i = 0; i < lista.size(); i++) {
+                String item = lista.get(i);
+                cboAviones.addItem(item);
+            }
+        } catch (Exception e) {
         }
-            try{
-                for (int i = 0; i < aviones.size() ; i++) {
-                    Avion aux = aviones.get(i); 
-                    Aerolinea aerolinea = controlador.buscarAerolineaAvion(aux.getNumero());
-                    Object[] ob = {aerolinea.getNombreAerolinea(), aux.getNumero(), aux.getFila(), aux.getBloque()};
-                    modelo.addRow(ob);                    
-                }
-            }catch(NullPointerException e){        
-            }
     }
     
     private void actualizarComboBoxHorasMinutos() {
@@ -506,35 +532,54 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
             calSeleccionado.setTime(selectedDate);
 
             int horaActual = calHoy.get(Calendar.HOUR_OF_DAY);
-            int minutoActual = calHoy.get(Calendar.MINUTE);
+
+            cboInicioHora.removeAllItems();
 
             if (calSeleccionado.get(Calendar.YEAR) == calHoy.get(Calendar.YEAR)
                     && calSeleccionado.get(Calendar.MONTH) == calHoy.get(Calendar.MONTH)
                     && calSeleccionado.get(Calendar.DAY_OF_MONTH) == calHoy.get(Calendar.DAY_OF_MONTH)) {
-                cboInicioHora.removeAllItems();
-                cboInicioMin.removeAllItems();
-                if (minutoActual < 30) {
-                    for (int i = horaActual; i < 24; i++) {
-                        cboInicioHora.addItem(String.valueOf(i));
-                    }
-                    cboInicioMin.addItem("30");
-                }else {
-                    for (int i = horaActual + 1; i < 24; i++) {
-                        cboInicioHora.addItem(String.valueOf(i));
-                    }
-                    cboInicioMin.addItem("0");
-                    cboInicioMin.addItem("30");
+                for (int i = horaActual; i < 24; i++) {
+                    cboInicioHora.addItem(String.format("%02d", i));
                 }
             } else {
-                cboInicioHora.removeAllItems();
-                cboInicioMin.removeAllItems();
                 for (int i = 0; i < 24; i++) {
-                    cboInicioHora.addItem(String.valueOf(i));
+                    cboInicioHora.addItem(String.format("%02d", i));
                 }
-                cboInicioMin.addItem("0");
-                cboInicioMin.addItem("30");
             }
         }
+    }
+
+    private void actualizarComboBoxMinutos(int horaSeleccionada) {
+        Date selectedDate = dataChooserFecha.getDate();
+
+        if (selectedDate != null) {
+            Calendar calHoy = Calendar.getInstance();
+            Calendar calSeleccionado = Calendar.getInstance();
+            calSeleccionado.setTime(selectedDate);
+
+            int horaActual = calHoy.get(Calendar.HOUR_OF_DAY);
+
+            cboInicioMin.removeAllItems();
+
+            if(calSeleccionado.get(Calendar.YEAR) == calHoy.get(Calendar.YEAR)
+                    && calSeleccionado.get(Calendar.MONTH) == calHoy.get(Calendar.MONTH)
+                    && calSeleccionado.get(Calendar.DAY_OF_MONTH) == calHoy.get(Calendar.DAY_OF_MONTH)) {
+                if (horaSeleccionada == horaActual) {
+                    int minutoActual = calHoy.get(Calendar.MINUTE);
+                    for (int i = minutoActual; i < 60; i++) {
+                        cboInicioMin.addItem(String.format("%02d", i));
+                    }
+                }else {
+                    for (int i = 0; i < 60; i++) {
+                        cboInicioMin.addItem(String.format("%02d", i));
+                    }
+                }
+            }else {
+                for (int i = 0; i < 60; i++) {
+                    cboInicioMin.addItem(String.format("%02d", i));
+                }
+            }
+        }    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -543,9 +588,12 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     private javax.swing.JLabel btnLimpiar;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
+    private javax.swing.JComboBox<String> cboAviones;
     private javax.swing.JComboBox<String> cboCapitanVuelo;
+    private javax.swing.JComboBox<String> cboDestino;
     private javax.swing.JComboBox<String> cboInicioHora;
     private javax.swing.JComboBox<String> cboInicioMin;
+    private javax.swing.JComboBox<String> cboOrigen;
     private com.toedter.calendar.JDateChooser dataChooserFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -553,11 +601,11 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
@@ -565,14 +613,12 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable tabla;
-    private javax.swing.JTextField txtDestino;
     private javax.swing.JTextField txtDuracionHoras;
-    private javax.swing.JTextField txtNombreAerolinea;
-    private javax.swing.JTextField txtNumeroAvion;
     private javax.swing.JTextField txtNumeroVuelo;
-    private javax.swing.JTextField txtOrigen;
     // End of variables declaration//GEN-END:variables
 }

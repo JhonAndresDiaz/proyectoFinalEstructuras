@@ -195,6 +195,9 @@ public class VentanaMenuPrincipalAdAerolinea extends javax.swing.JFrame {
         jLabel7.setText("Vuelos generados");
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel7MouseEntered(evt);
             }
@@ -357,6 +360,12 @@ public class VentanaMenuPrincipalAdAerolinea extends javax.swing.JFrame {
         JFrame v2 = new VentanaGestionAviones(administradorAerolinea);
         v2.setVisible(true);
     }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        this.dispose();
+        JFrame v2 = new VentanaVuelosGenerados(administradorAerolinea);
+        v2.setVisible(true);
+    }//GEN-LAST:event_jLabel7MouseClicked
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

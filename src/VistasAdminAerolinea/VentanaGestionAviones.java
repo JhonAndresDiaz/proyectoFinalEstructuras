@@ -98,6 +98,12 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         txtNombreAerolinea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNombreAerolinea.setBorder(null);
         jPanel1.add(txtNombreAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 30, 120, -1));
+
+        txtCantidadFilas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadFilasKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtCantidadFilas, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 170, -1));
 
         jLabel7.setForeground(new java.awt.Color(65, 92, 117));
@@ -350,6 +356,17 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaMouseClicked
+
+    private void txtCantidadFilasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadFilasKeyTyped
+        int key = evt.getKeyChar();
+        boolean numeros = key >= 48 && key <= 57;
+        if(!numeros){
+            evt.consume();
+        }
+        if(txtCantidadFilas.getText().trim().length() == 1){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCantidadFilasKeyTyped
 
     public void limpiarCampos() {
         txtCantidadFilas.setText(null);

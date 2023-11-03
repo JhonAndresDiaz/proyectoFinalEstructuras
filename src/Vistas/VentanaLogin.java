@@ -25,7 +25,8 @@ public class VentanaLogin extends javax.swing.JFrame {
      */
     public VentanaLogin() {
         initComponents();
-        this.controlador = new ControladorVentanaLogin();     
+        this.controlador = new ControladorVentanaLogin();
+        actualizarVuelos();
     }
 
     /**
@@ -355,6 +356,14 @@ public class VentanaLogin extends javax.swing.JFrame {
     private void mostrarMensajeError() {
         JOptionPane.showMessageDialog(null, "Datos incorrectos, ingrese nuevamente");
         limpiarCampos();
+    }
+    
+    private void actualizarVuelos(){
+        try {
+            controlador.actualizarVuelos();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**

@@ -4,6 +4,8 @@ package Controladores;
 import Modelos.*;
 import Singleton.Singleton;
 import Util.LSE;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -43,31 +45,55 @@ public class ControladorVentanaLogin {
         return null;
     }
 
-    
-//    public Persona buscarPersona(String correo){
-//        for (int i = 0; i < listaAerolineas.size(); i++) {
-//            Aerolinea aerolinea = listaAerolineas.get(i);
-//            for (int j = 0; j < aerolinea.getListaEmpleadosAerolinea().size(); j++) {
-//                if(aerolinea.getListaEmpleadosAerolinea().get(j).getCorreo().equals(correo)){
-//                    return aerolinea.getListaEmpleadosAerolinea().get(j);
-//                }  
-//            }
-//        }
-//        return null;  
-//    }
-//
-//    public Persona buscarUsuarios(String correo) {
-//        for (int i = 0; i < listaUsuarios.size(); i++) {
-//            if (listaUsuarios.get(i).getCorreo().equals(correo)) {
-//                return (Persona) listaUsuarios.get(i);
-//            }
-//        }
-//        return null;
-//    }
-
-
     public Persona crearAdministradorGeneral() {
         Persona persona = new Persona("1095550822","Jhon" , "Cano", 18, "Masculino", "313882", "admin", "123", "Administrador General"); 
         return persona;
     }   
+    
+    public void actualizarVuelos() {
+        LocalDate hoy = LocalDate.now();
+        LocalTime horaActual = LocalTime.now();
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            Aerolinea aerolinea = listaAerolineas.get(i);
+            for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+                Avion avion = aerolinea.getListaAviones().get(j);
+                for (int k = 0; k < avion.getCronograma().size(); k++) {
+                    Vuelo vuelo = avion.getCronograma().get(k);
+                    if (vuelo.getEstado().equals("Espera")) { 
+                        if (vuelo.getFechaVuelo().isBefore(hoy)) {
+                                vuelo.setEstado("Finalizado");
+                                Singleton.getInstancia().escribirAerolineas();
+                        }else if (vuelo.getFechaVuelo().equals(hoy)) {
+                            if (vuelo.getHoraVuelo().isBefore(horaActual) && vuelo.getTiempoFin().isAfter(horaActual)) {
+                                if(!avion.getUbicacion().equals(vuelo.getOrigen())){
+                                    vuelo.setEstado("Cancelado");   
+                                    Singleton.getInstancia().escribirAerolineas();
+                                }else{
+                                    vuelo.setEstado("Finalizado");
+                                    avion.setUbicacion(vuelo.getDestino());
+                                    Singleton.getInstancia().escribirAerolineas();
+                                }
+                            }else if (vuelo.getTiempoFin().isBefore(horaActual)) {
+                                 if(!avion.getUbicacion().equals(vuelo.getOrigen())){
+                                    vuelo.setEstado("Cancelado");   
+                                    Singleton.getInstancia().escribirAerolineas();
+                                }else{
+                                    vuelo.setEstado("Finalizado");    
+                                    avion.setUbicacion(vuelo.getDestino());
+                                    Singleton.getInstancia().escribirAerolineas();
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+//                for (int q = 0; q < aerolinea.getListaAviones().size(); q++) {
+//                    Avion avionubi = aerolinea.getListaAviones().get(q);
+//                     if(!avionubi.getUbicacion().equals(null)){
+//                        System.out.println(avionubi.getUbicacion());
+//                    }                   
+//                }
+            }
+        }
+    }
 }

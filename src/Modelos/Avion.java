@@ -18,6 +18,7 @@ public class Avion implements Serializable{
     private String estado; 
     
     private int numero;
+    private String ubicacion;
     private Mantenimiento mantenimiento;
     private LSE<Vuelo> cronograma;
     private int fila;
@@ -31,12 +32,15 @@ public class Avion implements Serializable{
         cronograma = new LSE<>();
     }
 
-    public Avion(String estado, int numero, Vuelo vuelo, Mantenimiento mantenimiento, LSE<Vuelo> cronograma) {
+    public Avion(String estado, int numero, String ubicacion, Mantenimiento mantenimiento, LSE<Vuelo> cronograma, int fila, int bloque) {
         this.estado = estado;
         this.numero = numero;
+        this.ubicacion = ubicacion;
         this.mantenimiento = mantenimiento;
         this.cronograma = cronograma;
-    }    
+        this.fila = fila;
+        this.bloque = bloque;
+    }
     
     public boolean estaOcupado(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
         Nodo<Vuelo> primerVuelo = cronograma.getPrimero();
@@ -48,6 +52,40 @@ public class Avion implements Serializable{
             primerVuelo = primerVuelo.getNodoSiguiente();
         }
         return false;
+    }
+    
+//    public boolean estaOcupado(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
+//        Nodo<Vuelo> primerVuelo = cronograma.getPrimero();
+//        while (primerVuelo != null) {
+//            Vuelo vuelo = primerVuelo.getDato();
+//            if (vuelo.horariosSeCruzan(horaInicio, horaFin)) {
+//                if (vuelo.getFechaVuelo().equals(fecha) && !vuelo.getEstado().equals("Espera")) {
+//                    return true;
+//                }
+//            }
+//            primerVuelo = primerVuelo.getNodoSiguiente();
+//        }
+//        return false;
+//    }
+    
+//    public boolean estaOcupado(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
+//        Nodo<Vuelo> primerVuelo = cronograma.getPrimero();
+//        while (primerVuelo != null) {
+//            Vuelo vuelo = primerVuelo.getDato();
+//            if (vuelo.horariosSeCruzan(horaInicio, horaFin) && vuelo.getFechaVuelo().equals(fecha) && vuelo.getEstado().equals("Espera")) {
+//                return true;
+//            }
+//            primerVuelo = primerVuelo.getNodoSiguiente();
+//        }
+//        return false;
+//    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
             
     public String getEstado() {

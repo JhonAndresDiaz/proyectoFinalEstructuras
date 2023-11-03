@@ -70,6 +70,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JLabel();
         txtNumeroDeAvion = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -91,11 +92,11 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "N° Vuelo", "Origen", "Destino", "Fecha", "Hora inico", "Hora fin", "Capitan", "Avion"
+                "N° Vuelo", "Origen", "Destino", "Fecha", "Hora inico", "Hora fin", "Capitan", "Avion", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -120,6 +121,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             tabla.getColumnModel().getColumn(5).setResizable(false);
             tabla.getColumnModel().getColumn(6).setResizable(false);
             tabla.getColumnModel().getColumn(7).setResizable(false);
+            tabla.getColumnModel().getColumn(8).setResizable(false);
         }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 820, 170));
@@ -152,11 +154,10 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, 50, -1));
         jPanel1.add(txtOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 330, 160, 30));
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(65, 92, 117));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setText("Seleccione un vuelo para Gestionarlo");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(-6, 20, 870, -1));
+        jLabel17.setText("Vuelos en espera...");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 150, -1));
 
         jLabel8.setForeground(new java.awt.Color(65, 92, 117));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -256,6 +257,12 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(65, 92, 117));
         jLabel9.setText("Hora Inicio");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, -1, -1));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setText("Seleccione un vuelo para Gestionarlo");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(-6, 20, 870, -1));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -471,31 +478,12 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
 
         for (int i = 0; i < vuelos.size(); i++) {
             Vuelo aux = vuelos.get(i);
-            Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getCapitan().getNombres(), aux.getAvion().getNumero()};
-            modelo.addRow(ob);
+//            if(aux.getEstado().equals("Espera")){
+                Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getCapitan().getNombres(), aux.getAvion().getNumero(), aux.getEstado()};
+                modelo.addRow(ob);
+//            } 
         }
     }  
-    
-//    private void actualizarTabla(){
-//        Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
-//        LSE<Vuelo> vuelos = controlador.obtenerVuelos(aerolinea);
-//        try{
-//            for (int i = 0; i < 3 ; i++) {
-//                for (int j = 0; j < modelo.getRowCount(); j++) {
-//                    modelo.removeRow(j);
-//                }   
-//            }
-//        }catch(NullPointerException e){
-//        }
-//            try{
-//                for (int i = 0; i < vuelos.size() ; i++) {
-//                    Vuelo aux = vuelos.get(i);                   
-//                    Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(),  aux.getHoraVuelo(), aux.getTiempoFin(), aux.getCapitan().getNombres(), aux.getAvion().getNumero()};
-//                    modelo.addRow(ob);                    
-//                }
-//            }catch(NullPointerException e){        
-//            }
-//    }
     
     private void actualizarComboBoxHorasMinutos() {
         Date selectedDate = dataChooserFecha.getDate();
@@ -551,6 +539,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

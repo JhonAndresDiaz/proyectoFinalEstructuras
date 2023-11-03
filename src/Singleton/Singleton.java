@@ -41,35 +41,6 @@ public class Singleton {
     public void setListaUsuarios(LSE<Usuario> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
-
-//    public void escribirAviones(){
-//        try {
-//            FileOutputStream archivo = new FileOutputStream("src/Singleton/Aviones.dat");
-//            ObjectOutputStream escritor = new ObjectOutputStream(archivo);
-//            escritor.writeObject(aviones); 
-//        } catch(IOException ex){
-//            
-//        }
-//    }
-//    
-//    
-//    public Avion[][] leerAviones(){
-//        try {
-//            FileInputStream archivo = new FileInputStream("src/Singleton/Aviones.dat");
-//            ObjectInputStream lector = new ObjectInputStream(archivo);
-//            return (Avion[][]) lector.readObject();
-//        } catch(IOException | ClassNotFoundException ex){
-//            
-//            Avion[][] aux = new Avion[1][0];
-//            for (int i = 0; i < aux.length; i++){
-//                for (int j = 0; j < aux[i].length; j++) {
-//                    aux[i][j] = new Avion();
-//                }
-//                
-//            }
-//            return aux;
-//        }
-//    }
     
     public void escribirAerolineas(){
         try {
