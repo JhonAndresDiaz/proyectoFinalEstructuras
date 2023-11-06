@@ -166,6 +166,11 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
 
         cboInicioHora.setForeground(new java.awt.Color(0, 0, 0));
         cboInicioHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+        cboInicioHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboInicioHoraActionPerformed(evt);
+            }
+        });
         jPanel1.add(cboInicioHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, 70, 30));
 
         cboInicioMin.setForeground(new java.awt.Color(0, 0, 0));
@@ -182,6 +187,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnLimpiarMouseClicked(evt);
@@ -207,6 +213,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         btnEditar.setForeground(new java.awt.Color(255, 255, 255));
         btnEditar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnEditar.setText("Editar");
+        btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEditar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnEditarMouseClicked(evt);
@@ -232,6 +239,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnEliminar.setText("Eliminar");
+        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnEliminarMouseClicked(evt);
@@ -367,7 +375,6 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
                 btnEliminar.setEnabled(false);
                 panelEliminar.setEnabled(false);
                 dataChooserFecha.setEnabled(false); 
-                
             } else {
                 dataChooserFecha.setEnabled(true);
                 btnEditar.setEnabled(true);
@@ -427,7 +434,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             Vuelo vueloAntiguo = controlador.vueloBuscado(numeroVuelo);
             
             Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
-            Vuelo vueloFinal = new Vuelo(avionBuscado, vueloAntiguo.getCapitan(), numero, origen, destino, duracion, fecha, horaInicio, horaFin, controlador.obtenerListaViajeros(numeroVuelo) , "Espera");
+            Vuelo vueloFinal = new Vuelo(avionBuscado, vueloAntiguo.getCapitan(), numero, origen, destino, duracion, fecha, horaInicio, horaFin, controlador.obtenerListaViajeros(numeroVuelo) , "Programado");
 
             try{
                 controlador.editarVuelo(aerolinea, vueloFinal.getAvion(), vueloFinal);
@@ -457,6 +464,14 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEliminarMouseClicked
+
+    private void cboInicioHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboInicioHoraActionPerformed
+        Object horaSeleccionadaObject = cboInicioHora.getSelectedItem();
+        if (horaSeleccionadaObject != null) {
+            int horaSeleccionada = Integer.parseInt(horaSeleccionadaObject.toString());
+            actualizarComboBoxMinutos(horaSeleccionada);
+        }
+    }//GEN-LAST:event_cboInicioHoraActionPerformed
 
     public void limpiarCampos() {
         dataChooserFecha.setDate(null);
@@ -494,35 +509,54 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             calSeleccionado.setTime(selectedDate);
 
             int horaActual = calHoy.get(Calendar.HOUR_OF_DAY);
-            int minutoActual = calHoy.get(Calendar.MINUTE);
+
+            cboInicioHora.removeAllItems();
 
             if (calSeleccionado.get(Calendar.YEAR) == calHoy.get(Calendar.YEAR)
                     && calSeleccionado.get(Calendar.MONTH) == calHoy.get(Calendar.MONTH)
                     && calSeleccionado.get(Calendar.DAY_OF_MONTH) == calHoy.get(Calendar.DAY_OF_MONTH)) {
-                cboInicioHora.removeAllItems();
-                cboInicioMin.removeAllItems();
-                if (minutoActual < 30) {
-                    for (int i = horaActual; i < 24; i++) {
-                        cboInicioHora.addItem(String.valueOf(i));
-                    }
-                    cboInicioMin.addItem("30");
-                }else {
-                    for (int i = horaActual + 1; i < 24; i++) {
-                        cboInicioHora.addItem(String.valueOf(i));
-                    }
-                    cboInicioMin.addItem("0");
-                    cboInicioMin.addItem("30");
+                for (int i = horaActual; i < 24; i++) {
+                    cboInicioHora.addItem(String.format("%02d", i));
                 }
             } else {
-                cboInicioHora.removeAllItems();
-                cboInicioMin.removeAllItems();
                 for (int i = 0; i < 24; i++) {
-                    cboInicioHora.addItem(String.valueOf(i));
+                    cboInicioHora.addItem(String.format("%02d", i));
                 }
-                cboInicioMin.addItem("0");
-                cboInicioMin.addItem("30");
             }
         }
+    }
+
+    private void actualizarComboBoxMinutos(int horaSeleccionada) {
+        Date selectedDate = dataChooserFecha.getDate();
+
+        if (selectedDate != null) {
+            Calendar calHoy = Calendar.getInstance();
+            Calendar calSeleccionado = Calendar.getInstance();
+            calSeleccionado.setTime(selectedDate);
+
+            int horaActual = calHoy.get(Calendar.HOUR_OF_DAY);
+
+            cboInicioMin.removeAllItems();
+
+            if(calSeleccionado.get(Calendar.YEAR) == calHoy.get(Calendar.YEAR)
+                    && calSeleccionado.get(Calendar.MONTH) == calHoy.get(Calendar.MONTH)
+                    && calSeleccionado.get(Calendar.DAY_OF_MONTH) == calHoy.get(Calendar.DAY_OF_MONTH)) {
+                if (horaSeleccionada == horaActual) {
+                    int minutoActual = calHoy.get(Calendar.MINUTE);
+                    for (int i = minutoActual; i < 60; i++) {
+                        cboInicioMin.addItem(String.format("%02d", i));
+                    }
+                }else {
+                    for (int i = 0; i < 60; i++) {
+                        cboInicioMin.addItem(String.format("%02d", i));
+                    }
+                }
+            }else {
+                for (int i = 0; i < 60; i++) {
+                    cboInicioMin.addItem(String.format("%02d", i));
+                }
+            }
+        }    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

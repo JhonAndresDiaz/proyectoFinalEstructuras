@@ -46,23 +46,7 @@ public class Vuelo implements Serializable {
     public boolean estaAvionDisponible(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
         return avion.estaOcupado(fecha, horaInicio, horaFin);
     }
-    
-//    public boolean estaCapitanDisponible(CapitanVuelo capitan, LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
-//        
-//        Nodo<Vuelo> primerVuelo = avion.getCronograma().getPrimero();
-//
-//        while(primerVuelo != null) {
-//            Vuelo vuelo = primerVuelo.getDato();
-//            if (vuelo != null) {
-//                if (vuelo.getCapitan().getIdentificacion() == capitan.getIdentificacion() & vuelo.getFechaVuelo().equals(fecha) && vuelo.horariosSeCruzan(horaInicio, horaFin)) {
-//                    return true; 
-//                }
-//            }
-//            primerVuelo = primerVuelo.getNodoSiguiente();
-//        }
-//        return false;
-//    }
-    
+
     public Avion getAvion() {
         return avion;
     }

@@ -16,7 +16,7 @@ public class ControladorVentanaVuelosProgramados {
     private LSE<Aerolinea> listaAerolineas;
     
     public ControladorVentanaVuelosProgramados(){
-        this.listaAerolineas = Singleton.getInstancia().getAerolineas();
+        listaAerolineas = Singleton.getInstancia().getAerolineas();
     }
     
     public LSE traerAerolineas(){
@@ -35,7 +35,7 @@ public class ControladorVentanaVuelosProgramados {
                         Avion avion = aerolineaEncontrada.getListaAviones().get(j);
                         for (int k = 0; k < avion.getCronograma().size(); k++) {
                             Vuelo vuelo = avion.getCronograma().get(k);
-                            if(vuelo.getEstado().equals("Espera")){
+                            if(vuelo.getEstado().equals("Programado")){
                                 vuelos.add(vuelo);
                             }
                         }
@@ -57,7 +57,7 @@ public class ControladorVentanaVuelosProgramados {
                     Avion avion = aerolineaEncontrada.getListaAviones().get(j);
                     for (int k = 0; k < avion.getCronograma().size(); k++) {
                         Vuelo vuelo = avion.getCronograma().get(k);
-                        if(vuelo.getEstado().equals("Espera")){
+                        if(vuelo.getEstado().equals("Programado")){
                             vuelos.add(vuelo);
                         }
                     }
@@ -88,6 +88,19 @@ public class ControladorVentanaVuelosProgramados {
             }  
         }
         return null;    
+    }
+    
+    public Aerolinea buscarAerolineaNumeroAvion(int numeroAvion){
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            Aerolinea aerolinea = listaAerolineas.get(i);
+            for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+                Avion avion = aerolinea.getListaAviones().get(j);
+                if(avion.getNumero() == numeroAvion){
+                    return listaAerolineas.get(i);
+                }
+            }
+        }
+        return null;
     }
     
     public Aerolinea buscarAerolineaNombre(String nombre){

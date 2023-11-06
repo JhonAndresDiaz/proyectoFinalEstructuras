@@ -53,47 +53,36 @@ public class ControladorVentanaLogin {
     public void actualizarVuelos() {
         LocalDate hoy = LocalDate.now();
         LocalTime horaActual = LocalTime.now();
+
         for (int i = 0; i < listaAerolineas.size(); i++) {
             Aerolinea aerolinea = listaAerolineas.get(i);
+
             for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
                 Avion avion = aerolinea.getListaAviones().get(j);
+
                 for (int k = 0; k < avion.getCronograma().size(); k++) {
                     Vuelo vuelo = avion.getCronograma().get(k);
-                    if (vuelo.getEstado().equals("Espera")) { 
+                    if (vuelo.getEstado().equals("Programado")) {
                         if (vuelo.getFechaVuelo().isBefore(hoy)) {
-                                vuelo.setEstado("Finalizado");
-                                Singleton.getInstancia().escribirAerolineas();
-                        }else if (vuelo.getFechaVuelo().equals(hoy)) {
-                            if (vuelo.getHoraVuelo().isBefore(horaActual) && vuelo.getTiempoFin().isAfter(horaActual)) {
-                                if(!avion.getUbicacion().equals(vuelo.getOrigen())){
-                                    vuelo.setEstado("Cancelado");   
-                                    Singleton.getInstancia().escribirAerolineas();
-                                }else{
+                            vuelo.setEstado("Finalizado");
+                        }else if(vuelo.getFechaVuelo().equals(hoy)) {
+                            if(horaActual.isAfter(vuelo.getTiempoFin())) {
+                                if (avion.getUbicacion() == null || !avion.getUbicacion().equals(vuelo.getOrigen())) {
+                                    vuelo.setEstado("Finalizado");
+                                }else {
                                     vuelo.setEstado("Finalizado");
                                     avion.setUbicacion(vuelo.getDestino());
-                                    Singleton.getInstancia().escribirAerolineas();
-                                }
-                            }else if (vuelo.getTiempoFin().isBefore(horaActual)) {
-                                 if(!avion.getUbicacion().equals(vuelo.getOrigen())){
-                                    vuelo.setEstado("Cancelado");   
-                                    Singleton.getInstancia().escribirAerolineas();
-                                }else{
-                                    vuelo.setEstado("Finalizado");    
-                                    avion.setUbicacion(vuelo.getDestino());
-                                    Singleton.getInstancia().escribirAerolineas();
-                                }
+                                }   
                             }
                         }
-                        
+                    }else if(vuelo.getEstado().equals("Finalizado")){
+                        if(hoy.isBefore(vuelo.getFechaVuelo())){
+                            vuelo.setEstado("Programado");
+                        }
                     }
                 }
-//                for (int q = 0; q < aerolinea.getListaAviones().size(); q++) {
-//                    Avion avionubi = aerolinea.getListaAviones().get(q);
-//                     if(!avionubi.getUbicacion().equals(null)){
-//                        System.out.println(avionubi.getUbicacion());
-//                    }                   
-//                }
             }
         }
+        Singleton.getInstancia().escribirAerolineas();
     }
 }

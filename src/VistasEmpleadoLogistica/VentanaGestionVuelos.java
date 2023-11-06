@@ -391,14 +391,16 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverMouseReleased
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        if(txtNumeroVuelo.getText().isEmpty() || cboOrigen.getSelectedIndex() == 0 || cboDestino.getSelectedIndex() == 0 || dataChooserFecha.getDate() == null || cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1 || cboCapitanVuelo.getSelectedIndex() == 0 || txtDuracionHoras.getText().isEmpty()) {
+        if(cboAviones.getSelectedIndex() == 0 || txtNumeroVuelo.getText().isEmpty() || cboOrigen.getSelectedIndex() == 0 || cboDestino.getSelectedIndex() == 0 || dataChooserFecha.getDate() == null || cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1 || cboCapitanVuelo.getSelectedIndex() == 0 || txtDuracionHoras.getText().isEmpty()) {
             if(cboCapitanVuelo.getSelectedIndex() == 0){
                 JOptionPane.showMessageDialog(null, "Seleccione un capitán de vuelo");
             }else if(cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1) {
                 JOptionPane.showMessageDialog(null, "Complete todos los campos de horarios");
             }else if(dataChooserFecha.getDate() == null){
                 JOptionPane.showMessageDialog(null, "Seleccione una fecha para el vuelo");
-            }else {
+            }else if(cboAviones.getSelectedIndex() == 0){
+                JOptionPane.showMessageDialog(null, "Seleccione un avión");
+            }else{
                 JOptionPane.showMessageDialog(null, "Complete todos los campos");
             }
         }else {
@@ -416,12 +418,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
             int min = Integer.parseInt((String) cboInicioMin.getSelectedItem());
             int duracion = Integer.parseInt(txtDuracionHoras.getText());
 
-            int xHour = duracion + hora;
-                if(xHour > 24){
-                    xHour  = xHour-24;  
-                }else{
-                    xHour  = xHour;
-                }
+            int xHour = (duracion + hora) % 24;
                 
             LocalTime horaInicio = LocalTime.of(hora, min); 
             LocalTime horaFin = LocalTime.of(xHour, min);
@@ -434,14 +431,14 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
             int numeroAvion = Integer.parseInt(avionSeleccionado);
             Avion avionBuscado = controlador.buscarNumeroAvion(numeroAvion);
             
-            Vuelo vueloFinal = new Vuelo(avionBuscado, capitan, numero, origen, destino, duracion, fecha, horaInicio, horaFin, new LSE<>(), "Espera");
+            Vuelo vueloFinal = new Vuelo(avionBuscado, capitan, numero, origen, destino, duracion, fecha, horaInicio, horaFin, new LSE<>(), "Programado");
             Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
 
             try{
                 controlador.guardarVuelo(aerolinea, avionBuscado, vueloFinal);
                 JOptionPane.showMessageDialog(null, "Se registró el vuelo correctamente");
                 limpiarCampos();
-            }catch (YaExisteNumeroVueloException | CapitanNoDisponibleException | AvionNoDisponibleException e) {
+            }catch (YaExisteNumeroVueloException | CapitanNoDisponibleException | AvionNoDisponibleException | OrigenNoCoincideConDestinoException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }   
@@ -566,7 +563,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
                     && calSeleccionado.get(Calendar.DAY_OF_MONTH) == calHoy.get(Calendar.DAY_OF_MONTH)) {
                 if (horaSeleccionada == horaActual) {
                     int minutoActual = calHoy.get(Calendar.MINUTE);
-                    for (int i = minutoActual; i < 60; i++) {
+                    for (int i = minutoActual + 1; i < 60; i++) {
                         cboInicioMin.addItem(String.format("%02d", i));
                     }
                 }else {
