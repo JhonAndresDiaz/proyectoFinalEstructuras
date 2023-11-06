@@ -412,16 +412,21 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
             String destino = String.valueOf(destinoSeleccionado.toString());
             
             Date x = dataChooserFecha.getDate();
-            LocalDate fecha = new  java.sql.Date(x.getTime()).toLocalDate();
-            
+            LocalDate fecha = new java.sql.Date(x.getTime()).toLocalDate();
+
             int hora = Integer.parseInt((String) cboInicioHora.getSelectedItem());
             int min = Integer.parseInt((String) cboInicioMin.getSelectedItem());
-            int duracion = Integer.parseInt(txtDuracionHoras.getText());
 
-            int xHour = (duracion + hora) % 24;
-                
             LocalTime horaInicio = LocalTime.of(hora, min); 
-            LocalTime horaFin = LocalTime.of(xHour, min);
+
+            int duracion = Integer.parseInt(txtDuracionHoras.getText());
+            LocalTime horaFin = horaInicio.plusHours(duracion);
+
+            int xHour = horaFin.getHour(); 
+
+            xHour = xHour % 24;
+
+            horaFin = LocalTime.of(xHour, horaFin.getMinute());
 
             String capitanSeleccionado = String.valueOf(cboCapitanVuelo.getSelectedItem());
             String capitanVuelo = String.valueOf(capitanSeleccionado.toString());

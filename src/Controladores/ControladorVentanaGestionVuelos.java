@@ -204,12 +204,13 @@ public class ControladorVentanaGestionVuelos {
         LocalDate fechaVuelo = vuelo.getFechaVuelo();
         LocalTime horaInicio = vuelo.getHoraVuelo();
         LocalTime horaFin = vuelo.getTiempoFin();
+        LocalDate fechFin = vuelo.getDiaFinVuelo();
 
-        if (avion.estaOcupado(fechaVuelo, horaInicio, horaFin)) {
+        if (avion.estaOcupado(fechFin, horaInicio, horaFin)){
             throw new AvionNoDisponibleException();
         }
         
-        if (aerolinea.estaCapitanDisponible(vuelo.getCapitan(), fechaVuelo, horaInicio, horaFin)) {
+        if (aerolinea.estaCapitanDisponible(vuelo.getCapitan(), fechFin, horaInicio, horaFin)) {
             throw new CapitanNoDisponibleException();
         }
 
@@ -325,8 +326,9 @@ public class ControladorVentanaGestionVuelos {
             LocalDate fechaVueloNuevo = vueloNuevo.getFechaVuelo();
             LocalTime horaInicioNuevo = vueloNuevo.getHoraVuelo();
             LocalTime horaFinNuevo = vueloNuevo.getTiempoFin();
+            LocalDate fechaFin = vueloNuevo.getDiaFinVuelo();
 
-            if (avion.estaOcupado(fechaVueloNuevo, horaInicioNuevo, horaFinNuevo)) {
+            if (avion.estaOcupado(fechaFin, horaFinNuevo, horaFinNuevo)){
                 throw new AvionNoDisponibleException();
             }
 

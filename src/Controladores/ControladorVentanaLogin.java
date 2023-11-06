@@ -62,22 +62,30 @@ public class ControladorVentanaLogin {
 
                 for (int k = 0; k < avion.getCronograma().size(); k++) {
                     Vuelo vuelo = avion.getCronograma().get(k);
+                    
                     if (vuelo.getEstado().equals("Programado")) {
                         if (vuelo.getFechaVuelo().isBefore(hoy)) {
                             vuelo.setEstado("Finalizado");
-                        }else if(vuelo.getFechaVuelo().equals(hoy)) {
-                            if(horaActual.isAfter(vuelo.getTiempoFin())) {
+                        }else if (vuelo.getFechaVuelo().equals(hoy) && vuelo.getDiaFinVuelo().equals(hoy)) {
+                            if (horaActual.isAfter(vuelo.getTiempoFin())) {
                                 if (avion.getUbicacion() == null || !avion.getUbicacion().equals(vuelo.getOrigen())) {
                                     vuelo.setEstado("Finalizado");
-                                }else {
+                                } else {
                                     vuelo.setEstado("Finalizado");
                                     avion.setUbicacion(vuelo.getDestino());
-                                }   
+                                }
                             }
-                        }
-                    }else if(vuelo.getEstado().equals("Finalizado")){
-                        if(hoy.isBefore(vuelo.getFechaVuelo())){
-                            vuelo.setEstado("Programado");
+                        }else {
+                            if(!vuelo.getFechaVuelo().equals(hoy) && vuelo.getDiaFinVuelo().equals(hoy)){
+                                if(horaActual.isAfter(vuelo.getTiempoFin())){
+                                    if (avion.getUbicacion() == null || !avion.getUbicacion().equals(vuelo.getOrigen())) {
+                                        vuelo.setEstado("Finalizado");
+                                    } else {
+                                        vuelo.setEstado("Finalizado");
+                                        avion.setUbicacion(vuelo.getDestino());
+                                    }  
+                                }
+                            }
                         }
                     }
                 }
@@ -85,4 +93,45 @@ public class ControladorVentanaLogin {
         }
         Singleton.getInstancia().escribirAerolineas();
     }
+    
+    
+    
 }
+    
+////    
+////    public void actualizarVuelos() {
+////        LocalDate hoy = LocalDate.now();
+////        LocalTime horaActual = LocalTime.now();
+////
+////        for (int i = 0; i < listaAerolineas.size(); i++) {
+////            Aerolinea aerolinea = listaAerolineas.get(i);
+////
+////            for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+////                Avion avion = aerolinea.getListaAviones().get(j);
+////
+////                for (int k = 0; k < avion.getCronograma().size(); k++) {
+////                    Vuelo vuelo = avion.getCronograma().get(k);
+////                    if (vuelo.getEstado().equals("Programado")) {
+////                        if (vuelo.getFechaVuelo().isBefore(hoy)) {
+////                            vuelo.setEstado("Finalizado");
+////                        }else if(vuelo.getFechaVuelo().equals(hoy)) {
+////                            if(horaActual.isAfter(vuelo.getTiempoFin())) {
+////                                if (avion.getUbicacion() == null || !avion.getUbicacion().equals(vuelo.getOrigen())) {
+////                                    vuelo.setEstado("Finalizado");
+////                                }else {
+////                                    vuelo.setEstado("Finalizado");
+////                                    avion.setUbicacion(vuelo.getDestino());
+////                                }   
+////                            }
+////                        }
+////                    }else if(vuelo.getEstado().equals("Finalizado")){
+////                        if(hoy.isBefore(vuelo.getFechaVuelo())){
+////                            vuelo.setEstado("Programado");
+////                        }
+////                    }
+////                }
+////            }
+////        }
+////        Singleton.getInstancia().escribirAerolineas();
+////    }
+////

@@ -1,9 +1,9 @@
 package Modelos;
 
 import Util.LSE;
-import Util.Nodo;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -11,7 +11,7 @@ import java.time.LocalTime;
  * @author diaza
  */
 public class Vuelo implements Serializable {
-    
+        
     private Avion avion;
     private CapitanVuelo capitan;
     private int numVuelo;
@@ -19,6 +19,7 @@ public class Vuelo implements Serializable {
     private String destino;
     private int duracion;
     private LocalDate fechaVuelo;
+    private LocalDate diaFinVuelo;
     private LocalTime horaVuelo;
     private LocalTime tiempoFin;
     private LSE<Viajero> listaViajeros;
@@ -32,21 +33,63 @@ public class Vuelo implements Serializable {
         this.destino = destino;
         this.duracion = duracion;
         this.fechaVuelo = fechaVuelo;
+        this.diaFinVuelo = calcularDiaFinVuelo(fechaVuelo, horaVuelo, tiempoFin, duracion); 
         this.horaVuelo = horaVuelo;
         this.tiempoFin = tiempoFin;
         this.listaViajeros = listaViajeros;
         this.estado = estado;
     }
     
-    public boolean horariosSeCruzan(LocalTime horaInicio, LocalTime horaFin) {
-        return (horaVuelo.isBefore(horaFin) || horaVuelo.equals(horaFin)) &&
-           (tiempoFin.isAfter(horaInicio) || tiempoFin.equals(horaInicio));
+    private LocalDate calcularDiaFinVuelo(LocalDate diaInicio, LocalTime horaInicio, LocalTime horaFin, int duracion) {
+        LocalDateTime inicio = diaInicio.atTime(horaInicio);
+        LocalDateTime fin = inicio.plusMinutes(horaFin.getMinute());
+
+        if (horaFin.isBefore(horaInicio)) {
+            fin = fin.plusDays(1);
+        }
+
+        return fin.toLocalDate();
+    }
+    
+//    public boolean horariosSeCruzan(LocalTime horaInicio, LocalTime horaFin) {
+//        return (horaVuelo.isBefore(horaFin) || horaVuelo.equals(horaFin)) &&
+//           (tiempoFin.isAfter(horaInicio) || tiempoFin.equals(horaInicio));
+//    }anterior
+    
+//    public boolean horariosSeCruzan(Vuelo otroVuelo) {
+//        return this.getFechaVuelo().equals(otroVuelo.getFechaVuelo()) &&
+//               (this.horaVuelo.isBefore(otroVuelo.getTiempoFin()) ||
+//                otroVuelo.getHoraVuelo().isBefore(this.getTiempoFin()));
+//    }
+
+//    public boolean horarioSeExtiende(Vuelo otroVuelo) {
+//        return (this.getFechaVuelo().equals(otroVuelo.getFechaVuelo()) && 
+//                this.horaVuelo.isBefore(otroVuelo.getHoraVuelo()) && 
+//                this.getTiempoFin().isAfter(otroVuelo.getTiempoFin()));
+//    }
+    
+//    public boolean estaAvionDisponible(Vuelo otroVuelo) {
+//        return avion.estaOcupado(otroVuelo);
+//    }anterio
+
+//    public boolean horariosSeCruzan(LocalTime horaInicio, LocalTime horaFin) {
+//        return (horaVuelo.isBefore(horaFin) || horaVuelo.equals(horaFin)) &&
+//           (tiempoFin.isAfter(horaInicio) || tiempoFin.equals(horaInicio));
+//    }
+    
+    public boolean horariosSeCruza(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
+        if (fechaVuelo.equals(fecha)) {
+            if ((horaVuelo.isBefore(horaFin) || horaVuelo.equals(horaFin)) && (tiempoFin.isAfter(horaInicio) || tiempoFin.equals(horaInicio))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean estaAvionDisponible(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
         return avion.estaOcupado(fecha, horaInicio, horaFin);
     }
-
+    
     public Avion getAvion() {
         return avion;
     }
@@ -103,6 +146,14 @@ public class Vuelo implements Serializable {
         this.fechaVuelo = fechaVuelo;
     }
 
+    public LocalDate getDiaFinVuelo() {
+        return diaFinVuelo;
+    }
+
+    public void setDiaFinVuelo(LocalDate diaFinVuelo) {
+        this.diaFinVuelo = diaFinVuelo;
+    }
+
     public LocalTime getHoraVuelo() {
         return horaVuelo;
     }
@@ -133,6 +184,5 @@ public class Vuelo implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-    
+    }   
 }

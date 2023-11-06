@@ -92,11 +92,11 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "N° Vuelo", "Origen", "Destino", "Fecha", "Hora inico", "Hora fin", "Capitan", "Avion", "Estado"
+                "N° Vuelo", "Origen", "Destino", "Fecha", "Hora inico", "Hora fin", "Fecha fin", "Capitan", "Avion", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -122,6 +122,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             tabla.getColumnModel().getColumn(6).setResizable(false);
             tabla.getColumnModel().getColumn(7).setResizable(false);
             tabla.getColumnModel().getColumn(8).setResizable(false);
+            tabla.getColumnModel().getColumn(9).setResizable(false);
         }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 820, 170));
@@ -368,19 +369,32 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             dataChooserFecha.setDate(date);
 
             LocalDate fechaActual = LocalDate.now();
-
+            LocalTime horaActual = LocalTime.now();
+            
             if (fechaVuelo.isBefore(fechaActual)) {
                 btnEditar.setEnabled(false);
                 panelEditar.setEnabled(false);
                 btnEliminar.setEnabled(false);
                 panelEliminar.setEnabled(false);
                 dataChooserFecha.setEnabled(false); 
-            } else {
-                dataChooserFecha.setEnabled(true);
-                btnEditar.setEnabled(true);
-                panelEditar.setEnabled(true);
-                btnEliminar.setEnabled(true);
-                panelEliminar.setEnabled(false);
+                txtNumeroVuelo.setText(null);
+                JOptionPane.showMessageDialog(null, "No puede hacer modificaciones, el vuelo ya termino su trayecto");
+            }else {
+                if(horaActual.isAfter(vueloBuscado.getHoraVuelo()) && fechaActual.equals(vueloBuscado.getFechaVuelo())){
+                    btnEditar.setEnabled(false);
+                    panelEditar.setEnabled(false);
+                    btnEliminar.setEnabled(false);
+                    panelEliminar.setEnabled(false);
+                    dataChooserFecha.setEnabled(false); 
+                    txtNumeroVuelo.setText(null);
+                    JOptionPane.showMessageDialog(null, "No puede hacer modificaciones, el vuelo ya inicio su trayecto");
+                }else {
+                    dataChooserFecha.setEnabled(true);
+                    btnEditar.setEnabled(true);
+                    panelEditar.setEnabled(true);
+                    btnEliminar.setEnabled(true);
+                    panelEliminar.setEnabled(true);
+                }      
             }
         }
     }//GEN-LAST:event_tablaMouseClicked
@@ -494,7 +508,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
         for (int i = 0; i < vuelos.size(); i++) {
             Vuelo aux = vuelos.get(i);
 //            if(aux.getEstado().equals("Espera")){
-                Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getCapitan().getNombres(), aux.getAvion().getNumero(), aux.getEstado()};
+                Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getDiaFinVuelo(), aux.getCapitan().getNombres(), aux.getAvion().getNumero(), aux.getEstado()};
                 modelo.addRow(ob);
 //            } 
         }
