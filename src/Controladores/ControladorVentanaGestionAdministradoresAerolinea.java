@@ -5,6 +5,8 @@ import Modelos.*;
 import Singleton.Singleton;
 import Util.LSE;
 import Util.Nodo;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -237,7 +239,7 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
                     Avion avion = aerolinea.getListaAviones().get(j);
                     for (int k = 0; k < avion.getCronograma().size(); k++) {
                         Vuelo vuelo = avion.getCronograma().get(k);
-                        if(vuelo.getListaViajeros().isEmpty()) {
+                        if(vuelo.getListaReservas().isEmpty()) {
                             listaAerolineas.remove(i); 
                             Singleton.getInstancia().escribirAerolineas();
                             return;               
@@ -378,4 +380,5 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
 
         return cantidadAdmins <= 1;
     }
+    
 }

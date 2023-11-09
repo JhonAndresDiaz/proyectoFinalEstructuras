@@ -22,10 +22,10 @@ public class Vuelo implements Serializable {
     private LocalDate diaFinVuelo;
     private LocalTime horaVuelo;
     private LocalTime tiempoFin;
-    private LSE<Viajero> listaViajeros;
+    private LSE<Reserva> listaReservas;
     private String estado;
 
-    public Vuelo(Avion avion, CapitanVuelo capitan, int numVuelo, String origen, String destino, int duracion, LocalDate fechaVuelo, LocalTime horaVuelo, LocalTime tiempoFin, LSE<Viajero> listaViajeros, String estado) {
+    public Vuelo(Avion avion, CapitanVuelo capitan, int numVuelo, String origen, String destino, int duracion, LocalDate fechaVuelo, LocalTime horaVuelo, LocalTime tiempoFin, LSE<Reserva> listaReservas, String estado) {
         this.avion = avion;
         this.capitan = capitan;
         this.numVuelo = numVuelo;
@@ -33,10 +33,10 @@ public class Vuelo implements Serializable {
         this.destino = destino;
         this.duracion = duracion;
         this.fechaVuelo = fechaVuelo;
-        this.diaFinVuelo = calcularDiaFinVuelo(fechaVuelo, horaVuelo, tiempoFin, duracion); 
+        this.diaFinVuelo = calcularDiaFinVuelo(fechaVuelo, horaVuelo, tiempoFin, duracion);
         this.horaVuelo = horaVuelo;
         this.tiempoFin = tiempoFin;
-        this.listaViajeros = listaViajeros;
+        this.listaReservas = listaReservas;
         this.estado = estado;
     }
     
@@ -50,32 +50,6 @@ public class Vuelo implements Serializable {
 
         return fin.toLocalDate();
     }
-    
-//    public boolean horariosSeCruzan(LocalTime horaInicio, LocalTime horaFin) {
-//        return (horaVuelo.isBefore(horaFin) || horaVuelo.equals(horaFin)) &&
-//           (tiempoFin.isAfter(horaInicio) || tiempoFin.equals(horaInicio));
-//    }anterior
-    
-//    public boolean horariosSeCruzan(Vuelo otroVuelo) {
-//        return this.getFechaVuelo().equals(otroVuelo.getFechaVuelo()) &&
-//               (this.horaVuelo.isBefore(otroVuelo.getTiempoFin()) ||
-//                otroVuelo.getHoraVuelo().isBefore(this.getTiempoFin()));
-//    }
-
-//    public boolean horarioSeExtiende(Vuelo otroVuelo) {
-//        return (this.getFechaVuelo().equals(otroVuelo.getFechaVuelo()) && 
-//                this.horaVuelo.isBefore(otroVuelo.getHoraVuelo()) && 
-//                this.getTiempoFin().isAfter(otroVuelo.getTiempoFin()));
-//    }
-    
-//    public boolean estaAvionDisponible(Vuelo otroVuelo) {
-//        return avion.estaOcupado(otroVuelo);
-//    }anterio
-
-//    public boolean horariosSeCruzan(LocalTime horaInicio, LocalTime horaFin) {
-//        return (horaVuelo.isBefore(horaFin) || horaVuelo.equals(horaFin)) &&
-//           (tiempoFin.isAfter(horaInicio) || tiempoFin.equals(horaInicio));
-//    }
     
     public boolean horariosSeCruza(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
         if (fechaVuelo.equals(fecha)) {
@@ -170,14 +144,6 @@ public class Vuelo implements Serializable {
         this.tiempoFin = tiempoFin;
     }
 
-    public LSE<Viajero> getListaViajeros() {
-        return listaViajeros;
-    }
-
-    public void setListaViajeros(LSE<Viajero> listaViajeros) {
-        this.listaViajeros = listaViajeros;
-    }
-
     public String getEstado() {
         return estado;
     }
@@ -185,4 +151,12 @@ public class Vuelo implements Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }   
+
+    public LSE<Reserva> getListaReservas() {
+        return listaReservas;
+    }
+
+    public void setListaReservas(LSE<Reserva> listaReservas) {
+        this.listaReservas = listaReservas;
+    }
 }

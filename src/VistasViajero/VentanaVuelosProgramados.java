@@ -2,7 +2,7 @@ package VistasViajero;
 
 import Controladores.ControladorVentanaVuelosProgramados;
 import Modelos.Aerolinea;
-import Modelos.Avion;
+import Modelos.Reserva;
 import Modelos.Viajero;
 import Modelos.Vuelo;
 import Util.LSE;
@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.time.LocalDate;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,6 +32,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         this.controlador = new ControladorVentanaVuelosProgramados();
         modelo = (DefaultTableModel)tabla.getModel();
         actualizarComboBox();
+        bloquear();
     }
 
     /**
@@ -47,8 +49,6 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         tabla = new javax.swing.JTable();
         cboAerolineas = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtNum = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -59,6 +59,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        btnGenerarReserva = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -118,32 +119,6 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         jLabel12.setText("Seleccione una Aerolínea");
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 190, -1));
 
-        jPanel2.setBackground(new java.awt.Color(65, 92, 117));
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Generar reserva");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 400, 190, 30));
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(65, 92, 117));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -184,7 +159,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(65, 92, 117));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Filtros");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 50, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 50, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(65, 92, 117));
@@ -203,6 +178,19 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Destino");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 90, 50, -1));
+
+        btnGenerarReserva.setBackground(new java.awt.Color(65, 92, 117));
+        btnGenerarReserva.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnGenerarReserva.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerarReserva.setText("Generar reserva");
+        btnGenerarReserva.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnGenerarReserva.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGenerarReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarReservaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGenerarReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 400, 190, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -292,16 +280,6 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cboAerolineasActionPerformed
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        int numero = Integer.parseInt(txtNum.getText());
-        Avion avion = controlador.buscarNumeroAvion(numero);
-        if(avion != null){
-            this.dispose();
-            JFrame v2 = new VentanaReservaVueloViajero(viajero, avion);
-            v2.setVisible(true); 
-        }
-    }//GEN-LAST:event_jLabel1MouseClicked
-
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         int row = tabla.getSelectedRow();
         txtNum.setText(modelo.getValueAt(row,5).toString());
@@ -319,6 +297,29 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         filtrarVuelos();
     }//GEN-LAST:event_cboDestinoActionPerformed
 
+    private void btnGenerarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReservaActionPerformed
+        if(txtNum.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Seleccione un vuelo para generar la reserva");
+        }else {
+            int numero = Integer.parseInt(txtNum.getText());
+            Vuelo vuelo = controlador.vueloBuscado(numero);
+            if(vuelo != null){
+                this.dispose();
+                JFrame v2 = new VentanaReservaVueloViajero(viajero, vuelo);
+                v2.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_btnGenerarReservaActionPerformed
+
+    public void bloquear(){
+        
+        LSE<Reserva> contador = controlador.validarMaximoReservasActivas(viajero);
+        
+        if(contador.size() >= 2) {
+            btnGenerarReserva.setEnabled(false);
+        }   
+    }
+    
     public void filtrarVuelos() {
         int filtrosSeleccionados = 0;
         Date x = dataChooserFecha.getDate();
@@ -614,13 +615,13 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGenerarReserva;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
     private javax.swing.JComboBox<String> cboAerolineas;
     private javax.swing.JComboBox<String> cboDestino;
     private javax.swing.JComboBox<String> cboOrigen;
     private com.toedter.calendar.JDateChooser dataChooserFecha;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -630,7 +631,6 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtNum;

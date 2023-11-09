@@ -42,9 +42,6 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         panelVuelosProgramados = new javax.swing.JPanel();
         btnVuelosProgramados = new javax.swing.JLabel();
-        panelGenerarReserva = new javax.swing.JPanel();
-        btnGenerarReserva = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
         panelReservasActivas = new javax.swing.JPanel();
@@ -97,9 +94,9 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 30, 30));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/espera.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/generarReserva.png"))); // NOI18N
         jLabel3.setText("jLabel3");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 60, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 60, -1));
 
         panelVuelosProgramados.setBackground(new java.awt.Color(65, 92, 117));
 
@@ -131,40 +128,7 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
             .addComponent(btnVuelosProgramados, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
-        jPanel1.add(panelVuelosProgramados, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, 170, 30));
-
-        panelGenerarReserva.setBackground(new java.awt.Color(65, 92, 117));
-
-        btnGenerarReserva.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnGenerarReserva.setForeground(new java.awt.Color(255, 255, 255));
-        btnGenerarReserva.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnGenerarReserva.setText("Generar reserva");
-        btnGenerarReserva.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnGenerarReserva.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnGenerarReservaMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnGenerarReservaMouseExited(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelGenerarReservaLayout = new javax.swing.GroupLayout(panelGenerarReserva);
-        panelGenerarReserva.setLayout(panelGenerarReservaLayout);
-        panelGenerarReservaLayout.setHorizontalGroup(
-            panelGenerarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnGenerarReserva, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-        );
-        panelGenerarReservaLayout.setVerticalGroup(
-            panelGenerarReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnGenerarReserva, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(panelGenerarReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 210, -1, -1));
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/generarReserva.png"))); // NOI18N
-        jLabel6.setText("jLabel6");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, 60, -1));
+        jPanel1.add(panelVuelosProgramados, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 210, 170, 30));
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 370, 10));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
@@ -181,6 +145,9 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
         btnReservasActivas.setText("Reservas activas");
         btnReservasActivas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReservasActivas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnReservasActivasMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnReservasActivasMouseEntered(evt);
             }
@@ -483,14 +450,6 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
         panelVuelosProgramados.setBackground(new Color(65, 92, 117));
     }//GEN-LAST:event_btnVuelosProgramadosMouseExited
 
-    private void btnGenerarReservaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarReservaMouseEntered
-        panelGenerarReserva.setBackground(new Color(100, 128, 152));
-    }//GEN-LAST:event_btnGenerarReservaMouseEntered
-
-    private void btnGenerarReservaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarReservaMouseExited
-        panelGenerarReserva.setBackground(new Color(65, 92, 117));
-    }//GEN-LAST:event_btnGenerarReservaMouseExited
-
     private void btnReservasActivasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReservasActivasMouseEntered
         panelReservasActivas.setBackground(new Color(100, 128, 152));
     }//GEN-LAST:event_btnReservasActivasMouseEntered
@@ -513,6 +472,12 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
         v2.setVisible(true);
     }//GEN-LAST:event_btnVuelosProgramadosMouseClicked
 
+    private void btnReservasActivasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReservasActivasMouseClicked
+        this.dispose();
+        JFrame v2 = new VentanaReservaActivas(viajero);
+        v2.setVisible(true);
+    }//GEN-LAST:event_btnReservasActivasMouseClicked
+
     public void llenarInformacion(){
         txtNombres.setText(viajero.getNombres());
         txtApellidos.setText(viajero.getApellidos());
@@ -529,7 +494,6 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnEditar;
-    private javax.swing.JLabel btnGenerarReserva;
     private javax.swing.JLabel btnHistorialViajes;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JLabel btnReservasActivas;
@@ -551,7 +515,6 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuBar jMenuBar1;
@@ -559,7 +522,6 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPanel panelEditarInfo;
-    private javax.swing.JPanel panelGenerarReserva;
     private javax.swing.JPanel panelHistorial;
     private javax.swing.JPanel panelReservasActivas;
     private javax.swing.JPanel panelVuelosProgramados;

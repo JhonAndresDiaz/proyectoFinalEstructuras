@@ -1,8 +1,9 @@
-package VistasAdminAerolinea;
+package VistasViajero;
 
-import Controladores.ControladorVentanaVuelosGenerados;
-import Modelos.AdministradorAerolinea;
+import Controladores.ControladorVentanaReservaActivas;
 import Modelos.Aerolinea;
+import Modelos.Reserva;
+import Modelos.Viajero;
 import Modelos.Vuelo;
 import Util.LSE;
 import java.awt.Color;
@@ -13,19 +14,19 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author diaza
  */
-public class VentanaVuelosGenerados extends javax.swing.JFrame {
+public class VentanaReservaActivas extends javax.swing.JFrame {
 
-    private AdministradorAerolinea administradorAerolinea;
-    private ControladorVentanaVuelosGenerados controlador;
+    private Viajero viajero;
+    private ControladorVentanaReservaActivas controlador;
     DefaultTableModel modelo;
-    
+
     /**
-     * Creates new form VentanaVuelosGenerados
+     * Creates new form VentanaReservaActivas
      */
-    public VentanaVuelosGenerados(AdministradorAerolinea adminAerolinea) {
+    public VentanaReservaActivas(Viajero viajero) {
         initComponents();
-        this.administradorAerolinea = adminAerolinea; 
-        this.controlador = new ControladorVentanaVuelosGenerados();
+        this.viajero = viajero;
+        this.controlador = new ControladorVentanaReservaActivas();
         modelo = (DefaultTableModel)tabla.getModel();
         actualizarTabla();
     }
@@ -42,7 +43,6 @@ public class VentanaVuelosGenerados extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
-        jLabel18 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -52,41 +52,35 @@ public class VentanaVuelosGenerados extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tabla.setBackground(new java.awt.Color(255, 255, 255));
-        tabla.setForeground(new java.awt.Color(65, 92, 117));
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "N° Vuelo", "Origen", "Destino", "Fecha", "Hora inico", "Hora fin", "Capitan", "Avion", "Estado"
+                "Código", "Posición", "Origen", "Destino", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tabla.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tabla.setSelectionBackground(new java.awt.Color(65, 92, 117));
-        tabla.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tabla);
+        if (tabla.getColumnModel().getColumnCount() > 0) {
+            tabla.getColumnModel().getColumn(0).setResizable(false);
+            tabla.getColumnModel().getColumn(1).setResizable(false);
+            tabla.getColumnModel().getColumn(2).setResizable(false);
+            tabla.getColumnModel().getColumn(3).setResizable(false);
+            tabla.getColumnModel().getColumn(4).setResizable(false);
+        }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 820, 220));
-
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(65, 92, 117));
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("Vuelos terminados");
-        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(-6, 20, 870, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 480, 300));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -130,11 +124,11 @@ public class VentanaVuelosGenerados extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
         );
 
         pack();
@@ -143,7 +137,7 @@ public class VentanaVuelosGenerados extends javax.swing.JFrame {
 
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
         this.dispose();
-        JFrame v2 = new VentanaMenuPrincipalAdAerolinea(administradorAerolinea);
+        JFrame v2 = new VentanaMenuPrincipalViajero(viajero);
         v2.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
@@ -163,31 +157,31 @@ public class VentanaVuelosGenerados extends javax.swing.JFrame {
         btnVolver.setForeground(new Color(65, 92, 117));
     }//GEN-LAST:event_btnVolverMouseReleased
 
-    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+    private void actualizarTabla(){
         
-    }//GEN-LAST:event_tablaMouseClicked
-
-    private void actualizarTabla() {
-        Aerolinea aerolinea = controlador.buscarAerolineaPersona(administradorAerolinea.getIdentificacion());
-        LSE<Vuelo> vuelos = controlador.obtenerVuelosAerolinea(aerolinea);
-
-        while (modelo.getRowCount() > 0) {
-            modelo.removeRow(0);
-        }
-
-        for (int i = 0; i < vuelos.size(); i++) {
-            Vuelo aux = vuelos.get(i);
-            if(aux.getEstado().equals("Finalizado")) {
-                Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getCapitan().getNombres(), aux.getAvion().getNumero(), aux.getEstado()};
-                modelo.addRow(ob);
+        LSE<Reserva> reservas = controlador.obtenerReservas(viajero);
+        try{
+            for (int i = 0; i < 3 ; i++) {
+                for (int j = 0; j < modelo.getRowCount(); j++) {
+                    modelo.removeRow(j);
+                }   
             }
+        }catch(NullPointerException e){
         }
-    }  
+            try{
+                for (int i = 0; i < reservas.size() ; i++) {
+                    Reserva aux = reservas.get(i);                   
+                    Object[] ob = {aux.getCodigo(), aux.getPosicion(), aux.getVuelo().getOrigen(), aux.getVuelo().getDestino(), aux.getEstado()};
+                    modelo.addRow(ob);                
+                }
+            }catch(NullPointerException e){        
+            }
+    }
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

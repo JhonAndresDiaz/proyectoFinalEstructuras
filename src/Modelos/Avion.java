@@ -16,7 +16,7 @@ public class Avion implements Serializable{
     public static final String OCUPADO = "Ocupado";
     public static final String DESHABILITADO = "Deshabilitado";
     private String estado; 
-    
+
     private int numero;
     private String ubicacion;
     private Mantenimiento mantenimiento;
@@ -42,20 +42,6 @@ public class Avion implements Serializable{
         this.bloque = bloque;
     }
 
-//    public boolean estaOcupado(Vuelo vuelo) {
-//        Nodo<Vuelo> actual = this.getCronograma().getPrimero();
-//
-//        while (actual != null) {
-//            Vuelo otroVuelo = actual.getDato();
-//            if (vuelo.horariosSeCruzan(vuelo.getHoraVuelo(), vuelo.getTiempoFin())
-//                    && vuelo.getEstado().equals("Programado") && vuelo.getFechaVuelo().equals(vuelo.getFechaVuelo())) {
-//                return true;
-//            }
-//            actual = actual.getNodoSiguiente();
-//        }
-//        return false;
-//    } anterior
-
     public boolean estaOcupado(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
         Nodo<Vuelo> primerVuelo = cronograma.getPrimero();
         while (primerVuelo != null) {
@@ -67,7 +53,7 @@ public class Avion implements Serializable{
         }
         return false;
     }
-    
+   
     public String getUbicacion() {
         return ubicacion;
     }

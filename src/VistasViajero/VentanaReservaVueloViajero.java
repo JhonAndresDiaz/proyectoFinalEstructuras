@@ -1,14 +1,17 @@
-
 package VistasViajero;
 
 import Controladores.ControladorVerAvion;
 import Modelos.Avion;
+import Modelos.Reserva;
 import Modelos.Viajero;
+import Modelos.Vuelo;
+import Util.LSE;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,19 +20,19 @@ import javax.swing.JFrame;
 public class VentanaReservaVueloViajero extends javax.swing.JFrame implements ActionListener {
 
     private Viajero viajero;
-    private Avion avion;
+    private Vuelo vuelo;
     private ControladorVerAvion controlador;
     JButton[][] botones;
     
     /**
      * Creates new form VentanaReservaVueloViajero
      */
-    public VentanaReservaVueloViajero(Viajero viajero, Avion avion) {
+    public VentanaReservaVueloViajero(Viajero viajero, Vuelo vuelo) {
         initComponents();
         this.viajero = viajero;
-        this.avion = avion;
+        this.vuelo = vuelo;
         this.controlador = new ControladorVerAvion();
-
+        Avion avion = vuelo.getAvion();
         if (avion != null) { 
             int columnas = 0;
             if (avion.getBloque() == 2) {
@@ -41,6 +44,8 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
             cargarAsientos();
         } else {
         }
+        modificarAsientos(vuelo.getListaReservas());
+        bloquear();
     }
 
     /**
@@ -146,7 +151,7 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
     private void btnVolverMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseReleased
         btnVolver.setForeground(new Color(65, 92, 117));
     }//GEN-LAST:event_btnVolverMouseReleased
-
+   
     private void cargarAsientos() {
         int ancho = 55;
         int alto = 55;
@@ -176,6 +181,80 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
         }
     }
     
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JButton boton = (JButton) e.getSource();
+
+        if (boton.getBackground() == Color.BLUE) {
+            
+        }else if (boton.getBackground() == Color.WHITE) {
+            int numeroAsiento = Integer.parseInt(boton.getText());
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea reservar el asiento #" + numeroAsiento + "?", "Reservar asiento", JOptionPane.YES_NO_OPTION);
+
+            if (respuesta == JOptionPane.YES_OPTION) {
+                try {
+                    controlador.generarReserva(numeroAsiento,vuelo ,viajero);
+                    modificarAsientos(vuelo.getListaReservas());
+                    bloquear();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }else if(boton.getBackground() == Color.GREEN){
+            JOptionPane.showMessageDialog(null, "Este asiento esta reservado por usted"
+                    + "\n La información es "
+                    + "\n Nombres y apellidos: "+ viajero.getNombres() + " " + viajero.getApellidos()
+                    + "\n Número de identificación: " + viajero.getIdentificacion()
+                    + "\n Edad: " + viajero.getEdad()
+                    + "\n Género: " + viajero.getGenero()
+                    + "\n Teléfono: " + viajero.getNumTelefono()
+                    + "\n Pais de nacimiento: " + viajero.getPaisNacimiento());
+        }
+    }
+    
+    public void modificarAsientos(LSE<Reserva> listaReservas) {
+        for (int i = 0; i < botones.length; i++) {
+            for (int j = 0; j < botones[i].length; j++) {
+                JButton boton = botones[i][j];
+                int numeroAsiento = Integer.parseInt(boton.getText());
+                boolean estaReservado = controlador.verificarReserva(numeroAsiento, vuelo.getListaReservas());
+                boolean estaReservado2 = controlador.verificarReservaPropia(numeroAsiento, vuelo.getListaReservas(), viajero);
+                if (estaReservado && !estaReservado2) {   
+                    boton.setBackground(Color.BLUE);
+                }else if(estaReservado && estaReservado2){    
+                    boton.setBackground(Color.GREEN);
+                }else {                 
+                    boton.setBackground(Color.WHITE); 
+                }
+            }
+        }
+    }
+     
+    public void bloquear(){
+        
+        LSE<Reserva> contador = controlador.validar1ReservaVuelo(viajero, vuelo);
+        
+        if(contador.size() >= 1) {
+            JOptionPane.showMessageDialog(null, "Ha cumplido el máximo de 1 reserva por vuelo");
+            for (int i = 0; i < botones.length; i++) {
+                for (int j = 0; j < botones[i].length; j++) {
+                    JButton boton = botones[i][j];
+                    int numeroAsiento = Integer.parseInt(boton.getText());
+                    boolean estaReservado = controlador.verificarReserva(numeroAsiento, vuelo.getListaReservas());
+                    boolean estaReservado2 = controlador.verificarReservaPropia(numeroAsiento, vuelo.getListaReservas(), viajero);
+                    if (estaReservado && !estaReservado2) {   
+                        boton.setBackground(Color.BLUE);
+                    }else if(estaReservado && estaReservado2){    
+                        boton.setBackground(Color.GREEN);
+                    }else {                 
+                        boton.setEnabled(false); 
+                    }
+                }
+            }
+        }        
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
@@ -183,8 +262,4 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

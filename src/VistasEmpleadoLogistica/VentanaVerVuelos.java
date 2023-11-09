@@ -507,10 +507,10 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
 
         for (int i = 0; i < vuelos.size(); i++) {
             Vuelo aux = vuelos.get(i);
-//            if(aux.getEstado().equals("Espera")){
+            if(aux.getEstado().equals("Programado")){
                 Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getDiaFinVuelo(), aux.getCapitan().getNombres(), aux.getAvion().getNumero(), aux.getEstado()};
                 modelo.addRow(ob);
-//            } 
+            } 
         }
     }  
     

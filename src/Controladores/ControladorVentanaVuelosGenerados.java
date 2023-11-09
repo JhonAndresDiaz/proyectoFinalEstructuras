@@ -17,34 +17,34 @@ public class ControladorVentanaVuelosGenerados {
     public ControladorVentanaVuelosGenerados() {
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
     }
-    
-    public Aerolinea buscarAerolineaCodigo(int codigo){
+
+    public Aerolinea buscarAerolineaPersona(String id){
         for (int i = 0; i < listaAerolineas.size(); i++) {
-            if(listaAerolineas.get(i).getCodigoAerolinea() == codigo){
-                return listaAerolineas.get(i);
-            }  
+            Aerolinea aerolinea = listaAerolineas.get(i);
+            for (int j = 0; j < aerolinea.getListaEmpleadosAerolinea().size(); j++) {
+                if(aerolinea.getListaEmpleadosAerolinea().get(j).getIdentificacion().equals(id)){
+                    return listaAerolineas.get(i);
+                }
+            }
         }
         return null;    
     }
     
-    public LSE<Vuelo> obtenerVuelos() {
+    public LSE<Vuelo> obtenerVuelosAerolinea(Aerolinea aerolinea) {
 
         LSE<Vuelo> listaVuelos = new LSE();
 
-        for (int i = 0; i < listaAerolineas.size(); i++) {
-            Aerolinea aerolinea = listaAerolineas.get(i);
-            for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
-                Avion avion = aerolinea.getListaAviones().get(j);
-                if(avion != null && avion.getCronograma() != null){
-                    for (int k = 0; k < avion.getCronograma().size(); k++) {
-                        Vuelo vuelo = avion.getCronograma().get(k);
+        if(aerolinea != null){
+            for (int i = 0; i < aerolinea.getListaAviones().size(); i++) {
+                Avion avion = aerolinea.getListaAviones().get(i);
+                for (int j = 0; j < avion.getCronograma().size(); j++) {
+                    Vuelo vuelo = avion.getCronograma().get(j);
+                    if(vuelo != null){
                         listaVuelos.add(vuelo);
-                        
                     }
                 }
-            }
+            }       
         }
         return listaVuelos; 
     }
-    
 }

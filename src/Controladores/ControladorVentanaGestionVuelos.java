@@ -21,9 +21,9 @@ public class ControladorVentanaGestionVuelos {
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
     }
     
-    public LSE<Viajero> obtenerListaViajeros(int codigo) {
+    public LSE<Reserva> obtenerListaViajeros(int codigo) {
         Vuelo vuelo = vueloBuscado(codigo);
-        return (vuelo != null && !vuelo.getListaViajeros().isEmpty()) ? vuelo.getListaViajeros() : new LSE<>();
+        return (vuelo != null && !vuelo.getListaReservas().isEmpty()) ? vuelo.getListaReservas() : new LSE<>();
     }
     
     public LSE<Avion> traerAerolineas(){
@@ -262,63 +262,6 @@ public class ControladorVentanaGestionVuelos {
             }
         }
     }
-    
-//    public void guardarVuelo(Aerolinea aerolinea, Avion avion, Vuelo vuelo) {
-//    Vuelo vueloBuscado = vueloBuscado(vuelo.getNumVuelo());
-//
-//    if (vueloBuscado != null) {
-//        throw new YaExisteNumeroVueloException();
-//    }
-//
-//    Avion avionBuscado = buscarNumeroAvion(avion.getNumero());
-//    Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
-//
-//    LocalDate fechaVuelo = vuelo.getFechaVuelo();
-//    LocalTime horaInicio = vuelo.getHoraVuelo();
-//    LocalTime horaFin = vuelo.getTiempoFin();
-//
-//    if (avion.estaOcupado(fechaVuelo, horaInicio, horaFin)) {
-//        throw new AvionNoDisponibleException();
-//    }
-//
-//    if (aerolinea.estaCapitanDisponible(vuelo.getCapitan(), fechaVuelo, horaInicio, horaFin)) {
-//        throw new CapitanNoDisponibleException();
-//    }
-//
-//    for (int i = 0; i < aerolineaBuscada.getListaAviones().size(); i++) {
-//        Avion avionRecorrido = aerolineaBuscada.getListaAviones().get(i);
-//        if (avionRecorrido.getNumero() == avionBuscado.getNumero()) {
-//            avionRecorrido.getCronograma().add(vuelo);
-//            Singleton.getInstancia().escribirAerolineas();
-//
-//            // Suponiendo que ya tienes el vuelo que acabas de guardar en la variable 'vuelo'
-//            LocalDate fechaVueloGuardado = vuelo.getFechaVuelo();
-//            LocalTime horaVueloGuardado = vuelo.getHoraVuelo();
-//
-//            for (int j = 0; j < avionRecorrido.getCronograma().size(); j++) {
-//                Vuelo vueloActual = avionRecorrido.getCronograma().get(j);
-//
-//                // Verificar si el vuelo actual es posterior al vuelo guardado
-//                if (vueloActual.getEstado().equals("Espera")) {
-//                    LocalDate fechaActual = vueloActual.getFechaVuelo();
-//                    LocalTime horaActual = vueloActual.getHoraVuelo();
-//
-//                    if ((fechaActual.isAfter(fechaVueloGuardado) || fechaActual.isEqual(fechaVueloGuardado)) &&
-//                        (horaActual.isAfter(horaVueloGuardado) || horaActual.equals(horaVueloGuardado))) {
-//                        break; // Detener la búsqueda, hemos alcanzado el vuelo más cercano posterior
-//                    }
-//
-//                    // Verificar si el punto de origen del vuelo coincide con el destino del vuelo actual
-//                    if (vuelo.getOrigen().equals(vueloActual.getDestino())) {
-//                        // Realiza las acciones que necesitas si el origen del vuelo coincide con el destino del vuelo actual
-//                    }
-//                }
-//            }
-//
-//            return;
-//        }
-//    }
-//}
   
     public void editarVuelo(Aerolinea aerolinea, Avion avion, Vuelo vueloNuevo) {
         Vuelo vueloAntiguo = vueloBuscado(vueloNuevo.getNumVuelo());
@@ -336,7 +279,7 @@ public class ControladorVentanaGestionVuelos {
                 throw new CapitanNoDisponibleException();
             }
 
-            if (!vueloAntiguo.getListaViajeros().isEmpty()) {
+            if (!vueloAntiguo.getListaReservas().isEmpty()) {
                 throw new ExistenViajerosEnListaException();
             }
 
@@ -374,7 +317,7 @@ public class ControladorVentanaGestionVuelos {
                     Avion avion = aerolinea.getListaAviones().get(j);
                     for (int k = 0; k < avion.getCronograma().size(); k++) {
                         Vuelo vuelo = avion.getCronograma().get(k);
-                        if (vuelo.getListaViajeros().isEmpty()) {
+                        if (vuelo.getListaReservas().isEmpty()) {
                             if (vuelo.getNumVuelo() == aux.getNumVuelo()) {
                                 avion.getCronograma().remove(k); 
                                 Singleton.getInstancia().escribirAerolineas();

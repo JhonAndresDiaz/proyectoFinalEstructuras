@@ -50,6 +50,18 @@ public class ControladorVentanaLogin {
         return persona;
     }   
     
+    public Persona buscarViajeroId(String identificacion){
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            if(listaUsuarios.get(i).getRol().equals("Viajero")){
+                Viajero viajero = (Viajero) listaUsuarios.get(i);
+                if(viajero.getIdentificacion().equals(identificacion)){
+                    return (Persona) listaUsuarios.get(i);
+                }
+            }
+        }
+        return null;    
+    }
+    
     public void actualizarVuelos() {
         LocalDate hoy = LocalDate.now();
         LocalTime horaActual = LocalTime.now();
@@ -65,12 +77,15 @@ public class ControladorVentanaLogin {
                     
                     if (vuelo.getEstado().equals("Programado")) {
                         if (vuelo.getFechaVuelo().isBefore(hoy)) {
-                            vuelo.setEstado("Finalizado");
+                            actualizarReservas(vuelo);
+                            vuelo.setEstado("Finalizado");                          
                         }else if (vuelo.getFechaVuelo().equals(hoy) && vuelo.getDiaFinVuelo().equals(hoy)) {
                             if (horaActual.isAfter(vuelo.getTiempoFin())) {
                                 if (avion.getUbicacion() == null || !avion.getUbicacion().equals(vuelo.getOrigen())) {
+                                    actualizarReservas(vuelo);
                                     vuelo.setEstado("Finalizado");
                                 } else {
+                                    actualizarReservas(vuelo);
                                     vuelo.setEstado("Finalizado");
                                     avion.setUbicacion(vuelo.getDestino());
                                 }
@@ -79,8 +94,10 @@ public class ControladorVentanaLogin {
                             if(!vuelo.getFechaVuelo().equals(hoy) && vuelo.getDiaFinVuelo().equals(hoy)){
                                 if(horaActual.isAfter(vuelo.getTiempoFin())){
                                     if (avion.getUbicacion() == null || !avion.getUbicacion().equals(vuelo.getOrigen())) {
+                                        actualizarReservas(vuelo);
                                         vuelo.setEstado("Finalizado");
                                     } else {
+                                        actualizarReservas(vuelo);
                                         vuelo.setEstado("Finalizado");
                                         avion.setUbicacion(vuelo.getDestino());
                                     }  
@@ -91,47 +108,112 @@ public class ControladorVentanaLogin {
                 }
             }
         }
+        Singleton.getInstancia().escribirUsuarios();
         Singleton.getInstancia().escribirAerolineas();
     }
     
+    private void actualizarReservas(Vuelo vuelo) {
+        for (int i = 0; i < vuelo.getListaReservas().size(); i++) {
+            Reserva reserva = vuelo.getListaReservas().get(i);
+            if(reserva != null){
+                reserva.setEstado("Terminado");
+                Viajero viajeroBuscadoId = (Viajero) buscarViajeroId(reserva.getViajero().getIdentificacion());
+                if(viajeroBuscadoId != null){
+                    for (int j = 0; j < viajeroBuscadoId.getHistorialReservas().size(); j++) {
+                        Reserva reservaViajero = viajeroBuscadoId.getHistorialReservas().get(j);
+                        if(reserva.getCodigo().equals(reservaViajero.getCodigo())){
+                            reservaViajero.setEstado("Terminado");
+                            Singleton.getInstancia().escribirUsuarios();
+                            Singleton.getInstancia().escribirAerolineas();
+                        }
+                    }
+                }
+            }
+        }
+        Singleton.getInstancia().escribirAerolineas();
+        Singleton.getInstancia().escribirUsuarios();
+    }
     
+    
+//    public void actualizarVuelos() {
+//        LocalDate hoy = LocalDate.now();
+//        LocalTime horaActual = LocalTime.now();
+//
+//        for (int i = 0; i < listaAerolineas.size(); i++) {
+//            Aerolinea aerolinea = listaAerolineas.get(i);
+//
+//            for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+//                Avion avion = aerolinea.getListaAviones().get(j);
+//
+//                for (int k = 0; k < avion.getCronograma().size(); k++) {
+//                    Vuelo vuelo = avion.getCronograma().get(k);
+//                    
+//                    if (vuelo.getEstado().equals("Programado")) {
+//                        if (vuelo.getFechaVuelo().isBefore(hoy)) {
+//                            for (int l = 0; l < vuelo.getListaReservas().size(); l++) {
+//                                Reserva reserva = vuelo.getListaReservas().get(l);
+//                                if(reserva != null){
+//                                    reserva.setEstado("Terminado");
+//                                    vuelo.setEstado("Finalizado");
+//                                }
+//                            }
+//                            vuelo.setEstado("Finalizado"); 
+//                        }else if (vuelo.getFechaVuelo().equals(hoy) && vuelo.getDiaFinVuelo().equals(hoy)) {
+//                            if (horaActual.isAfter(vuelo.getTiempoFin())) {
+//                                if (avion.getUbicacion() == null || !avion.getUbicacion().equals(vuelo.getOrigen())) {
+//                                    for (int l = 0; l < vuelo.getListaReservas().size(); l++) {
+//                                        Reserva reserva = vuelo.getListaReservas().get(l);
+//                                        if(reserva != null){
+//                                            reserva.setEstado("Terminado");
+//                                            vuelo.setEstado("Finalizado");
+//                                        }
+//                                    }
+//                                    vuelo.setEstado("Finalizado");
+//                                } else {
+//                                    for (int l = 0; l < vuelo.getListaReservas().size(); l++) {
+//                                        Reserva reserva = vuelo.getListaReservas().get(l);
+//                                        if(reserva != null){
+//                                            reserva.setEstado("Terminado");
+//                                            vuelo.setEstado("Finalizado");
+//                                        }
+//                                    }
+//                                    vuelo.setEstado("Finalizado");
+//                                    avion.setUbicacion(vuelo.getDestino());
+//                                }
+//                            }
+//                        }else {
+//                            if(!vuelo.getFechaVuelo().equals(hoy) && vuelo.getDiaFinVuelo().equals(hoy)){
+//                                if(horaActual.isAfter(vuelo.getTiempoFin())){
+//                                    if (avion.getUbicacion() == null || !avion.getUbicacion().equals(vuelo.getOrigen())) {
+//                                        for (int l = 0; l < vuelo.getListaReservas().size(); l++) {
+//                                            Reserva reserva = vuelo.getListaReservas().get(l);
+//                                            if(reserva != null){
+//                                                reserva.setEstado("Terminado");
+//                                                vuelo.setEstado("Finalizado");
+//                                            }
+//                                        }
+//                                        vuelo.setEstado("Finalizado");
+//                                    } else {
+//                                        for (int l = 0; l < vuelo.getListaReservas().size(); l++) {
+//                                        Reserva reserva = vuelo.getListaReservas().get(l);
+//                                            if(reserva != null){
+//                                                reserva.setEstado("Terminado");
+//                                                vuelo.setEstado("Finalizado");
+//                                            }
+//                                        }
+//                                        vuelo.setEstado("Finalizado");
+//                                        avion.setUbicacion(vuelo.getDestino());
+//                                    }  
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        Singleton.getInstancia().escribirUsuarios();
+//        Singleton.getInstancia().escribirAerolineas();
+//    }
     
 }
     
-////    
-////    public void actualizarVuelos() {
-////        LocalDate hoy = LocalDate.now();
-////        LocalTime horaActual = LocalTime.now();
-////
-////        for (int i = 0; i < listaAerolineas.size(); i++) {
-////            Aerolinea aerolinea = listaAerolineas.get(i);
-////
-////            for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
-////                Avion avion = aerolinea.getListaAviones().get(j);
-////
-////                for (int k = 0; k < avion.getCronograma().size(); k++) {
-////                    Vuelo vuelo = avion.getCronograma().get(k);
-////                    if (vuelo.getEstado().equals("Programado")) {
-////                        if (vuelo.getFechaVuelo().isBefore(hoy)) {
-////                            vuelo.setEstado("Finalizado");
-////                        }else if(vuelo.getFechaVuelo().equals(hoy)) {
-////                            if(horaActual.isAfter(vuelo.getTiempoFin())) {
-////                                if (avion.getUbicacion() == null || !avion.getUbicacion().equals(vuelo.getOrigen())) {
-////                                    vuelo.setEstado("Finalizado");
-////                                }else {
-////                                    vuelo.setEstado("Finalizado");
-////                                    avion.setUbicacion(vuelo.getDestino());
-////                                }   
-////                            }
-////                        }
-////                    }else if(vuelo.getEstado().equals("Finalizado")){
-////                        if(hoy.isBefore(vuelo.getFechaVuelo())){
-////                            vuelo.setEstado("Programado");
-////                        }
-////                    }
-////                }
-////            }
-////        }
-////        Singleton.getInstancia().escribirAerolineas();
-////    }
-////
