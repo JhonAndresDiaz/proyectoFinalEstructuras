@@ -2,6 +2,7 @@
 package Singleton;
 
 import Modelos.Aerolinea;
+import Modelos.Mantenimiento;
 import Modelos.Usuario;
 import Util.LSE;
 import java.io.FileInputStream;
@@ -16,10 +17,12 @@ public class Singleton {
     
     LSE<Aerolinea> listaAerolineas;
     LSE<Usuario> listaUsuarios;
+    LSE<Mantenimiento> listaMantenimientos;
     
     private Singleton(){
         listaAerolineas = leerAerolineas();  
         listaUsuarios = leerUsuarios();
+        listaMantenimientos = leerMantenimientos();
     }
     
     public static Singleton getInstancia(){
@@ -40,6 +43,14 @@ public class Singleton {
      
     public void setListaUsuarios(LSE<Usuario> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
+    }
+    
+    public LSE<Mantenimiento> getMantenimientos(){
+        return listaMantenimientos;
+    }
+    
+    public void setListaMantenimientos(LSE<Mantenimiento> listaMantenimientos) {
+        this.listaMantenimientos = listaMantenimientos;
     }
     
     public void escribirAerolineas(){
@@ -75,6 +86,25 @@ public class Singleton {
             FileInputStream archivo = new FileInputStream("src/Singleton/Usuarios.dat");
             ObjectInputStream lector = new ObjectInputStream(archivo);
             return (LSE<Usuario>) lector.readObject();
+        } catch(IOException | ClassNotFoundException ex){
+            return new LSE<>();
+        }
+    }
+    
+    public void escribirMantenimientos(){
+        try {
+            FileOutputStream archivo = new FileOutputStream("src/Singleton/Mantenimientos.dat");
+            ObjectOutputStream escritor = new ObjectOutputStream(archivo);
+            escritor.writeObject(listaMantenimientos); 
+        } catch(IOException ex){
+        }
+    } 
+    
+    public LSE<Mantenimiento> leerMantenimientos(){
+        try {
+            FileInputStream archivo = new FileInputStream("src/Singleton/Mantenimientos.dat");
+            ObjectInputStream lector = new ObjectInputStream(archivo);
+            return (LSE<Mantenimiento>) lector.readObject();
         } catch(IOException | ClassNotFoundException ex){
             return new LSE<>();
         }

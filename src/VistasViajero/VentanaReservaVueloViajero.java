@@ -44,6 +44,13 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
             cargarAsientos();
         } else {
         }
+        txtNumVuelo.setText(String.valueOf(vuelo.getNumVuelo()));
+        txtOrigen.setText(vuelo.getOrigen());
+        txtDestino.setText(vuelo.getDestino());
+        txtFechaIni.setText(String.valueOf(vuelo.getFechaVuelo()));
+        txtFechaFin.setText(String.valueOf(vuelo.getDiaFinVuelo()));
+        txtHoraInicio.setText(String.valueOf(vuelo.getHoraVuelo()));
+        txtHoraFin.setText(String.valueOf(vuelo.getTiempoFin()));
         modificarAsientos(vuelo.getListaReservas());
         bloquear();
     }
@@ -58,6 +65,29 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtNumVuelo = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtFechaFin = new javax.swing.JTextField();
+        txtOrigen = new javax.swing.JTextField();
+        txtDestino = new javax.swing.JTextField();
+        txtFechaIni = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtHoraFin = new javax.swing.JTextField();
+        txtHoraInicio = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -66,15 +96,178 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
 
         jPanel1.setBackground(new java.awt.Color(65, 92, 117));
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 16, Short.MAX_VALUE)
+        );
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 30, 20));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Estado de asientos");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 160, -1));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Propio");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, 70, 20));
+
+        txtNumVuelo.setEditable(false);
+        txtNumVuelo.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        txtNumVuelo.setForeground(new java.awt.Color(65, 92, 117));
+        txtNumVuelo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtNumVuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 100, -1));
+
+        jLabel3.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel3.setText("N° vuelo");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, 20));
+
+        jLabel4.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel4.setText("Origen");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, 20));
+
+        jLabel5.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Destino");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 50, 20));
+
+        txtFechaFin.setEditable(false);
+        txtFechaFin.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        txtFechaFin.setForeground(new java.awt.Color(65, 92, 117));
+        txtFechaFin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 100, -1));
+
+        txtOrigen.setEditable(false);
+        txtOrigen.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        txtOrigen.setForeground(new java.awt.Color(65, 92, 117));
+        txtOrigen.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 100, -1));
+
+        txtDestino.setEditable(false);
+        txtDestino.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        txtDestino.setForeground(new java.awt.Color(65, 92, 117));
+        txtDestino.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 100, -1));
+
+        txtFechaIni.setEditable(false);
+        txtFechaIni.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        txtFechaIni.setForeground(new java.awt.Color(65, 92, 117));
+        txtFechaIni.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtFechaIni, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 100, -1));
+
+        jLabel6.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Fecha Ini");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 70, 20));
+
+        jLabel7.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Fecha Fin");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 70, 20));
+
+        jLabel8.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Hora inicio");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 80, 20));
+
+        txtHoraFin.setEditable(false);
+        txtHoraFin.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        txtHoraFin.setForeground(new java.awt.Color(65, 92, 117));
+        txtHoraFin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 100, -1));
+
+        txtHoraInicio.setEditable(false);
+        txtHoraInicio.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        txtHoraInicio.setForeground(new java.awt.Color(65, 92, 117));
+        txtHoraInicio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel2.add(txtHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, 100, -1));
+
+        jPanel4.setBackground(java.awt.Color.blue);
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 16, Short.MAX_VALUE)
+        );
+
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 410, 30, 20));
+
+        jPanel5.setBackground(java.awt.Color.green);
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 26, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 16, Short.MAX_VALUE)
+        );
+
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 440, 30, 20));
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Información del vuelo");
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 170, -1));
+
+        jLabel10.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Hora fin");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 70, 20));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Reservado");
+        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 410, 70, 20));
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Desocupado");
+        jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, 70, 20));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(441, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 532, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
@@ -190,7 +383,6 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
         }else if (boton.getBackground() == Color.WHITE) {
             int numeroAsiento = Integer.parseInt(boton.getText());
             int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea reservar el asiento #" + numeroAsiento + "?", "Reservar asiento", JOptionPane.YES_NO_OPTION);
-
             if (respuesta == JOptionPane.YES_OPTION) {
                 try {
                     controlador.generarReserva(numeroAsiento,vuelo ,viajero);
@@ -258,8 +450,31 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JTextField txtDestino;
+    private javax.swing.JTextField txtFechaFin;
+    private javax.swing.JTextField txtFechaIni;
+    private javax.swing.JTextField txtHoraFin;
+    private javax.swing.JTextField txtHoraInicio;
+    private javax.swing.JTextField txtNumVuelo;
+    private javax.swing.JTextField txtOrigen;
     // End of variables declaration//GEN-END:variables
 
 }

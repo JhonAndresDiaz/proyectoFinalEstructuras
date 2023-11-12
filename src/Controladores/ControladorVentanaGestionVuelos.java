@@ -16,9 +16,11 @@ import java.time.LocalTime;
 public class ControladorVentanaGestionVuelos {
     
     private LSE<Aerolinea> listaAerolineas;
+    private LSE<Mantenimiento> listaMantenimientos;
     
     public ControladorVentanaGestionVuelos() {
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
+        this.listaMantenimientos = Singleton.getInstancia().getMantenimientos();
     }
     
     public LSE<Reserva> obtenerListaViajeros(int codigo) {
@@ -212,6 +214,20 @@ public class ControladorVentanaGestionVuelos {
         
         if (aerolinea.estaCapitanDisponible(vuelo.getCapitan(), fechFin, horaInicio, horaFin)) {
             throw new CapitanNoDisponibleException();
+        }
+        
+        for (int i = 0; i < listaMantenimientos.size(); i++) {
+            Mantenimiento mantenimiento = listaMantenimientos.get(i);
+            if(mantenimiento.getAvion().getNumero() == avion.getNumero()){
+                if(mantenimiento.getEstado().equals("En progreso")){
+                    LocalDate fechaInicioMantenimiento = mantenimiento.getFechaInicio();
+                    LocalDate fechaFinMantenimiento = mantenimiento.getFechaFin();
+                        if(vuelo.getFechaVuelo().isAfter(fechaInicioMantenimiento) && vuelo.getFechaVuelo().isBefore(fechaFinMantenimiento)
+                        || vuelo.getFechaVuelo().isEqual(fechaInicioMantenimiento) || vuelo.getFechaVuelo().isEqual(fechaFinMantenimiento)) {
+                            throw new AvionEstaEnMantenimientoException();
+                    } 
+                }
+            }
         }
 
         for (int i = 0; i < aerolineaBuscada.getListaAviones().size(); i++) {

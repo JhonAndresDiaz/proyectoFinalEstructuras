@@ -1,6 +1,7 @@
 package VistasViajero;
 
 import Controladores.ControladorVentanaReservaActivas;
+import Excepciones.Minimo2DiasDiferenciaException;
 import Modelos.Aerolinea;
 import Modelos.Reserva;
 import Modelos.Viajero;
@@ -8,6 +9,7 @@ import Modelos.Vuelo;
 import Util.LSE;
 import java.awt.Color;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -43,6 +45,11 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        btnCancelarReserva = new javax.swing.JButton();
+        txtNumVuelo = new javax.swing.JTextField();
+        txtPosicion = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -54,21 +61,26 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Posición", "Origen", "Destino", "Estado"
+                "Num Vuelo", "Código", "Posición", "Fecha Inicio", "Hora Inicio", "Origen", "Fecha Fin", "Hora Fin", "Destino", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tabla);
@@ -78,9 +90,49 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
             tabla.getColumnModel().getColumn(2).setResizable(false);
             tabla.getColumnModel().getColumn(3).setResizable(false);
             tabla.getColumnModel().getColumn(4).setResizable(false);
+            tabla.getColumnModel().getColumn(5).setResizable(false);
+            tabla.getColumnModel().getColumn(6).setResizable(false);
+            tabla.getColumnModel().getColumn(7).setResizable(false);
+            tabla.getColumnModel().getColumn(8).setResizable(false);
+            tabla.getColumnModel().getColumn(9).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 480, 300));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 740, 230));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Reservas activas");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 730, -1));
+
+        jLabel4.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Si desea cancelar una reserva seleccionela (2 dias habiles)");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 390, -1));
+
+        btnCancelarReserva.setBackground(new java.awt.Color(65, 92, 117));
+        btnCancelarReserva.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelarReserva.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelarReserva.setText("Cancelar Reserva");
+        btnCancelarReserva.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnCancelarReserva.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelarReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarReservaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCancelarReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 350, 170, 30));
+
+        txtNumVuelo.setEditable(false);
+        txtNumVuelo.setBackground(new java.awt.Color(255, 255, 255));
+        txtNumVuelo.setForeground(new java.awt.Color(255, 255, 255));
+        txtNumVuelo.setBorder(null);
+        jPanel1.add(txtNumVuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 330, 80, 30));
+
+        txtPosicion.setBackground(new java.awt.Color(255, 255, 255));
+        txtPosicion.setForeground(new java.awt.Color(255, 255, 255));
+        txtPosicion.setBorder(null);
+        jPanel1.add(txtPosicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 362, 80, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -124,11 +176,11 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
         );
 
         pack();
@@ -157,6 +209,34 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         btnVolver.setForeground(new Color(65, 92, 117));
     }//GEN-LAST:event_btnVolverMouseReleased
 
+    private void btnCancelarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarReservaActionPerformed
+        if(txtNumVuelo.getText().isEmpty() || txtPosicion.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Seleccione una reserva para cancelarla");
+        }else {
+            int numeroVuelo = Integer.parseInt(txtNumVuelo.getText());
+            int numPosicion = Integer.parseInt(txtPosicion.getText());
+            Vuelo vuelo = controlador.vueloBuscado(numeroVuelo);
+            try {
+                controlador.cancelarReserva(numPosicion, vuelo, viajero);
+                JOptionPane.showMessageDialog(null, "Se eliminó correctamente la reserva");
+                actualizarTabla();
+            } catch (Minimo2DiasDiferenciaException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } 
+        }   
+    }//GEN-LAST:event_btnCancelarReservaActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        int row = tabla.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila en la tabla");
+            return; 
+        }
+        txtNumVuelo.setText(modelo.getValueAt(row,0).toString());
+        txtPosicion.setText(modelo.getValueAt(row,2).toString());
+
+    }//GEN-LAST:event_tablaMouseClicked
+
     private void actualizarTabla(){
         
         LSE<Reserva> reservas = controlador.obtenerReservas(viajero);
@@ -171,7 +251,7 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
             try{
                 for (int i = 0; i < reservas.size() ; i++) {
                     Reserva aux = reservas.get(i);                   
-                    Object[] ob = {aux.getCodigo(), aux.getPosicion(), aux.getVuelo().getOrigen(), aux.getVuelo().getDestino(), aux.getEstado()};
+                    Object[] ob = {aux.getVuelo().getNumVuelo(), aux.getCodigo(), aux.getPosicion(), aux.getVuelo().getFechaVuelo()  ,aux.getVuelo().getHoraVuelo(), aux.getVuelo().getOrigen(), aux.getVuelo().getDiaFinVuelo(), aux.getVuelo().getTiempoFin(), aux.getVuelo().getDestino(), aux.getEstado()};
                     modelo.addRow(ob);                
                 }
             }catch(NullPointerException e){        
@@ -180,11 +260,16 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelarReserva;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
+    private javax.swing.JTextField txtNumVuelo;
+    private javax.swing.JTextField txtPosicion;
     // End of variables declaration//GEN-END:variables
 }

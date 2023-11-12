@@ -199,6 +199,9 @@ public class VentanaMenuPrincipalAdmGeneral extends javax.swing.JFrame {
         btnSolicitudesMantenimiento.setText("Atender solicitudes de mantenimiento");
         btnSolicitudesMantenimiento.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSolicitudesMantenimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSolicitudesMantenimientoMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnSolicitudesMantenimientoMouseEntered(evt);
             }
@@ -401,6 +404,12 @@ public class VentanaMenuPrincipalAdmGeneral extends javax.swing.JFrame {
     private void btnGestionAdminAeroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGestionAdminAeroMouseExited
         panelGestuAdmin.setBackground(new Color(65, 92, 117));
     }//GEN-LAST:event_btnGestionAdminAeroMouseExited
+
+    private void btnSolicitudesMantenimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSolicitudesMantenimientoMouseClicked
+        this.dispose();
+        JFrame v2 = new VentanaAtenderSolicitudesMantenimiento();
+        v2.setVisible(true);
+    }//GEN-LAST:event_btnSolicitudesMantenimientoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

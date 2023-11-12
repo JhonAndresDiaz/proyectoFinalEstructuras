@@ -37,26 +37,36 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         return new LSE<>();
     }  
     
-     public LSE<AdministradorAerolinea> obtenerAdministradoresDeAerolineas(int codigo){
+    public LSE<AdministradorAerolinea> obtenerAdministradoresDeAerolineas(int codigo){
         LSE<AdministradorAerolinea> listaAdministradores = new LSE<>();
-        listaAerolineas = Singleton.getInstancia().getAerolineas();
-        if(listaAerolineas != null){         
+
+        if (listaAerolineas != null) {
             for (int i = 0; i < listaAerolineas.size(); i++) {
                 Aerolinea aerolineaEncontrada = buscarAerolineaCodigo(codigo);
-                if(aerolineaEncontrada.getCodigoAerolinea() == codigo){
+                if (aerolineaEncontrada.getCodigoAerolinea() == codigo) {
                     for (int j = 0; j < aerolineaEncontrada.getListaEmpleadosAerolinea().size(); j++) {
-                        if(aerolineaEncontrada.getListaEmpleadosAerolinea().get(j).getRol().equals("Administrador Aerolinea")){
+                        if (aerolineaEncontrada.getListaEmpleadosAerolinea().get(j).getRol().equals("Administrador Aerolinea")) {
                             AdministradorAerolinea administradorAe = (AdministradorAerolinea) aerolineaEncontrada.getListaEmpleadosAerolinea().get(j);
-                            listaAdministradores.add(administradorAe);
+                            boolean duplicado = false;
+                            for (int k = 0; k < listaAdministradores.size(); k++) {
+                                AdministradorAerolinea existente = listaAdministradores.get(k);
+                                if (administradorAe.getIdentificacion() == existente.getIdentificacion()) {
+                                    duplicado = true;
+                                    break;
+                                }
+                            }
+                            if (!duplicado) {
+                                listaAdministradores.add(administradorAe);
+                            }
                         }
                     }
-                }   
+                }
             }
             return listaAdministradores;  
         }
         return new LSE<>();
     }
-    
+
     public Aerolinea buscarAerolineaCodigo(int codigo){
         for (int i = 0; i < listaAerolineas.size(); i++) {
             if(listaAerolineas.get(i).getCodigoAerolinea() == codigo){

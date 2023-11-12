@@ -52,44 +52,6 @@ public class Aerolinea implements Serializable {
         }
         return false;
     }
-    
-//    public boolean estaCapitanDisponible(CapitanVuelo capitan, LocalDate fecha) {
-//    for (int i = 0; i < listaAviones.size(); i++) {
-//        Avion avion = listaAviones.get(i);
-//        Nodo<Vuelo> primerVuelo = avion.getCronograma().getPrimero();
-//        while (primerVuelo != null) {
-//            Vuelo vuelo = primerVuelo.getDato();
-//            if (vuelo != null) {
-//                if (vuelo.getCapitan().getIdentificacion() == capitan.getIdentificacion() &&
-//                    vuelo.getFechaVuelo().isEqual(fecha) &&
-//                    vuelo.horariosSeCruzan(vuelo.getHoraVuelo(), vuelo.getTiempoFin()) &&
-//                    vuelo.getEstado().equals("Programado")) {
-//                    return true;
-//                }
-//            }
-//            primerVuelo = primerVuelo.getNodoSiguiente();
-//        }
-//    }
-//    return false;
-//}anterior
-    
-//    public boolean estaCapitanDisponible(CapitanVuelo capitan, LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
-//        
-//        for (int i = 0; i < listaAviones.size(); i++) {
-//            Avion avion = listaAviones.get(i);
-//            Nodo<Vuelo> primerVuelo = avion.getCronograma().getPrimero();
-//            while(primerVuelo != null) {
-//                Vuelo vuelo = primerVuelo.getDato();
-//                if (vuelo != null) {
-//                    if (vuelo.getCapitan().getIdentificacion() == capitan.getIdentificacion() & vuelo.getFechaVuelo().equals(fecha) && vuelo.horariosSeCruzan(horaInicio, horaFin) && vuelo.getEstado().equals("Programado")) {
-//                        return true; 
-//                    }
-//                }
-//                primerVuelo = primerVuelo.getNodoSiguiente();
-//            }
-//        }
-//        return false;
-//    }
 
     public String getNombreAerolinea() {
         return nombreAerolinea;

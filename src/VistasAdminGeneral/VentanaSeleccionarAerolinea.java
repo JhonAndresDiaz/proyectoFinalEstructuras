@@ -719,17 +719,6 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
             txtPaisAerolinea.setText(aerolineaBuscada.getPais());
             actualizarTabla(aerolineaBuscada.getCodigoAerolinea());
         }
-//        String nombre = (String) cboAerolinea.getSelectedItem();
-//        if(nombre.equals("-Seleccionar-")){
-//            modelo.setRowCount(0);
-//            limpiarCampos();
-//        }else {
-//            Aerolinea aerolineaBuscada = controlador.buscarAerolineaNombre(nombre);
-//            txtNombreAerolinea.setText(aerolineaBuscada.getNombreAerolinea());
-//            txtCodigoAerolinea.setText(String.valueOf(aerolineaBuscada.getCodigoAerolinea()));
-//            txtPaisAerolinea.setText(aerolineaBuscada.getPais());
-//            actualizarTabla(aerolineaBuscada.getCodigoAerolinea());
-//        }
     }//GEN-LAST:event_cboAerolineaActionPerformed
 
     private void btnEditarAerolineaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarAerolineaMouseClicked
@@ -791,26 +780,43 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         cboAerolinea.setSelectedIndex(0);
     }
     
-    private void actualizarTabla(int codigo){
+    private void actualizarTabla(int codigo) {
         LSE<AdministradorAerolinea> administradores = controlador.obtenerAdministradoresDeAerolineas(codigo);
-        try{
-            for (int i = 0; i < 3 ; i++) {
-                for (int j = 0; j < modelo.getRowCount(); j++) {
-                    modelo.removeRow(j);
-                }   
+        modelo.setRowCount(0); 
+
+        try {
+            for (int i = 0; i < administradores.size(); i++) {
+                AdministradorAerolinea aux = administradores.get(i);
+                Aerolinea aerolinea = controlador.buscarAdAerolinea(aux.getIdentificacion());
+                Object[] ob = {aux.getIdentificacion(), aux.getNombres() + " " + aux.getApellidos(), aux.getEdad(), aux.getCorreo(), aux.getContrasenia()};
+                modelo.addRow(ob);
             }
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
         }
-            try{
-                for (int i = 0; i < administradores.size() ; i++) {
-                    AdministradorAerolinea aux = administradores.get(i); 
-                    Aerolinea aerolinea = controlador.buscarAdAerolinea(aux.getIdentificacion());
-                    Object[] ob = {aux.getIdentificacion(), aux.getNombres() + " " + aux.getApellidos(), aux.getEdad(), aux.getCorreo(), aux.getContrasenia()};
-                    modelo.addRow(ob);                    
-                }
-            }catch(NullPointerException e){        
-            }
-        }
+    }
+
+    
+    
+//    private void actualizarTabla(int codigo){
+//        LSE<AdministradorAerolinea> administradores = controlador.obtenerAdministradoresDeAerolineas(codigo);
+//        try{
+//            for (int i = 0; i < 3 ; i++) {
+//                for (int j = 0; j < modelo.getRowCount(); j++) {
+//                    modelo.removeRow(j);
+//                }   
+//            }
+//        }catch(NullPointerException e){
+//        }
+//            try{
+//                for (int i = 0; i < administradores.size() ; i++) {
+//                    AdministradorAerolinea aux = administradores.get(i); 
+//                    Aerolinea aerolinea = controlador.buscarAdAerolinea(aux.getIdentificacion());
+//                    Object[] ob = {aux.getIdentificacion(), aux.getNombres() + " " + aux.getApellidos(), aux.getEdad(), aux.getCorreo(), aux.getContrasenia()};
+//                    modelo.addRow(ob);                    
+//                }
+//            }catch(NullPointerException e){        
+//            }
+//        }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnEditar2;

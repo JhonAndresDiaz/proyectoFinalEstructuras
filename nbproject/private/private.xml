@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/diaza/OneDrive/Documentos/NetBeansProjects/ProyectoFinal3Semestre/src/VistasEmpleadoLogistica/VentanaGestionVuelos.java</file>
-            <file>file:/C:/Users/diaza/OneDrive/Documentos/NetBeansProjects/ProyectoFinal3Semestre/src/Controladores/ControladorVentanaLogin.java</file>
-            <file>file:/C:/Users/diaza/OneDrive/Documentos/NetBeansProjects/ProyectoFinal3Semestre/src/Vistas/VentanaLogin.java</file>
-            <file>file:/C:/Users/diaza/OneDrive/Documentos/NetBeansProjects/ProyectoFinal3Semestre/src/VistasViajero/VentanaMenuPrincipalViajero.java</file>
+            <file>file:/C:/Users/diaza/OneDrive/Documentos/NetBeansProjects/ProyectoFinal3Semestre/src/VistasAdminGeneral/VentanaAtenderSolicitudesMantenimiento.java</file>
+            <file>file:/C:/Users/diaza/OneDrive/Documentos/NetBeansProjects/ProyectoFinal3Semestre/src/VistasEmpleadoLogistica/VentanaSolicitarMantenimiento.java</file>
+            <file>file:/C:/Users/diaza/OneDrive/Documentos/NetBeansProjects/ProyectoFinal3Semestre/src/Controladores/ControladorVentanaSolicitarMantenimiento.java</file>
         </group>
     </open-files>
 </project-private>

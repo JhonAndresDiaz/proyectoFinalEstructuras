@@ -122,6 +122,9 @@ public class VentanaMenuPrincipalEmpleadoLogistica extends javax.swing.JFrame {
         jLabel7.setText("Vuelos programados");
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel7MouseEntered(evt);
             }
@@ -159,6 +162,9 @@ public class VentanaMenuPrincipalEmpleadoLogistica extends javax.swing.JFrame {
         jLabel12.setText("Solicitar mantenimiento");
         jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel12MouseEntered(evt);
             }
@@ -294,7 +300,18 @@ public class VentanaMenuPrincipalEmpleadoLogistica extends javax.swing.JFrame {
         v2.setVisible(true);
     }//GEN-LAST:event_jLabel10MouseClicked
 
-    
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        this.dispose();
+        JFrame v2 = new VentanaVuelosProgramados(empleadoLogistica);
+        v2.setVisible(true);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+        this.dispose();
+        JFrame v2 = new VentanaSolicitarMantenimiento(empleadoLogistica);
+        v2.setVisible(true);
+    }//GEN-LAST:event_jLabel12MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu btnRegresar;

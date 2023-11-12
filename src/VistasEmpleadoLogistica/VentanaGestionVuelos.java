@@ -391,6 +391,11 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverMouseReleased
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+        if(cboOrigen.getSelectedItem().equals(cboDestino.getSelectedItem())){
+            JOptionPane.showMessageDialog(null, "Seleccione diferentes paises para realizar el vuelo"); 
+            return;
+        }
+        
         if(cboAviones.getSelectedIndex() == 0 || txtNumeroVuelo.getText().isEmpty() || cboOrigen.getSelectedIndex() == 0 || cboDestino.getSelectedIndex() == 0 || dataChooserFecha.getDate() == null || cboInicioHora.getSelectedIndex() == -1 || cboInicioMin.getSelectedIndex() == -1 || cboCapitanVuelo.getSelectedIndex() == 0 || txtDuracionHoras.getText().isEmpty()) {
             if(cboCapitanVuelo.getSelectedIndex() == 0){
                 JOptionPane.showMessageDialog(null, "Seleccione un capitán de vuelo");
@@ -443,7 +448,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
                 controlador.guardarVuelo(aerolinea, avionBuscado, vueloFinal);
                 JOptionPane.showMessageDialog(null, "Se registró el vuelo correctamente");
                 limpiarCampos();
-            }catch (YaExisteNumeroVueloException | CapitanNoDisponibleException | AvionNoDisponibleException | OrigenNoCoincideConDestinoException e) {
+            }catch (AvionEstaEnMantenimientoException | YaExisteNumeroVueloException | CapitanNoDisponibleException | AvionNoDisponibleException | OrigenNoCoincideConDestinoException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }   

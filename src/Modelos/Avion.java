@@ -19,7 +19,7 @@ public class Avion implements Serializable{
 
     private int numero;
     private String ubicacion;
-    private Mantenimiento mantenimiento;
+//    private Mantenimiento mantenimiento;
     private LSE<Vuelo> cronograma;
     private int fila;
     private int bloque;
@@ -32,11 +32,11 @@ public class Avion implements Serializable{
         cronograma = new LSE<>();
     }
 
-    public Avion(String estado, int numero, String ubicacion, Mantenimiento mantenimiento, LSE<Vuelo> cronograma, int fila, int bloque) {
+    public Avion(String estado, int numero, String ubicacion, LSE<Vuelo> cronograma, int fila, int bloque) {
         this.estado = estado;
         this.numero = numero;
         this.ubicacion = ubicacion;
-        this.mantenimiento = mantenimiento;
+//        this.mantenimiento = mantenimiento;
         this.cronograma = cronograma;
         this.fila = fila;
         this.bloque = bloque;
@@ -76,14 +76,6 @@ public class Avion implements Serializable{
 
     public void setNumero(int numero) {
         this.numero = numero;
-    }
-
-    public Mantenimiento getMantenimiento() {
-        return mantenimiento;
-    }
-
-    public void setMantenimiento(Mantenimiento mantenimiento) {
-        this.mantenimiento = mantenimiento;
     }
 
     public LSE<Vuelo> getCronograma() {
