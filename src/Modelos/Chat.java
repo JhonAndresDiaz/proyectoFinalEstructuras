@@ -21,9 +21,5 @@ public class Chat implements Serializable {
 
     public void enviarMensaje(String mensaje) {
         mensajes.add("Emisor: " + mensaje);
-    }
-
-    public void recibirMensaje(String mensaje) {
-        mensajes.add("Receptor: " + mensaje);
-    }  
+    }    
 }

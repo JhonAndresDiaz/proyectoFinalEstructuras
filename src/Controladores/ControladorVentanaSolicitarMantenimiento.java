@@ -178,5 +178,25 @@ public class ControladorVentanaSolicitarMantenimiento {
             Singleton.getInstancia().escribirMantenimientos();
         }
     }
-
+    
+    public void aniadirMensaje(Mantenimiento mantenimientoEnviado, String mensaje){
+        
+        Mantenimiento mantenimiento = mantenimientoBuscado(mantenimientoEnviado.getNum());
+        
+        if(mantenimiento != null){
+            mantenimiento.enviarMensajeAlChat("Administrador: " + mensaje);
+            Singleton.getInstancia().escribirMantenimientos();
+        }
+    }
+   
+    public void aniadirMensajeEmpleado(Mantenimiento mantenimientoEnviado, String mensaje){
+        
+        Mantenimiento mantenimiento = mantenimientoBuscado(mantenimientoEnviado.getNum());
+        
+        if(mantenimiento != null){
+            mantenimiento.enviarMensajeAlChat("Empleado logistica: " + mensaje);
+            Singleton.getInstancia().escribirMantenimientos();
+        }
+    }
+    
 }

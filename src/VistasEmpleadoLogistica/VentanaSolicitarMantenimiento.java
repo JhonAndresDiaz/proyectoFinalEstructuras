@@ -65,6 +65,7 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
         tabla = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
         txtNum = new javax.swing.JTextField();
+        btnVerChat = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -125,7 +126,7 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
                 btnMantenimientoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnMantenimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 480, 150, 30));
+        jPanel1.add(btnMantenimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 490, 150, 30));
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, 90, -1));
@@ -135,15 +136,20 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Fecha", "Fecha Fin", "Avion", "Detalles", "Estado"
+                "Num", "Fecha", "Fecha Fin", "Avion", "Detalles", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tabla);
@@ -153,6 +159,7 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
             tabla.getColumnModel().getColumn(2).setResizable(false);
             tabla.getColumnModel().getColumn(3).setResizable(false);
             tabla.getColumnModel().getColumn(4).setResizable(false);
+            tabla.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 430, 110));
@@ -163,6 +170,18 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
         jLabel16.setText("Seleccione la fecha");
         jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, 170, -1));
         jPanel1.add(txtNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 100, -1));
+
+        btnVerChat.setBackground(new java.awt.Color(65, 92, 117));
+        btnVerChat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVerChat.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerChat.setText("Ver chat");
+        btnVerChat.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnVerChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerChatActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVerChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 540, 150, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -210,7 +229,7 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
         );
 
         pack();
@@ -282,6 +301,36 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnMantenimientoActionPerformed
 
+    private void btnVerChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerChatActionPerformed
+        if(txtNum.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar su solicitud");
+        }else {
+          int numSolicitud = Integer.parseInt(txtNum.getText());
+            Mantenimiento mantenimiento = controlador.mantenimientoBuscado(numSolicitud);
+            Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
+            if(mantenimiento != null){
+                if(mantenimiento.getEstado().equals("En progreso")){
+                  this.dispose();
+                    JFrame v2 = new VentanaChatMantenimiento(empleadoLogistica, mantenimiento, aerolinea);
+                    v2.setVisible(true);   
+                }else {
+                    JOptionPane.showMessageDialog(null, "Para ver el chat, su solicitud debe ser aceptada");
+                }             
+            }  
+        } 
+    }//GEN-LAST:event_btnVerChatActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        int row = tabla.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila en la tabla");
+            return;
+        }
+        
+        txtNum.setText(modelo.getValueAt(row,0).toString());
+
+    }//GEN-LAST:event_tablaMouseClicked
+
     public void limpiarCampos(){
         cboAviones.setSelectedIndex(0);
         dataFecha.setDate(null);
@@ -299,7 +348,7 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
 
         for (int i = 0; i < mantenimientos.size(); i++) {
             Mantenimiento aux = mantenimientos.get(i);
-            Object[] ob = {aux.getFechaInicio(), aux.getFechaFin(), aux.getAvion().getNumero(), aux.getMotivo(), aux.getEstado()};
+            Object[] ob = {aux.getNum(), aux.getFechaInicio(), aux.getFechaFin(), aux.getAvion().getNumero(), aux.getMotivo(), aux.getEstado()};
             modelo.addRow(ob);
         }
     }  
@@ -329,6 +378,7 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMantenimiento;
     private javax.swing.JMenu btnRegresar;
+    private javax.swing.JButton btnVerChat;
     private javax.swing.JMenu btnVolver;
     private javax.swing.JComboBox<String> cboAviones;
     private com.toedter.calendar.JDateChooser dataFecha;

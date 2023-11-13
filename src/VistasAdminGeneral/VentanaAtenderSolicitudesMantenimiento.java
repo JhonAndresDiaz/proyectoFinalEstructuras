@@ -3,7 +3,6 @@ package VistasAdminGeneral;
 import Controladores.ControladorVentanaSolicitarMantenimiento;
 import Modelos.*;
 import Util.LSE;
-import VistasEmpleadoLogistica.VentanaGestionSolicitudesMant;
 import java.awt.Color;
 import java.time.LocalDate;
 import javax.swing.JFrame;

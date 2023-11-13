@@ -90,34 +90,16 @@ public class Mantenimiento implements Serializable{
     }
 
     public LSE<String> obtenerMensajesChat() {
-        // Asegurarse de que el chat esté inicializado
         if (chat == null) {
             chat = new Chat();
         }
-
-        // Obtener todos los mensajes del chat
         return chat.getMensajes();
     }
 
-    // Método para enviar un mensaje al chat
     public void enviarMensajeAlChat(String mensaje) {
-        // Asegurarse de que el chat esté inicializado
         if (chat == null) {
             chat = new Chat();
         }
-
-        // Agregar el mensaje al chat
         chat.enviarMensaje(mensaje);
     }
-
-    // Método para procesar un mensaje recibido en el chat
-    public void procesarMensajeRecibido(String mensaje) {
-        // Asegurarse de que el chat esté inicializado
-        if (chat == null) {
-            chat = new Chat();
-        }
-
-        // Agregar el mensaje al chat
-        chat.recibirMensaje(mensaje);
-    } 
 }
