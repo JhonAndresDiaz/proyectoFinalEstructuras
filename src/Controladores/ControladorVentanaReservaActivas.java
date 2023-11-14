@@ -11,6 +11,7 @@ import Modelos.Vuelo;
 import Singleton.Singleton;
 import Util.Cola;
 import Util.LSE;
+import Util.Nodo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -63,6 +64,35 @@ public class ControladorVentanaReservaActivas {
                 Reserva reserva = viajero.getHistorialReservas().get(i);
                 if(reserva != null){
                     listaReservas.add(reserva);
+                }
+            }
+        }
+        return listaReservas; 
+    }
+    
+    public LSE<Reserva> revisarColasEnVuelo(Viajero viajero) {
+        
+        LSE<Reserva> listaReservas = new LSE();
+
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            Aerolinea aerolinea = listaAerolineas.get(i);
+            for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+                Avion avion = aerolinea.getListaAviones().get(j);
+                for (int k = 0; k < avion.getCronograma().size(); k++) {
+                    Vuelo vuelo = avion.getCronograma().get(k);
+                    if(vuelo != null){
+                        Cola<Reserva> colaVuelo = vuelo.getColas();
+                        Nodo<Reserva> actual = colaVuelo.getPrimero();
+                        if(viajero != null){
+                            while (actual != null) {
+                                Reserva reserva = actual.getDato();
+                                if (reserva.getViajero().getIdentificacion().equals(viajero.getIdentificacion())) {
+                                    listaReservas.add(reserva);
+                                }
+                                actual = actual.getNodoSiguiente();
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -20,7 +20,7 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
     private Viajero viajero;
     private ControladorVentanaReservaActivas controlador;
     DefaultTableModel modelo;
-
+    DefaultTableModel modelo2;
     /**
      * Creates new form VentanaReservaActivas
      */
@@ -29,7 +29,9 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         this.viajero = viajero;
         this.controlador = new ControladorVentanaReservaActivas();
         modelo = (DefaultTableModel)tabla.getModel();
+        modelo2 = (DefaultTableModel)tabla1.getModel();
         actualizarTabla();
+        actualizarCola();
     }
 
     /**
@@ -50,6 +52,9 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         txtNumVuelo = new javax.swing.JTextField();
         txtPosicion = new javax.swing.JTextField();
         txtCodigoReserva = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabla1 = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -97,7 +102,7 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
             tabla.getColumnModel().getColumn(9).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 740, 230));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 740, 130));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(65, 92, 117));
@@ -108,7 +113,7 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(65, 92, 117));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Si desea cancelar una reserva seleccionela (2 dias habiles)");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 390, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 390, -1));
 
         btnCancelarReserva.setBackground(new java.awt.Color(65, 92, 117));
         btnCancelarReserva.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -121,7 +126,7 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
                 btnCancelarReservaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelarReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 350, 170, 30));
+        jPanel1.add(btnCancelarReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 410, 170, 30));
 
         txtNumVuelo.setEditable(false);
         txtNumVuelo.setBackground(new java.awt.Color(255, 255, 255));
@@ -133,13 +138,55 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         txtPosicion.setBackground(new java.awt.Color(255, 255, 255));
         txtPosicion.setForeground(new java.awt.Color(0, 0, 0));
         txtPosicion.setBorder(null);
-        jPanel1.add(txtPosicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 80, 30));
+        jPanel1.add(txtPosicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 360, 80, 20));
 
         txtCodigoReserva.setEditable(false);
         txtCodigoReserva.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigoReserva.setForeground(new java.awt.Color(255, 255, 255));
         txtCodigoReserva.setBorder(null);
         jPanel1.add(txtCodigoReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 50, 100, 30));
+
+        tabla1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Num Vuelo", "Código", "Posición", "Fecha Inicio", "Hora Inicio", "Origen", "Fecha Fin", "Hora Fin", "Destino", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tabla1);
+        if (tabla1.getColumnModel().getColumnCount() > 0) {
+            tabla1.getColumnModel().getColumn(0).setResizable(false);
+            tabla1.getColumnModel().getColumn(1).setResizable(false);
+            tabla1.getColumnModel().getColumn(2).setResizable(false);
+            tabla1.getColumnModel().getColumn(3).setResizable(false);
+            tabla1.getColumnModel().getColumn(4).setResizable(false);
+            tabla1.getColumnModel().getColumn(5).setResizable(false);
+            tabla1.getColumnModel().getColumn(6).setResizable(false);
+            tabla1.getColumnModel().getColumn(7).setResizable(false);
+            tabla1.getColumnModel().getColumn(8).setResizable(false);
+            tabla1.getColumnModel().getColumn(9).setResizable(false);
+        }
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 740, 100));
+
+        jLabel5.setForeground(new java.awt.Color(65, 92, 117));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Cola activa");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 74, 390, -1));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -183,11 +230,11 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
         );
 
         pack();
@@ -246,6 +293,10 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         txtPosicion.setText(modelo.getValueAt(row,2).toString());
     }//GEN-LAST:event_tablaMouseClicked
 
+    private void tabla1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabla1MouseClicked
+
     private void actualizarTabla(){
         
         LSE<Reserva> reservas = controlador.obtenerReservas(viajero);
@@ -266,6 +317,28 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
             }catch(NullPointerException e){        
             }
     }
+    
+    private void actualizarCola(){
+
+        LSE<Reserva> reservas = controlador.revisarColasEnVuelo(viajero);
+        try{
+            for (int i = 0; i < 3 ; i++) {
+                for (int j = 0; j < modelo2.getRowCount(); j++) {
+                    modelo2.removeRow(j);
+                }   
+            }
+        }catch(NullPointerException e){
+        }
+
+        try{
+            for (int i = 0; i < reservas.size() ; i++) {
+                Reserva aux = reservas.get(i);                   
+                Object[] ob = {aux.getVuelo().getNumVuelo(), aux.getCodigo(), aux.getPosicion(), aux.getVuelo().getFechaVuelo()  ,aux.getVuelo().getHoraVuelo(), aux.getVuelo().getOrigen(), aux.getVuelo().getDiaFinVuelo(), aux.getVuelo().getTiempoFin(), aux.getVuelo().getDestino(), aux.getEstado()};
+                modelo2.addRow(ob);                
+            }
+        }catch(NullPointerException e){        
+        }
+    }
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -274,10 +347,13 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
     private javax.swing.JMenu btnVolver;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabla;
+    private javax.swing.JTable tabla1;
     private javax.swing.JTextField txtCodigoReserva;
     private javax.swing.JTextField txtNumVuelo;
     private javax.swing.JTextField txtPosicion;

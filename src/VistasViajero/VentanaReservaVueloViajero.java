@@ -368,7 +368,7 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
     }//GEN-LAST:event_btnVolverMouseReleased
 
     private void btnGenerarColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarColaActionPerformed
-        boolean respuesta = controlador.generarCola(vuelo,viajero);
+        boolean respuesta = controlador.generarCola(vuelo, viajero);
         if(respuesta){
             JOptionPane.showMessageDialog(rootPane, "Cola generada");
         }else{
