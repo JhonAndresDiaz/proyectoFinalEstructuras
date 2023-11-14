@@ -27,6 +27,7 @@ public class VentanaLogin extends javax.swing.JFrame {
         initComponents();
         this.controlador = new ControladorVentanaLogin();
         actualizarVuelos();
+        actualizarEstado();
     }
 
     /**
@@ -362,6 +363,14 @@ public class VentanaLogin extends javax.swing.JFrame {
         try {
             controlador.actualizarVuelos();
         }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void actualizarEstado(){
+        try{
+            controlador.actualizarEstadoMantenimiento();
+        }catch(Exception e){
             e.printStackTrace();
         }
     }

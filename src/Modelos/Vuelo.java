@@ -1,5 +1,6 @@
 package Modelos;
 
+import Util.Cola;
 import Util.LSE;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -24,8 +25,9 @@ public class Vuelo implements Serializable {
     private LocalTime tiempoFin;
     private LSE<Reserva> listaReservas;
     private String estado;
+    private Cola<Reserva> colas;
 
-    public Vuelo(Avion avion, CapitanVuelo capitan, int numVuelo, String origen, String destino, int duracion, LocalDate fechaVuelo, LocalTime horaVuelo, LocalTime tiempoFin, LSE<Reserva> listaReservas, String estado) {
+    public Vuelo(Avion avion, CapitanVuelo capitan, int numVuelo, String origen, String destino, int duracion, LocalDate fechaVuelo, LocalTime horaVuelo, LocalTime tiempoFin, LSE<Reserva> listaReservas, String estado, Cola<Reserva> colas) {
         this.avion = avion;
         this.capitan = capitan;
         this.numVuelo = numVuelo;
@@ -38,6 +40,7 @@ public class Vuelo implements Serializable {
         this.tiempoFin = tiempoFin;
         this.listaReservas = listaReservas;
         this.estado = estado;
+        this.colas = colas;
     }
     
     private LocalDate calcularDiaFinVuelo(LocalDate diaInicio, LocalTime horaInicio, LocalTime horaFin, int duracion) {
@@ -158,5 +161,13 @@ public class Vuelo implements Serializable {
 
     public void setListaReservas(LSE<Reserva> listaReservas) {
         this.listaReservas = listaReservas;
+    }
+
+    public Cola<Reserva> getColas() {
+        return colas;
+    }
+
+    public void setColas(Cola<Reserva> colas) {
+        this.colas = colas;
     }
 }

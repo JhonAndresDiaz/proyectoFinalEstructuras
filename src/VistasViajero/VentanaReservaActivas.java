@@ -2,7 +2,6 @@ package VistasViajero;
 
 import Controladores.ControladorVentanaReservaActivas;
 import Excepciones.Minimo2DiasDiferenciaException;
-import Modelos.Aerolinea;
 import Modelos.Reserva;
 import Modelos.Viajero;
 import Modelos.Vuelo;
@@ -50,6 +49,7 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         btnCancelarReserva = new javax.swing.JButton();
         txtNumVuelo = new javax.swing.JTextField();
         txtPosicion = new javax.swing.JTextField();
+        txtCodigoReserva = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -125,14 +125,21 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
 
         txtNumVuelo.setEditable(false);
         txtNumVuelo.setBackground(new java.awt.Color(255, 255, 255));
-        txtNumVuelo.setForeground(new java.awt.Color(255, 255, 255));
+        txtNumVuelo.setForeground(new java.awt.Color(0, 0, 0));
         txtNumVuelo.setBorder(null);
-        jPanel1.add(txtNumVuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 330, 80, 30));
+        jPanel1.add(txtNumVuelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 330, 80, 30));
 
+        txtPosicion.setEditable(false);
         txtPosicion.setBackground(new java.awt.Color(255, 255, 255));
-        txtPosicion.setForeground(new java.awt.Color(255, 255, 255));
+        txtPosicion.setForeground(new java.awt.Color(0, 0, 0));
         txtPosicion.setBorder(null);
-        jPanel1.add(txtPosicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 362, 80, 30));
+        jPanel1.add(txtPosicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 80, 30));
+
+        txtCodigoReserva.setEditable(false);
+        txtCodigoReserva.setBackground(new java.awt.Color(255, 255, 255));
+        txtCodigoReserva.setForeground(new java.awt.Color(255, 255, 255));
+        txtCodigoReserva.setBorder(null);
+        jPanel1.add(txtCodigoReserva, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 50, 100, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -180,7 +187,7 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -215,15 +222,17 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         }else {
             int numeroVuelo = Integer.parseInt(txtNumVuelo.getText());
             int numPosicion = Integer.parseInt(txtPosicion.getText());
+            String codigo = txtCodigoReserva.getText();
             Vuelo vuelo = controlador.vueloBuscado(numeroVuelo);
             try {
-                controlador.cancelarReserva(numPosicion, vuelo, viajero);
+                controlador.cancelarReserva(numPosicion, vuelo, viajero , codigo);
+                controlador.pasarDeLaCola(numPosicion, vuelo, viajero);
                 JOptionPane.showMessageDialog(null, "Se eliminó correctamente la reserva");
                 actualizarTabla();
-            } catch (Minimo2DiasDiferenciaException ex) {
+            }catch (Minimo2DiasDiferenciaException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             } 
-        }   
+        }
     }//GEN-LAST:event_btnCancelarReservaActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
@@ -233,8 +242,8 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
             return; 
         }
         txtNumVuelo.setText(modelo.getValueAt(row,0).toString());
+        txtCodigoReserva.setText(modelo.getValueAt(row, 1).toString());
         txtPosicion.setText(modelo.getValueAt(row,2).toString());
-
     }//GEN-LAST:event_tablaMouseClicked
 
     private void actualizarTabla(){
@@ -269,6 +278,7 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
+    private javax.swing.JTextField txtCodigoReserva;
     private javax.swing.JTextField txtNumVuelo;
     private javax.swing.JTextField txtPosicion;
     // End of variables declaration//GEN-END:variables

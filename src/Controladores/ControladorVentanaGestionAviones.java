@@ -1,8 +1,11 @@
 package Controladores;
 
+import Excepciones.ExistenVuelosEnAvionException;
+import Excepciones.NumeroCodigoVueloNoExisteException;
 import Excepciones.YaExisteNumeroAvionException;
 import Modelos.Aerolinea;
 import Modelos.Avion;
+import Modelos.Vuelo;
 import Singleton.Singleton;
 import Util.LSE;
 import Util.Nodo;
@@ -77,23 +80,44 @@ public class ControladorVentanaGestionAviones {
         }
         return null;    
     }
-   
-//    public void guardarAvion(Aerolinea aerolinea, Avion avion) {
-//        
-//        Avion avionBuscado = buscarNumeroAvion(avion.getNumero());
-//        
-//        if(avionBuscado != null){
-//            throw new YaExisteNumeroAvionException();
-//        }else {
-//            Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
-//            if(aerolineaBuscada != null){
-//                aerolineaBuscada.getListaAviones().add(avion);
-//                Singleton.getInstancia().escribirAerolineas();
-//            }
-//        }    
-//    } 
     
-        public void guardarAvion(Aerolinea aerolinea, Avion avion) {
+    public void eliminarAvion(int codigo) {
+        Avion aux = buscarNumeroAvion(codigo);
+        if (aux != null) {
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolinea = listaAerolineas.get(i);
+                for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+                    Avion avion = aerolinea.getListaAviones().get(j);
+                    if (avion.getNumero() == aux.getNumero()) {
+                        if (avion.getCronograma().isEmpty() || todosVuelosTerminados(avion.getCronograma())) {
+                            aerolinea.getListaAviones().remove(j);
+                            Singleton.getInstancia().escribirAerolineas();
+                            return;
+                        } else {
+                            throw new ExistenVuelosEnAvionException();
+                        }
+                    }
+                }
+            }
+        } else {
+            throw new NumeroCodigoVueloNoExisteException();
+        }
+    }
+
+    private boolean todosVuelosTerminados(LSE<Vuelo> cronograma) {
+        Nodo<Vuelo> nodoActual = cronograma.getPrimero();
+        while(nodoActual != null) {
+            Vuelo vuelo = nodoActual.getDato();
+
+            if(vuelo.getEstado().equals("Programado")) {
+                return false;
+            }
+            nodoActual = nodoActual.getNodoSiguiente();
+        }
+        return true;
+    }
+    
+    public void guardarAvion(Aerolinea aerolinea, Avion avion) {
         Avion avionBuscado = buscarNumeroAvion(avion.getNumero());
 
         if (avionBuscado != null) {
@@ -103,6 +127,4 @@ public class ControladorVentanaGestionAviones {
             Singleton.getInstancia().escribirAerolineas();
         }
     }
-
-    
 }

@@ -71,6 +71,9 @@ public class VentanaGestionSolicitudesMant extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jButton3 = new javax.swing.JButton();
+        btnVerTermindas = new javax.swing.JButton();
+        btnVerActivas = new javax.swing.JButton();
+        btnLimpiarCampos = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -111,7 +114,7 @@ public class VentanaGestionSolicitudesMant extends javax.swing.JFrame {
             tabla.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 570, 160));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 570, 140));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(65, 92, 117));
@@ -133,70 +136,70 @@ public class VentanaGestionSolicitudesMant extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(65, 92, 117));
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Información de la solicitud");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 570, -1));
-        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 570, 10));
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 570, -1));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 570, 10));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(65, 92, 117));
         jLabel12.setText("Número de solicitud");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, -1, 20));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, 20));
 
         txtNumSolicitud.setEditable(false);
-        jPanel1.add(txtNumSolicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 100, -1));
+        jPanel1.add(txtNumSolicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, 100, -1));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(65, 92, 117));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel13.setText("Fecha inicio  ");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 130, 20));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 130, 20));
 
         txtFechaIni.setEditable(false);
-        jPanel1.add(txtFechaIni, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 400, 100, -1));
+        jPanel1.add(txtFechaIni, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 100, -1));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(65, 92, 117));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel17.setText("Fecha final  ");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 440, 80, 20));
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 460, 80, 20));
 
         txtFechaFin.setEditable(false);
-        jPanel1.add(txtFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 440, 100, -1));
+        jPanel1.add(txtFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 460, 100, -1));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(65, 92, 117));
         jLabel18.setText("Numero de Avión");
-        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 360, -1, 20));
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 380, -1, 20));
 
         txtNumAvion.setEditable(false);
-        jPanel1.add(txtNumAvion, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 360, 100, -1));
+        jPanel1.add(txtNumAvion, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 380, 100, -1));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(65, 92, 117));
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel19.setText("Aerolinea");
-        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 400, 120, 20));
+        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 420, 120, 20));
 
         txtNombreAerolinea.setEditable(false);
-        jPanel1.add(txtNombreAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 400, 100, -1));
+        jPanel1.add(txtNombreAerolinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, 100, -1));
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(65, 92, 117));
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel20.setText("Detalles");
-        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 470, 80, 20));
+        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 490, 80, 20));
 
         txtEstado.setEditable(false);
-        jPanel1.add(txtEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 440, 100, -1));
+        jPanel1.add(txtEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 460, 100, -1));
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(65, 92, 117));
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel21.setText("Estado");
-        jPanel1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 80, 20));
+        jPanel1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 460, 80, 20));
 
         txtDetalles.setEditable(false);
         txtDetalles.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(txtDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 500, 440, 60));
+        jPanel1.add(txtDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 520, 440, 40));
 
         jPanel2.setBackground(new java.awt.Color(65, 92, 117));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -251,6 +254,42 @@ public class VentanaGestionSolicitudesMant extends javax.swing.JFrame {
         jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 520, 160, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 520, 580));
+
+        btnVerTermindas.setBackground(new java.awt.Color(65, 92, 117));
+        btnVerTermindas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVerTermindas.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerTermindas.setText("Ver terminadas");
+        btnVerTermindas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnVerTermindas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerTermindasActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVerTermindas, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 280, 130, 30));
+
+        btnVerActivas.setBackground(new java.awt.Color(65, 92, 117));
+        btnVerActivas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnVerActivas.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerActivas.setText("Ver activas");
+        btnVerActivas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnVerActivas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActivasActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVerActivas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 130, 30));
+
+        btnLimpiarCampos.setBackground(new java.awt.Color(65, 92, 117));
+        btnLimpiarCampos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLimpiarCampos.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiarCampos.setText("Limpiar campos");
+        btnLimpiarCampos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnLimpiarCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarCamposActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLimpiarCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 280, 130, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -352,13 +391,25 @@ public class VentanaGestionSolicitudesMant extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(txtNumSolicitud.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una solicitud de mantenimiento");
+            return;
+        }
+        
         if(txtRespuesta.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe ingresar una respuesta");
             return;
         }
+        
         String mensajeRespuesta = txtRespuesta.getText();
         int numSolicitud = Integer.parseInt(txtNumSolicitud.getText());
         Mantenimiento mantenimiento = controlador.mantenimientoBuscado(numSolicitud);
+        
+        if(mantenimiento.getEstado().equals("Finalizado")){
+            JOptionPane.showMessageDialog(null, "No puede enviar mensajes, el mantenimiento ya finalizó");
+            return;
+        }
+        
         try{
             controlador.aniadirMensaje(mantenimiento, mensajeRespuesta);
             JOptionPane.showMessageDialog(null, "Se envio el mensaje correctamente");
@@ -368,6 +419,18 @@ public class VentanaGestionSolicitudesMant extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btnVerTermindasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTermindasActionPerformed
+        actualizarTablaTerminadas();
+    }//GEN-LAST:event_btnVerTermindasActionPerformed
+
+    private void btnLimpiarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCamposActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarCamposActionPerformed
+
+    private void btnVerActivasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActivasActionPerformed
+        actualizarTabla();
+    }//GEN-LAST:event_btnVerActivasActionPerformed
 
     private void actualizarTabla() {
         LSE<Mantenimiento> mantenimientos = controlador.obtenerTODOSMantenimientos();
@@ -380,6 +443,23 @@ public class VentanaGestionSolicitudesMant extends javax.swing.JFrame {
             Mantenimiento aux = mantenimientos.get(i);
             Aerolinea aerolinea = controlador.buscarAerolineaAvion(aux);
             if(aux.getEstado().equals("En progreso")){
+                Object[] ob = {aux.getNum(), aux.getFechaInicio(), aux.getFechaFin(), aux.getAvion().getNumero(), aux.getMotivo(), aux.getEstado(), aerolinea.getNombreAerolinea()};
+                modelo.addRow(ob); 
+            }
+        }
+    }  
+    
+    private void actualizarTablaTerminadas() {
+        LSE<Mantenimiento> mantenimientos = controlador.obtenerTODOSMantenimientos();
+
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
+
+        for (int i = 0; i < mantenimientos.size(); i++) {
+            Mantenimiento aux = mantenimientos.get(i);
+            Aerolinea aerolinea = controlador.buscarAerolineaAvion(aux);
+            if(aux.getEstado().equals("Finalizado")){
                 Object[] ob = {aux.getNum(), aux.getFechaInicio(), aux.getFechaFin(), aux.getAvion().getNumero(), aux.getMotivo(), aux.getEstado(), aerolinea.getNombreAerolinea()};
                 modelo.addRow(ob); 
             }
@@ -408,13 +488,14 @@ public class VentanaGestionSolicitudesMant extends javax.swing.JFrame {
         txtNumAvion.setText(null);
         txtNumSolicitud.setText(null);
         txtRespuesta.setText(null);
+        textHisto.setText(null);
     }
-    
-    
-     
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLimpiarCampos;
     private javax.swing.JMenu btnRegresar;
+    private javax.swing.JButton btnVerActivas;
+    private javax.swing.JButton btnVerTermindas;
     private javax.swing.JMenu btnVolver;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;

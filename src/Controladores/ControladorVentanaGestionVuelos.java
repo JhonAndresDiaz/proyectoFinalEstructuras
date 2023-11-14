@@ -3,6 +3,7 @@ package Controladores;
 import Excepciones.*;
 import Modelos.*;
 import Singleton.Singleton;
+import Util.Cola;
 import Util.LSE;
 import Util.Nodo;
 import java.time.LocalDate;
@@ -26,6 +27,11 @@ public class ControladorVentanaGestionVuelos {
     public LSE<Reserva> obtenerListaViajeros(int codigo) {
         Vuelo vuelo = vueloBuscado(codigo);
         return (vuelo != null && !vuelo.getListaReservas().isEmpty()) ? vuelo.getListaReservas() : new LSE<>();
+    }
+    
+    public Cola<Reserva> obtenerColas(int numeroVuelo){
+        Vuelo vuelo = vueloBuscado(numeroVuelo);
+        return (vuelo != null && !vuelo.getColas().isEmpty()) ? vuelo.getColas() : new Cola<>();
     }
     
     public LSE<Avion> traerAerolineas(){

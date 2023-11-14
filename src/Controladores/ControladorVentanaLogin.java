@@ -15,10 +15,13 @@ public class ControladorVentanaLogin {
     
     private LSE<Aerolinea> listaAerolineas;
     private LSE<Usuario> listaUsuarios;
+    private LSE<Mantenimiento> listaMantenimientos;
+
 
     public ControladorVentanaLogin(){
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
         this.listaUsuarios = Singleton.getInstancia().getUsuarios();
+        this.listaMantenimientos = Singleton.getInstancia().getMantenimientos();
     }
     
     public LSE<Aerolinea> obtenerPersonas(){
@@ -133,6 +136,26 @@ public class ControladorVentanaLogin {
         Singleton.getInstancia().escribirAerolineas();
         Singleton.getInstancia().escribirUsuarios();
     }
+    
+    public void actualizarEstadoMantenimiento() {
+        LocalDate hoy = LocalDate.now();
+        LocalTime horaActual = LocalTime.now();
+
+        for (int i = 0; i < listaMantenimientos.size(); i++) {
+            Mantenimiento mantenimiento = listaMantenimientos.get(i);
+
+            if (mantenimiento != null && mantenimiento.getFechaFin() != null) {
+                if (hoy.isAfter(mantenimiento.getFechaFin())) {
+                    mantenimiento.setEstado("Finalizado");
+                    Singleton.getInstancia().escribirAerolineas();
+                    Singleton.getInstancia().escribirMantenimientos();
+                }
+            }
+        }
+        Singleton.getInstancia().escribirAerolineas();
+        Singleton.getInstancia().escribirMantenimientos();
+    }
+
     
 }
     

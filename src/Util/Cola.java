@@ -37,8 +37,7 @@ public class Cola<T> implements Serializable {
     }
     
     public T peek() {
-        if (isEmpty()) {
-//            System.err.println("No hay datos");
+        if(isEmpty()) {
         } else {
             return primero.getDato();
         }
@@ -61,5 +60,9 @@ public class Cola<T> implements Serializable {
     
     public void clear() {
         primero = null;
+    }
+    
+    public Nodo<T> getPrimero(){
+        return primero;
     }
 }

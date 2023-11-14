@@ -29,6 +29,21 @@ public class ControladorVentanaMenuPrincipalViajero {
         return new LSE<>();
     }
     
+    public LSE<Reserva> obtenerReservas(Viajero viajero) {
+
+        LSE<Reserva> listaReservas = new LSE();
+
+        if(viajero != null){
+            for (int i = 0; i < viajero.getHistorialReservas().size(); i++) {
+                Reserva reserva = viajero.getHistorialReservas().get(i);
+                if(reserva != null){
+                    listaReservas.add(reserva);
+                }
+            }
+        }
+        return listaReservas; 
+    }
+    
     public LSE<Reserva> obtenerReservas(String identificacion) {
         Viajero aux = (Viajero) buscarViajeroId(identificacion);
         if( aux != null){

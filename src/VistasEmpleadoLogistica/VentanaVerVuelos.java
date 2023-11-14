@@ -448,7 +448,7 @@ public class VentanaVerVuelos extends javax.swing.JFrame {
             Vuelo vueloAntiguo = controlador.vueloBuscado(numeroVuelo);
             
             Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
-            Vuelo vueloFinal = new Vuelo(avionBuscado, vueloAntiguo.getCapitan(), numero, origen, destino, duracion, fecha, horaInicio, horaFin, controlador.obtenerListaViajeros(numeroVuelo) , "Programado");
+            Vuelo vueloFinal = new Vuelo(avionBuscado, vueloAntiguo.getCapitan(), numero, origen, destino, duracion, fecha, horaInicio, horaFin, controlador.obtenerListaViajeros(numeroVuelo) , "Programado", controlador.obtenerColas(numeroVuelo));
 
             try{
                 controlador.editarVuelo(aerolinea, vueloFinal.getAvion(), vueloFinal);

@@ -52,6 +52,8 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
         txtHoraInicio.setText(String.valueOf(vuelo.getHoraVuelo()));
         txtHoraFin.setText(String.valueOf(vuelo.getTiempoFin()));
         modificarAsientos(vuelo.getListaReservas());
+        bloquearMaximo2();
+        verificarParaCola();
         bloquear();
     }
 
@@ -88,6 +90,7 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        btnGenerarCola = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -253,21 +256,40 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
         jLabel12.setText("Desocupado");
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, 70, 20));
 
+        btnGenerarCola.setBackground(new java.awt.Color(255, 255, 255));
+        btnGenerarCola.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnGenerarCola.setForeground(new java.awt.Color(65, 92, 117));
+        btnGenerarCola.setText("Generar Cola");
+        btnGenerarCola.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnGenerarCola.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGenerarCola.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarColaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(441, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnGenerarCola, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGenerarCola, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
@@ -344,6 +366,15 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
     private void btnVolverMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVolverMouseReleased
         btnVolver.setForeground(new Color(65, 92, 117));
     }//GEN-LAST:event_btnVolverMouseReleased
+
+    private void btnGenerarColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarColaActionPerformed
+        boolean respuesta = controlador.generarCola(vuelo,viajero);
+        if(respuesta){
+            JOptionPane.showMessageDialog(rootPane, "Cola generada");
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No puede generar mas solicitudes, ya tiene una Activa");
+        }
+    }//GEN-LAST:event_btnGenerarColaActionPerformed
    
     private void cargarAsientos() {
         int ancho = 55;
@@ -421,13 +452,54 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
             }
         }
     }
+    
+    private void verificarParaCola(){
+        int contador = 0;
+        for (int i = 0; i < botones.length; i++) {
+            for (int j = 0; j < botones[i].length; j++) {
+                JButton boton = botones[i][j];
+                if(boton.getBackground() == Color.WHITE){
+                    contador++;
+                }
+            }
+        }
+        if(contador == 0){
+            btnGenerarCola.setEnabled(true);
+        }else {
+            btnGenerarCola.setEnabled(false);
+        }  
+    }
      
     public void bloquear(){
         
         LSE<Reserva> contador = controlador.validar1ReservaVuelo(viajero, vuelo);
         
         if(contador.size() >= 1) {
+            btnGenerarCola.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Ha cumplido el máximo de 1 reserva por vuelo");
+            for (int i = 0; i < botones.length; i++) {
+                for (int j = 0; j < botones[i].length; j++) {
+                    JButton boton = botones[i][j];
+                    int numeroAsiento = Integer.parseInt(boton.getText());
+                    boolean estaReservado = controlador.verificarReserva(numeroAsiento, vuelo.getListaReservas());
+                    boolean estaReservado2 = controlador.verificarReservaPropia(numeroAsiento, vuelo.getListaReservas(), viajero);
+                    if (estaReservado && !estaReservado2) {   
+                        boton.setBackground(Color.BLUE);
+                    }else if(estaReservado && estaReservado2){    
+                        boton.setBackground(Color.GREEN);
+                    }else {                 
+                        boton.setEnabled(false);
+                    }
+                }
+            }
+        }        
+    }
+    
+    public void bloquearMaximo2(){
+        
+        LSE<Reserva> contador = controlador.validarMaximoReservasActivas(viajero);
+        
+        if(contador.size() >= 2) {
             for (int i = 0; i < botones.length; i++) {
                 for (int j = 0; j < botones[i].length; j++) {
                     JButton boton = botones[i][j];
@@ -443,11 +515,11 @@ public class VentanaReservaVueloViajero extends javax.swing.JFrame implements Ac
                     }
                 }
             }
-        }        
+        }   
     }
     
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGenerarCola;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
     private javax.swing.JLabel jLabel1;

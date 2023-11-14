@@ -3,6 +3,7 @@ package VistasEmpleadoLogistica;
 import Controladores.ControladorVentanaGestionVuelos;
 import Excepciones.*;
 import Modelos.*;
+import Util.Cola;
 import Util.LSE;
 import java.awt.Color;
 import java.time.LocalDate;
@@ -441,7 +442,7 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
             int numeroAvion = Integer.parseInt(avionSeleccionado);
             Avion avionBuscado = controlador.buscarNumeroAvion(numeroAvion);
             
-            Vuelo vueloFinal = new Vuelo(avionBuscado, capitan, numero, origen, destino, duracion, fecha, horaInicio, horaFin, new LSE<>(), "Programado");
+            Vuelo vueloFinal = new Vuelo(avionBuscado, capitan, numero, origen, destino, duracion, fecha, horaInicio, horaFin, new LSE<>(), "Programado", new Cola<>());
             Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
 
             try{

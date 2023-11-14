@@ -177,6 +177,9 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
         btnHistorialViajes.setText("Historial viajes");
         btnHistorialViajes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHistorialViajes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHistorialViajesMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnHistorialViajesMouseEntered(evt);
             }
@@ -477,6 +480,12 @@ public class VentanaMenuPrincipalViajero extends javax.swing.JFrame {
         JFrame v2 = new VentanaReservaActivas(viajero);
         v2.setVisible(true);
     }//GEN-LAST:event_btnReservasActivasMouseClicked
+
+    private void btnHistorialViajesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorialViajesMouseClicked
+        this.dispose();
+        JFrame v2 = new VentanaHistorialViajesRealizados(viajero);
+        v2.setVisible(true);
+    }//GEN-LAST:event_btnHistorialViajesMouseClicked
 
     public void llenarInformacion(){
         txtNombres.setText(viajero.getNombres());

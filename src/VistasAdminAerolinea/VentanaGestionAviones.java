@@ -1,6 +1,8 @@
 package VistasAdminAerolinea;
 
 import Controladores.ControladorVentanaGestionAviones;
+import Excepciones.ExistenVuelosEnAvionException;
+import Excepciones.NumeroCodigoVueloNoExisteException;
 import Excepciones.YaExisteNumeroAvionException;
 import Modelos.AdministradorAerolinea;
 import Modelos.Aerolinea;
@@ -63,6 +65,8 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
@@ -219,7 +223,32 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 380, -1, -1));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, -1, -1));
+
+        jPanel3.setBackground(new java.awt.Color(65, 92, 117));
+
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 390, 120, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -328,7 +357,9 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarMouseClicked
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
-
+        int row = tabla.getSelectedRow();   
+        txtNumero.setText(modelo.getValueAt(row, 0).toString());
+        
     }//GEN-LAST:event_tablaMouseClicked
 
     private void txtCantidadFilasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadFilasKeyTyped
@@ -341,6 +372,23 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtCantidadFilasKeyTyped
+
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+        if (txtNumero.getText().isEmpty()){
+            JOptionPane.showMessageDialog( null , "Seleccione un avión para eliminarlo");
+            return;
+        }else {
+            int codigo = Integer.parseInt(txtNumero.getText());
+            try{
+                controlador.eliminarAvion(codigo);
+                JOptionPane.showMessageDialog(null, "Avión eliminado correctamente");
+                limpiarCampos();
+                actualizarTabla();
+            }catch(ExistenVuelosEnAvionException | NumeroCodigoVueloNoExisteException ex){
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }        
+    }//GEN-LAST:event_btnEliminarMouseClicked
 
     public void limpiarCampos() {
         txtCantidadFilas.setText(null);
@@ -371,6 +419,7 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAgregar;
+    private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnLimpiar;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
@@ -386,6 +435,7 @@ public class VentanaGestionAviones extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

@@ -2,6 +2,7 @@ package VistasEmpleadoLogistica;
 
 import Controladores.ControladorVentanaSolicitarMantenimiento;
 import Excepciones.CruzaHorariosMantenimientoException;
+import Excepciones.FechaMantenimientoVueloYaRegistradoException;
 import Excepciones.SolicitudYaEnviadaException;
 import Excepciones.YaExisteCodigoMantenimientoException;
 import Modelos.Aerolinea;
@@ -79,41 +80,41 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(65, 92, 117));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Detalles");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 370, 170, -1));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, 170, -1));
 
         cboAviones.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        jPanel1.add(cboAviones, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 150, -1));
+        jPanel1.add(cboAviones, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 150, -1));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(65, 92, 117));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("Solicitar");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 210, -1));
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 210, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mante.png"))); // NOI18N
         jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 70, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 70, -1));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(65, 92, 117));
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Mantenimiento");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 210, -1));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 260, 10));
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 210, -1));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 260, 10));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(65, 92, 117));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Aviones de la Aerolínea");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 170, -1));
-        jPanel1.add(dataFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 320, 150, -1));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 170, -1));
+        jPanel1.add(dataFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 340, 150, -1));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(65, 92, 117));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Número");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 70, 20));
-        jPanel1.add(txtDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 400, 150, 60));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 70, 20));
+        jPanel1.add(txtDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 420, 150, 60));
 
         btnMantenimiento.setBackground(new java.awt.Color(65, 92, 117));
         btnMantenimiento.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -126,7 +127,7 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
                 btnMantenimientoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnMantenimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 490, 150, 30));
+        jPanel1.add(btnMantenimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 520, 150, 30));
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, 90, -1));
@@ -136,7 +137,7 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Num", "Fecha", "Fecha Fin", "Avion", "Detalles", "Estado"
+                "Número", "Fecha Inicio", "Fecha Fin", "Avion", "Detalles", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -162,26 +163,27 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
             tabla.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 430, 110));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 500, 110));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(65, 92, 117));
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("Seleccione la fecha");
-        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, 170, -1));
-        jPanel1.add(txtNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 100, -1));
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 310, 170, -1));
+        jPanel1.add(txtNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 100, -1));
 
         btnVerChat.setBackground(new java.awt.Color(65, 92, 117));
         btnVerChat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnVerChat.setForeground(new java.awt.Color(255, 255, 255));
         btnVerChat.setText("Ver chat");
         btnVerChat.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnVerChat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnVerChat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerChatActionPerformed(evt);
             }
         });
-        jPanel1.add(btnVerChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 540, 150, 30));
+        jPanel1.add(btnVerChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 520, 150, 30));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
@@ -225,11 +227,11 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
         );
 
         pack();
@@ -295,7 +297,7 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Se agrego correctamente la solicitud");
                 limpiarCampos();
                 actualizarTabla();
-            }catch(YaExisteCodigoMantenimientoException | SolicitudYaEnviadaException | CruzaHorariosMantenimientoException e){
+            }catch(YaExisteCodigoMantenimientoException | FechaMantenimientoVueloYaRegistradoException | SolicitudYaEnviadaException | CruzaHorariosMantenimientoException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
@@ -348,8 +350,10 @@ public class VentanaSolicitarMantenimiento extends javax.swing.JFrame {
 
         for (int i = 0; i < mantenimientos.size(); i++) {
             Mantenimiento aux = mantenimientos.get(i);
-            Object[] ob = {aux.getNum(), aux.getFechaInicio(), aux.getFechaFin(), aux.getAvion().getNumero(), aux.getMotivo(), aux.getEstado()};
-            modelo.addRow(ob);
+            if(aux.getEstado().equals("En progreso") || aux.getEstado().equals("Pendiente")){
+                Object[] ob = {aux.getNum(), aux.getFechaInicio(), aux.getFechaFin(), aux.getAvion().getNumero(), aux.getMotivo(), aux.getEstado()};
+                modelo.addRow(ob);
+            }
         }
     }  
       

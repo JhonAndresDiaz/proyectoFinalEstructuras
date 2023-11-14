@@ -2,7 +2,6 @@ package VistasViajero;
 
 import Controladores.ControladorVentanaVuelosProgramados;
 import Modelos.Aerolinea;
-import Modelos.Reserva;
 import Modelos.Viajero;
 import Modelos.Vuelo;
 import Util.LSE;
@@ -36,7 +35,6 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         modelo = (DefaultTableModel)tabla.getModel();
         dataChooserFecha.setMinSelectableDate(new Date());
         actualizarComboBox();
-        bloquear();
     }
 
     /**
@@ -242,7 +240,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
         );
 
         pack();
@@ -373,16 +371,6 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         }
-    }
-     
-    public void bloquear(){
-        
-        LSE<Reserva> contador = controlador.validarMaximoReservasActivas(viajero);
-        
-        if(contador.size() >= 2) {
-            btnGenerarReserva.setEnabled(false);
-            tabla.setEnabled(false);
-        }   
     }
  
     public void filtrarVuelos(String nombreAerolinea) {

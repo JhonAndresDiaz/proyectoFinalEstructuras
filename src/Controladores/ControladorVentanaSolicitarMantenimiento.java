@@ -1,11 +1,14 @@
 package Controladores;
 
+import Excepciones.AvionEstaEnMantenimientoException;
 import Excepciones.CruzaHorariosMantenimientoException;
+import Excepciones.FechaMantenimientoVueloYaRegistradoException;
 import Excepciones.SolicitudYaEnviadaException;
 import Excepciones.YaExisteCodigoMantenimientoException;
 import Modelos.Aerolinea;
 import Modelos.Avion;
 import Modelos.Mantenimiento;
+import Modelos.Vuelo;
 import Singleton.Singleton;
 import Util.LSE;
 import Util.Nodo;
@@ -132,6 +135,15 @@ public class ControladorVentanaSolicitarMantenimiento {
             throw new YaExisteCodigoMantenimientoException();
         }
         
+        for (int i = 0; i < avionRecibido.getCronograma().size(); i++) {
+            Vuelo vuelo = avionRecibido.getCronograma().get(i);
+            if(vuelo != null){
+                if(vuelo.getFechaVuelo().equals(mantenimiento.getFechaInicio()) || vuelo.getDiaFinVuelo().equals(mantenimiento.getFechaInicio()) ){
+                    throw new FechaMantenimientoVueloYaRegistradoException();
+                }
+            }
+        }
+        
         for (int i = 0; i < listaAerolineas.size(); i++) {
             Aerolinea aerolinea = listaAerolineas.get(i);
             if (aerolinea.getCodigoAerolinea() == aerolineaRecibida.getCodigoAerolinea()) {
@@ -167,13 +179,25 @@ public class ControladorVentanaSolicitarMantenimiento {
             Singleton.getInstancia().escribirMantenimientos();
     }
     
-    public void actulizarMantenimiento(Mantenimiento mantenimiento){
+    public void actulizarMantenimiento(Mantenimiento mantenimientoRecibido){
         
-        Mantenimiento aux = mantenimientoBuscado(mantenimiento.getNum());
+        for (int i = 0; i < listaMantenimientos.size(); i++) {
+            Mantenimiento mantRecorrido = listaMantenimientos.get(i);
+            if(mantRecorrido != null && mantRecorrido.getEstado().equals("En progreso")){
+                LocalDate fechaInicioMantenimiento = mantRecorrido.getFechaInicio();
+                LocalDate fechaFinMantenimiento = mantRecorrido.getFechaFin();
+                    if(mantenimientoRecibido.getFechaInicio().isAfter(fechaInicioMantenimiento) && mantenimientoRecibido.getFechaInicio().isBefore(fechaFinMantenimiento)
+                    || mantenimientoRecibido.getFechaInicio().isEqual(fechaInicioMantenimiento) || mantenimientoRecibido.getFechaInicio().isEqual(fechaFinMantenimiento)) {
+                        throw new CruzaHorariosMantenimientoException();
+                } 
+            }
+        }
+        
+        Mantenimiento aux = mantenimientoBuscado(mantenimientoRecibido.getNum());
         
         if(aux != null){
-            aux.setFechaFin(mantenimiento.getFechaFin());
-            aux.setEstado(mantenimiento.getEstado());
+            aux.setFechaFin(mantenimientoRecibido.getFechaFin());
+            aux.setEstado(mantenimientoRecibido.getEstado());
             Singleton.getInstancia().escribirAerolineas();
             Singleton.getInstancia().escribirMantenimientos();
         }
