@@ -6,6 +6,9 @@ import Modelos.EmpleadoLogistica;
 import Modelos.Vuelo;
 import Util.LSE;
 import java.awt.Color;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -179,6 +182,23 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tablaMouseClicked
 
+//    private void actualizarTabla() {
+//        Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
+//        LSE<Vuelo> vuelos = controlador.obtenerVuelos(aerolinea);
+//
+//        while (modelo.getRowCount() > 0) {
+//            modelo.removeRow(0);
+//        }
+//
+//        for (int i = 0; i < vuelos.size(); i++) {
+//            Vuelo aux = vuelos.get(i);
+//            if(aux.getEstado().equals("Programado")){
+//                Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getDiaFinVuelo(), aux.getCapitan().getNombres(), aux.getAvion().getNumero(), aux.getEstado()};
+//                modelo.addRow(ob);
+//            } 
+//        }
+//    }  
+    
     private void actualizarTabla() {
         Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
         LSE<Vuelo> vuelos = controlador.obtenerVuelos(aerolinea);
@@ -189,12 +209,29 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
 
         for (int i = 0; i < vuelos.size(); i++) {
             Vuelo aux = vuelos.get(i);
-            if(aux.getEstado().equals("Programado")){
-                Object[] ob = {aux.getNumVuelo(), aux.getOrigen(), aux.getDestino(), aux.getFechaVuelo(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getDiaFinVuelo(), aux.getCapitan().getNombres(), aux.getAvion().getNumero(), aux.getEstado()};
-                modelo.addRow(ob);
-            } 
+            if (aux.getEstado().equals("Programado")) {
+                insertarOrdenadoTabla(aux);
+            }
         }
-    }  
+    }
+    
+    private void insertarOrdenadoTabla(Vuelo nuevoVuelo) {
+        Object[] ob = {nuevoVuelo.getNumVuelo(), nuevoVuelo.getOrigen(), nuevoVuelo.getDestino(), nuevoVuelo.getFechaVuelo(), nuevoVuelo.getHoraVuelo(), nuevoVuelo.getTiempoFin(), nuevoVuelo.getDiaFinVuelo(), nuevoVuelo.getCapitan().getNombres(), nuevoVuelo.getAvion().getNumero(), nuevoVuelo.getEstado()};
+
+        if (modelo.getRowCount() == 0 || nuevoVuelo.getFechaVuelo().isAfter(((LocalDate) modelo.getValueAt(modelo.getRowCount() - 1, 3)))) {
+            modelo.addRow(ob);
+        } else {
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                LocalDate fechaTabla = (LocalDate) modelo.getValueAt(i, 3);
+                if (nuevoVuelo.getFechaVuelo().isBefore(fechaTabla) || nuevoVuelo.getFechaVuelo().isEqual(fechaTabla)) {
+                    modelo.insertRow(i, ob);
+                    return;
+                }
+            }
+            modelo.addRow(ob);
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu btnRegresar;

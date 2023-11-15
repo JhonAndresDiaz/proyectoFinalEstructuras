@@ -272,8 +272,11 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     private void cboAerolineasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAerolineasActionPerformed
         String nombreAerolinea = (String) cboAerolineas.getSelectedItem();
         if (nombreAerolinea != null) {
-            filtrarVuelos(nombreAerolinea);
-        } else {
+            if(nombreAerolinea.equals("-Ver Todos-")){
+                filtrarVuelos();
+            }else {
+                filtrarVuelosAerolinea(nombreAerolinea);
+            }
         }
     }//GEN-LAST:event_cboAerolineasActionPerformed
 
@@ -318,24 +321,33 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     private void cboOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboOrigenActionPerformed
         String nombreAerolinea = (String) cboAerolineas.getSelectedItem();
         if (nombreAerolinea != null) {
-            filtrarVuelos(nombreAerolinea);
-        } else {
+            if(nombreAerolinea.equals("-Ver Todos-")){
+                filtrarVuelos();
+            }else {
+                filtrarVuelosAerolinea(nombreAerolinea);
+            }
         }
     }//GEN-LAST:event_cboOrigenActionPerformed
 
     private void dataChooserFechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataChooserFechaPropertyChange
         String nombreAerolinea = (String) cboAerolineas.getSelectedItem();
         if (nombreAerolinea != null) {
-            filtrarVuelos(nombreAerolinea);
-        } else {
+            if(nombreAerolinea.equals("-Ver Todos-")){
+                filtrarVuelos();
+            }else {
+                filtrarVuelosAerolinea(nombreAerolinea);
+            }
         }
     }//GEN-LAST:event_dataChooserFechaPropertyChange
 
     private void cboDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboDestinoActionPerformed
         String nombreAerolinea = (String) cboAerolineas.getSelectedItem();
         if (nombreAerolinea != null) {
-            filtrarVuelos(nombreAerolinea);
-        } else {
+            if(nombreAerolinea.equals("-Ver Todos-")){
+                filtrarVuelos();
+            }else {
+                filtrarVuelosAerolinea(nombreAerolinea);
+            }
         }
     }//GEN-LAST:event_cboDestinoActionPerformed
 
@@ -372,109 +384,124 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
- 
-    public void filtrarVuelos(String nombreAerolinea) {
+    
+    public void filtrarVuelos() {
         int filtrosSeleccionados = 0;
         Date x = dataChooserFecha.getDate();
-        String origen = "";
-        String destino = "";
+        String origen = obtenerOrigenSeleccionado();
+        String destino = obtenerDestinoSeleccionado();
 
         if (cboOrigen.getSelectedIndex() != 0) {
             filtrosSeleccionados++;
-            origen = String.valueOf(cboOrigen.getSelectedItem());
         }
         if (cboDestino.getSelectedIndex() != 0) {
             filtrosSeleccionados++;
-            destino = String.valueOf(cboDestino.getSelectedItem());
         }
         if (x != null) {
             filtrosSeleccionados++;
         }
-        
-        if (cboOrigen.getSelectedIndex() == 0 && cboDestino.getSelectedIndex() == 0 && x == null) {
-            if (nombreAerolinea.equals("-Ver Todos-")) {
+
+        switch (filtrosSeleccionados) {
+            case 3:
+                LocalDate fecha = new java.sql.Date(x.getTime()).toLocalDate();
+                actualizarTabla3Radio(origen, destino, fecha);
+                break;
+            case 2:
+                if (cboOrigen.getSelectedIndex() != 0 && cboDestino.getSelectedIndex() != 0) {
+                    actualizarTablaDesIni(origen, destino);
+                } else if (x != null && cboOrigen.getSelectedIndex() != 0) {
+                    LocalDate fecha2 = new java.sql.Date(x.getTime()).toLocalDate();
+                    actualizarTablaFechaOri(origen, fecha2);
+                } else if (x != null && cboDestino.getSelectedIndex() != 0) {
+                    LocalDate fecha3 = new java.sql.Date(x.getTime()).toLocalDate();
+                    actualizarTablaFechaDestino(destino, fecha3);
+                } else {
+                        actualizarTablaTodos();
+                }
+                break;
+            case 1:
+                if (x != null) {
+                    LocalDate fecha4 = new java.sql.Date(x.getTime()).toLocalDate();
+                    actualizaFecha(fecha4);
+                } else if (cboOrigen.getSelectedIndex() != 0) {
+                    actualizaOrigen(origen);
+                } else if (cboDestino.getSelectedIndex() != 0) {
+                    actualizaDestino(destino);
+                } else {
+                        actualizarTablaTodos();
+                }
+                break;
+            case 0:
                 actualizarTablaTodos();
-            }else {
-                Aerolinea aerolineaBuscada = controlador.buscarAerolineaNombre(nombreAerolinea);
-                if (aerolineaBuscada != null) {
-                    actualizarTablaUno(aerolineaBuscada);
-                }
-            }
-        }else {
-            if(nombreAerolinea.equals("-Ver Todos-")){
-                switch (filtrosSeleccionados) {
-                case 3:
-                    LocalDate fecha = new java.sql.Date(x.getTime()).toLocalDate();
-                    actualizarTabla3Radio(origen, destino, fecha);
-                    break;
-                case 2:
-                    if (cboOrigen.getSelectedIndex() != 0 && cboDestino.getSelectedIndex() != 0) {
-                        actualizarTablaDesIni(origen, destino);
-                    } else if (x != null && cboOrigen.getSelectedIndex() != 0) {
-                        LocalDate fecha2 = new java.sql.Date(x.getTime()).toLocalDate();
-                        actualizarTablaFechaOri(origen, fecha2);
-                    } else if (x != null && cboDestino.getSelectedIndex() != 0) {
-                        LocalDate fecha3 = new java.sql.Date(x.getTime()).toLocalDate();
-                        actualizarTablaFechaDestino(destino, fecha3);
-                    }else {
-                        actualizarTablaTodos();
-                    }
-                    break;
-                case 1:
-                    if (x != null) {
-                        LocalDate fecha4 = new java.sql.Date(x.getTime()).toLocalDate();
-                        actualizaFecha(fecha4);
-                    } else if (cboOrigen.getSelectedIndex() != 0) {
-                        actualizaOrigen(origen);
-                    } else if (cboDestino.getSelectedIndex() != 0) {
-                        actualizaDestino(destino);
-                    }else {
-                        actualizarTablaTodos();
-                    }
-                    break;
-                default:
-                    
-                }
-            }else {
-                Aerolinea aerolineaBuscada = controlador.buscarAerolineaNombre(nombreAerolinea);
-                if (aerolineaBuscada != null) {
-                   switch (filtrosSeleccionados) {
-                    case 3:
-                        LocalDate fecha = new java.sql.Date(x.getTime()).toLocalDate();
-                        actualizarTabla3FiltroAerolinea(aerolineaBuscada, origen, destino, fecha);
-                        break;
-                    case 2:
-                        if (cboOrigen.getSelectedIndex() != 0 && cboDestino.getSelectedIndex() != 0) {
-                            actualizarTablaDesIniUnaAerolinea(aerolineaBuscada, origen, destino);
-                        } else if (x != null && cboOrigen.getSelectedIndex() != 0) {
-                            LocalDate fecha2 = new java.sql.Date(x.getTime()).toLocalDate();
-                            actualizarTablaFechaOriUnaAerolinea(aerolineaBuscada, origen, fecha2);
-                        } else if (x != null && cboDestino.getSelectedIndex() != 0) {
-                            LocalDate fecha3 = new java.sql.Date(x.getTime()).toLocalDate();
-                            actualizarTablaFechaDestinoUnaAerolinea(aerolineaBuscada, destino, fecha3);
-                        }else {
-                            actualizarTablaUno(aerolineaBuscada);
-                        }
-                        break;
-                    case 1:
-                        if (x != null) {
-                            LocalDate fecha4 = new java.sql.Date(x.getTime()).toLocalDate();
-                            actualizaFechaUnaAero(aerolineaBuscada, fecha4);
-                        } else if (cboOrigen.getSelectedIndex() != 0) {
-                            actualizaOrigenUnaAerolinea(aerolineaBuscada, origen);
-                        } else if (cboDestino.getSelectedIndex() != 0) {
-                            actualizaDestinoUnaAerolinea(aerolineaBuscada, destino);
-                        }else {
-                            actualizarTablaUno(aerolineaBuscada);
-                        }
-                        break;
-                    default:  
-                    }    
-                }
-            }
-        }
+                break;
+            default:
+                break;
+        }         
     }
     
+    public void filtrarVuelosAerolinea(String nombreAerolinea) {
+        int filtrosSeleccionados = 0;
+        Date x = dataChooserFecha.getDate();
+        String origen = obtenerOrigenSeleccionado();
+        String destino = obtenerDestinoSeleccionado();
+
+        if (cboOrigen.getSelectedIndex() != 0) {
+            filtrosSeleccionados++;
+        }
+        if (cboDestino.getSelectedIndex() != 0) {
+            filtrosSeleccionados++;
+        }
+        if (x != null) {
+            filtrosSeleccionados++;
+        }
+
+        Aerolinea aerolinea = controlador.buscarAerolineaNombre(nombreAerolinea);
+        switch (filtrosSeleccionados) {
+            case 3:
+                LocalDate fecha = new java.sql.Date(x.getTime()).toLocalDate();
+                actualizarTabla3FiltroAerolinea(aerolinea, origen, destino, fecha);
+                break;
+            case 2:
+                if (cboOrigen.getSelectedIndex() != 0 && cboDestino.getSelectedIndex() != 0) {
+                    actualizarTablaDesIniUnaAerolinea(aerolinea, origen, destino);
+                } else if (x != null && cboOrigen.getSelectedIndex() != 0) {
+                    LocalDate fecha2 = new java.sql.Date(x.getTime()).toLocalDate();
+                    actualizarTablaFechaOriUnaAerolinea(aerolinea, origen, fecha2);
+                } else if (x != null && cboDestino.getSelectedIndex() != 0) {
+                    LocalDate fecha3 = new java.sql.Date(x.getTime()).toLocalDate();
+                    actualizarTablaFechaDestinoUnaAerolinea(aerolinea, destino, fecha3);
+                } else {
+                    actualizarTablaUno(aerolinea);
+                }
+                break;
+            case 1:
+                if (x != null) {
+                    LocalDate fecha4 = new java.sql.Date(x.getTime()).toLocalDate();
+                    actualizaFechaUnaAero(aerolinea, fecha4);
+                } else if (cboOrigen.getSelectedIndex() != 0) {
+                    actualizaOrigenUnaAerolinea(aerolinea, origen);
+                } else if (cboDestino.getSelectedIndex() != 0) {
+                    actualizaDestinoUnaAerolinea(aerolinea, destino);
+                } else {
+                    actualizarTablaUno(aerolinea);
+                }
+                break;
+            case 0:
+                actualizarTablaUno(aerolinea);
+                break;
+            default:
+                break;
+        }         
+    }
+
+    private String obtenerOrigenSeleccionado() {
+        return String.valueOf(cboOrigen.getSelectedItem());
+    }
+
+    private String obtenerDestinoSeleccionado() {
+        return String.valueOf(cboDestino.getSelectedItem());
+    }
+
     private void actualizarTablaUno(Aerolinea aerolinea){
         LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAerolinea(aerolinea.getCodigoAerolinea());
         try{
@@ -546,7 +573,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     }
     
     private void actualizarTabla3FiltroAerolinea(Aerolinea aerolinea, String origen, String destino, LocalDate fecha){
-        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAerolinea(aerolinea.getCodigoAerolinea());
+        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAeroDestinoFechaOrigen(aerolinea.getCodigoAerolinea(), destino, fecha, origen);
         try{
             for (int i = 0; i < 3 ; i++) {
                 for (int j = 0; j < modelo.getRowCount(); j++) {
@@ -595,7 +622,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     }
     
     private void actualizarTablaDesIniUnaAerolinea(Aerolinea aerolinea, String origen, String destino){
-        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAerolinea(aerolinea.getCodigoAerolinea());
+        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAerolinea2(aerolinea.getCodigoAerolinea(), origen, destino);
         try{
             for (int i = 0; i < 3 ; i++) {
                 for (int j = 0; j < modelo.getRowCount(); j++) {
@@ -607,14 +634,8 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         try{
             for (int i = 0; i < vuelos.size() ; i++) {
                 Vuelo aux = vuelos.get(i); 
-                if(fechaActual.isBefore(aux.getFechaVuelo())|| fechaActual.equals(aux.getFechaVuelo()) && horaActual.isBefore(aux.getHoraVuelo())){
-                    Object[] ob = {aux.getFechaVuelo(), aux.getOrigen(), aux.getDestino(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getNumVuelo(), aerolinea.getNombreAerolinea()};
-                    modelo.addRow(ob);  
-                } 
-                if(aux.getOrigen().equals(origen) && aux.getDestino().equals(destino)){
-                    Object[] ob = {aux.getFechaVuelo(), aux.getOrigen(), aux.getDestino(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getNumVuelo(), aerolinea.getNombreAerolinea()};
-                    modelo.addRow(ob);   
-                }                     
+                Object[] ob = {aux.getFechaVuelo(), aux.getOrigen(), aux.getDestino(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getNumVuelo(), aerolinea.getNombreAerolinea()};
+                modelo.addRow(ob);                                 
             }
         }catch(NullPointerException e){        
         }
@@ -646,7 +667,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     }
     
     private void actualizarTablaFechaOriUnaAerolinea(Aerolinea aerolinea, String origen, LocalDate fecha){
-        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAerolinea(aerolinea.getCodigoAerolinea());
+        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAeroOrigrnFecha(aerolinea.getCodigoAerolinea(), origen, fecha);
         try{
             for (int i = 0; i < 3 ; i++) {
                 for (int j = 0; j < modelo.getRowCount(); j++) {
@@ -658,12 +679,10 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
         try{
             for (int i = 0; i < vuelos.size() ; i++) {
                 Vuelo aux = vuelos.get(i); 
-                if(fechaActual.isBefore(aux.getFechaVuelo())|| fechaActual.equals(aux.getFechaVuelo()) && horaActual.isBefore(aux.getHoraVuelo())){
-                    if(aux.getFechaVuelo().equals(fecha) && aux.getOrigen().equals(origen)){
-                        Object[] ob = {aux.getFechaVuelo(), aux.getOrigen(), aux.getDestino(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getNumVuelo(), aerolinea.getNombreAerolinea()};
-                        modelo.addRow(ob);    
-                    }  
-                }                       
+                if(aux.getFechaVuelo().equals(fecha) && aux.getOrigen().equals(origen)){
+                    Object[] ob = {aux.getFechaVuelo(), aux.getOrigen(), aux.getDestino(), aux.getHoraVuelo(), aux.getTiempoFin(), aux.getNumVuelo(), aerolinea.getNombreAerolinea()};
+                    modelo.addRow(ob);    
+                }                                        
             }
         }catch(NullPointerException e){        
         }
@@ -695,7 +714,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     }
     
     private void actualizarTablaFechaDestinoUnaAerolinea(Aerolinea aerolinea, String destino, LocalDate fecha){
-        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAerolinea(aerolinea.getCodigoAerolinea());
+        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAeroDestinoFecha(aerolinea.getCodigoAerolinea(), destino, fecha);
         try{
             for (int i = 0; i < 3 ; i++) {
                 for (int j = 0; j < modelo.getRowCount(); j++) {
@@ -744,7 +763,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     }
     
     private void actualizaFechaUnaAero(Aerolinea aerolinea, LocalDate fecha){
-        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAerolinea(aerolinea.getCodigoAerolinea());
+        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAeroFecha(aerolinea.getCodigoAerolinea(), fecha);
         try{
             for (int i = 0; i < 3 ; i++) {
                 for (int j = 0; j < modelo.getRowCount(); j++) {
@@ -793,7 +812,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     }
     
     private void actualizaOrigenUnaAerolinea(Aerolinea aerolinea, String origen){
-        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAerolinea(aerolinea.getCodigoAerolinea());
+        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAeroOrigen(aerolinea.getCodigoAerolinea(), origen);
         try{
             for (int i = 0; i < 3 ; i++) {
                 for (int j = 0; j < modelo.getRowCount(); j++) {
@@ -842,7 +861,7 @@ public class VentanaVuelosProgramados extends javax.swing.JFrame {
     }
     
     private void actualizaDestinoUnaAerolinea(Aerolinea aerolinea, String destino){
-        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAerolinea(aerolinea.getCodigoAerolinea());
+        LSE<Vuelo> vuelos = controlador.obtenerVuelosUnaAeroDestino(aerolinea.getCodigoAerolinea(), destino);
         try{
             for (int i = 0; i < 3 ; i++) {
                 for (int j = 0; j < modelo.getRowCount(); j++) {

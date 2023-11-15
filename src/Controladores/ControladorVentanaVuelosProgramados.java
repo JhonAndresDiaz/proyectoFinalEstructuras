@@ -3,6 +3,7 @@ package Controladores;
 import Modelos.*;
 import Singleton.Singleton;
 import Util.LSE;
+import java.time.LocalDate;
 
 /**
  *
@@ -48,7 +49,149 @@ public class ControladorVentanaVuelosProgramados {
         }
         return null;
     }
-
+    
+    public LSE<Vuelo> obtenerVuelosUnaAeroOrigrnFecha(int codigo, String origen, LocalDate fecha){
+        LSE<Vuelo> vuelos = new LSE<>();
+        listaAerolineas = Singleton.getInstancia().getAerolineas();
+        if(listaAerolineas != null){         
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolineaEncontrada = listaAerolineas.get(i);
+                if(aerolineaEncontrada.getCodigoAerolinea() == codigo){
+                    for (int j = 0; j < aerolineaEncontrada.getListaAviones().size(); j++) {
+                        Avion avion = aerolineaEncontrada.getListaAviones().get(j);
+                        for (int k = 0; k < avion.getCronograma().size(); k++) {
+                            Vuelo vuelo = avion.getCronograma().get(k);
+                            if(vuelo.getEstado().equals("Programado")
+                                    && vuelo.getFechaVuelo().equals(fecha) && vuelo.getOrigen().equals(origen)){
+                                vuelos.add(vuelo);
+                            }
+                        }
+                    }
+                }   
+            }
+            return vuelos;  
+        }
+        return new LSE<>();
+    } 
+    
+    public LSE<Vuelo> obtenerVuelosUnaAeroDestinoFechaOrigen(int codigo, String destino, LocalDate fecha, String origen){
+        LSE<Vuelo> vuelos = new LSE<>();
+        listaAerolineas = Singleton.getInstancia().getAerolineas();
+        if(listaAerolineas != null){         
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolineaEncontrada = listaAerolineas.get(i);
+                if(aerolineaEncontrada.getCodigoAerolinea() == codigo){
+                    for (int j = 0; j < aerolineaEncontrada.getListaAviones().size(); j++) {
+                        Avion avion = aerolineaEncontrada.getListaAviones().get(j);
+                        for (int k = 0; k < avion.getCronograma().size(); k++) {
+                            Vuelo vuelo = avion.getCronograma().get(k);
+                            if(vuelo.getEstado().equals("Programado")
+                                    && vuelo.getFechaVuelo().equals(fecha) && vuelo.getDestino().equals(destino)
+                                    && vuelo.getOrigen().equals(origen)){
+                                vuelos.add(vuelo);
+                            }
+                        }
+                    }
+                }   
+            }
+            return vuelos;  
+        }
+        return new LSE<>();
+    } 
+    
+    public LSE<Vuelo> obtenerVuelosUnaAeroDestinoFecha(int codigo, String destino, LocalDate fecha){
+        LSE<Vuelo> vuelos = new LSE<>();
+        listaAerolineas = Singleton.getInstancia().getAerolineas();
+        if(listaAerolineas != null){         
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolineaEncontrada = listaAerolineas.get(i);
+                if(aerolineaEncontrada.getCodigoAerolinea() == codigo){
+                    for (int j = 0; j < aerolineaEncontrada.getListaAviones().size(); j++) {
+                        Avion avion = aerolineaEncontrada.getListaAviones().get(j);
+                        for (int k = 0; k < avion.getCronograma().size(); k++) {
+                            Vuelo vuelo = avion.getCronograma().get(k);
+                            if(vuelo.getEstado().equals("Programado")
+                                    && vuelo.getFechaVuelo().equals(fecha) && vuelo.getDestino().equals(destino)){
+                                vuelos.add(vuelo);
+                            }
+                        }
+                    }
+                }   
+            }
+            return vuelos;  
+        }
+        return new LSE<>();
+    } 
+    
+    public LSE<Vuelo> obtenerVuelosUnaAeroFecha(int codigo, LocalDate fecha){
+        LSE<Vuelo> vuelos = new LSE<>();
+        listaAerolineas = Singleton.getInstancia().getAerolineas();
+        if(listaAerolineas != null){         
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolineaEncontrada = listaAerolineas.get(i);
+                if(aerolineaEncontrada.getCodigoAerolinea() == codigo){
+                    for (int j = 0; j < aerolineaEncontrada.getListaAviones().size(); j++) {
+                        Avion avion = aerolineaEncontrada.getListaAviones().get(j);
+                        for (int k = 0; k < avion.getCronograma().size(); k++) {
+                            Vuelo vuelo = avion.getCronograma().get(k);
+                            if(vuelo.getEstado().equals("Programado") && vuelo.getFechaVuelo().equals(fecha)){
+                                vuelos.add(vuelo);
+                            }
+                        }
+                    }
+                }   
+            }
+            return vuelos;  
+        }
+        return new LSE<>();
+    }  
+    
+    public LSE<Vuelo> obtenerVuelosUnaAeroOrigen(int codigo, String origen){
+        LSE<Vuelo> vuelos = new LSE<>();
+        listaAerolineas = Singleton.getInstancia().getAerolineas();
+        if(listaAerolineas != null){         
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolineaEncontrada = listaAerolineas.get(i);
+                if(aerolineaEncontrada.getCodigoAerolinea() == codigo){
+                    for (int j = 0; j < aerolineaEncontrada.getListaAviones().size(); j++) {
+                        Avion avion = aerolineaEncontrada.getListaAviones().get(j);
+                        for (int k = 0; k < avion.getCronograma().size(); k++) {
+                            Vuelo vuelo = avion.getCronograma().get(k);
+                            if(vuelo.getEstado().equals("Programado") && vuelo.getOrigen().equals(origen)){
+                                vuelos.add(vuelo);
+                            }
+                        }
+                    }
+                }   
+            }
+            return vuelos;  
+        }
+        return new LSE<>();
+    }  
+    
+    public LSE<Vuelo> obtenerVuelosUnaAeroDestino(int codigo, String destino){
+        LSE<Vuelo> vuelos = new LSE<>();
+        listaAerolineas = Singleton.getInstancia().getAerolineas();
+        if(listaAerolineas != null){         
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolineaEncontrada = listaAerolineas.get(i);
+                if(aerolineaEncontrada.getCodigoAerolinea() == codigo){
+                    for (int j = 0; j < aerolineaEncontrada.getListaAviones().size(); j++) {
+                        Avion avion = aerolineaEncontrada.getListaAviones().get(j);
+                        for (int k = 0; k < avion.getCronograma().size(); k++) {
+                            Vuelo vuelo = avion.getCronograma().get(k);
+                            if(vuelo.getEstado().equals("Programado") && vuelo.getDestino().equals(destino)){
+                                vuelos.add(vuelo);
+                            }
+                        }
+                    }
+                }   
+            }
+            return vuelos;  
+        }
+        return new LSE<>();
+    }  
+    
     public LSE<Vuelo> obtenerVuelosUnaAerolinea(int codigo){
         LSE<Vuelo> vuelos = new LSE<>();
         listaAerolineas = Singleton.getInstancia().getAerolineas();
@@ -61,6 +204,30 @@ public class ControladorVentanaVuelosProgramados {
                         for (int k = 0; k < avion.getCronograma().size(); k++) {
                             Vuelo vuelo = avion.getCronograma().get(k);
                             if(vuelo.getEstado().equals("Programado")){
+                                vuelos.add(vuelo);
+                            }
+                        }
+                    }
+                }   
+            }
+            return vuelos;  
+        }
+        return new LSE<>();
+    }  
+    
+    public LSE<Vuelo> obtenerVuelosUnaAerolinea2(int codigo, String origen, String destino){
+        LSE<Vuelo> vuelos = new LSE<>();
+        listaAerolineas = Singleton.getInstancia().getAerolineas();
+        if(listaAerolineas != null){         
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolineaEncontrada = listaAerolineas.get(i);
+                if(aerolineaEncontrada.getCodigoAerolinea() == codigo){
+                    for (int j = 0; j < aerolineaEncontrada.getListaAviones().size(); j++) {
+                        Avion avion = aerolineaEncontrada.getListaAviones().get(j);
+                        for (int k = 0; k < avion.getCronograma().size(); k++) {
+                            Vuelo vuelo = avion.getCronograma().get(k);
+                            if(vuelo.getEstado().equals("Programado") 
+                                    && vuelo.getOrigen().equals(origen) && vuelo.getDestino().equals(destino)){
                                 vuelos.add(vuelo);
                             }
                         }

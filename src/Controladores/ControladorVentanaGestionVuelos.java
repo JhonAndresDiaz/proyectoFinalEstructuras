@@ -9,7 +9,6 @@ import Util.Nodo;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-
 /**
  *
  * @author diaza

@@ -151,11 +151,11 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Num Vuelo", "Código", "Posición", "Fecha Inicio", "Hora Inicio", "Origen", "Fecha Fin", "Hora Fin", "Destino", "Estado"
+                "Num Vuelo", "Código", "Fecha Inicio", "Hora Inicio", "Origen", "Fecha Fin", "Hora Fin", "Destino"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -177,8 +177,6 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
             tabla1.getColumnModel().getColumn(5).setResizable(false);
             tabla1.getColumnModel().getColumn(6).setResizable(false);
             tabla1.getColumnModel().getColumn(7).setResizable(false);
-            tabla1.getColumnModel().getColumn(8).setResizable(false);
-            tabla1.getColumnModel().getColumn(9).setResizable(false);
         }
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 740, 100));
@@ -333,7 +331,7 @@ public class VentanaReservaActivas extends javax.swing.JFrame {
         try{
             for (int i = 0; i < reservas.size() ; i++) {
                 Reserva aux = reservas.get(i);                   
-                Object[] ob = {aux.getVuelo().getNumVuelo(), aux.getCodigo(), aux.getPosicion(), aux.getVuelo().getFechaVuelo()  ,aux.getVuelo().getHoraVuelo(), aux.getVuelo().getOrigen(), aux.getVuelo().getDiaFinVuelo(), aux.getVuelo().getTiempoFin(), aux.getVuelo().getDestino(), aux.getEstado()};
+                Object[] ob = {aux.getVuelo().getNumVuelo(), aux.getCodigo(), aux.getVuelo().getFechaVuelo()  ,aux.getVuelo().getHoraVuelo(), aux.getVuelo().getOrigen(), aux.getVuelo().getDiaFinVuelo(), aux.getVuelo().getTiempoFin(), aux.getVuelo().getDestino()};
                 modelo2.addRow(ob);                
             }
         }catch(NullPointerException e){        
