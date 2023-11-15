@@ -5,6 +5,8 @@ import Excepciones.*;
 import Modelos.*;
 import Singleton.Singleton;
 import Util.LSE;
+import Util.Pila;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,10 +16,14 @@ public class ControladorVentanaGestionGestorMantenimiento {
     
     private LSE<Usuario> listaUsuarios;
     private LSE<Aerolinea> listaAerolineas;
+    private Pila<GestorMantenimiento> z;
+    private Pila<GestorMantenimiento> y;
     
     public ControladorVentanaGestionGestorMantenimiento(){
         this.listaUsuarios = Singleton.getInstancia().getUsuarios();
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
+        this.z = new Pila<>();
+        this.y = new Pila<>();
     }
     
     public LSE<GestorMantenimiento> obtenerGestores(){
@@ -173,6 +179,7 @@ public class ControladorVentanaGestionGestorMantenimiento {
             }else if (viajeroBuscado != null) {
                 if (validarMismaInfoGestor(persona)) {
                     listaUsuarios.add(persona);
+                    z.push(persona);
                     Singleton.getInstancia().escribirUsuarios();
                 }else {
                     throw new InformacionViajeroException();   
@@ -180,6 +187,7 @@ public class ControladorVentanaGestionGestorMantenimiento {
             }
         }else {
             listaUsuarios.add(persona);
+            z.push(persona);
             Singleton.getInstancia().escribirUsuarios();
         }
     }
@@ -229,6 +237,7 @@ public class ControladorVentanaGestionGestorMantenimiento {
                 if(listaUsuarios.get(i).getRol().equals("Gestor Mantenimiento")){
                     GestorMantenimiento gestorMantenimiento = (GestorMantenimiento) listaUsuarios.get(i);
                     if(gestorMantenimiento.getIdentificacion().equals(aux.getIdentificacion())){
+                        z.push(gestorMantenimiento);
                         listaUsuarios.remove(i);
                         Singleton.getInstancia().escribirUsuarios();
                     }
@@ -239,4 +248,60 @@ public class ControladorVentanaGestionGestorMantenimiento {
         }      
     }
     
+    public void activateZ(String action) {
+        if (!z.isEmpty()) {
+            GestorMantenimiento user = z.pop();
+            validateAndPush(action, user);
+        } else {
+            JOptionPane.showMessageDialog(null, "La pila Z está vacía. No se puede realizar la operación.");
+        }
+    }
+
+    public void activateY(String action) {
+        if (!y.isEmpty()) {
+            GestorMantenimiento user = y.pop();
+            validateAndPush(action, user);
+        } else {
+            JOptionPane.showMessageDialog(null, "La pila Y está vacía. No se puede realizar la operación.");
+        }
+    }
+
+    private void validateAndPush(String action, GestorMantenimiento user) {
+        if (action.equals("register")) {
+            deleteUsu(user.getCorreo()); 
+        } else if (action.equals("add")) {
+            guardarGestorMantenimiento(user); 
+        }
+
+        // Agregar a la pila correspondiente
+        if (action.equals("register")) {
+            y.push(user);  // Agrega a la pila Y
+        } else if (action.equals("add")) {
+//            z.push(user);  // Agrega a la pila Z
+        }
+    }
+
+    private void deleteUsu(String correo) {
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            if (listaUsuarios.get(i).getCorreo().equals(correo)) {
+                listaUsuarios.remove(i);
+                Singleton.getInstancia().escribirUsuarios();
+                return; 
+            }
+        }
+    }
+
+    public boolean revisarZ(){
+        if(z.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean revisarY(){
+        if(y.isEmpty()){
+            return true;
+        }
+        return false;
+    }
 }
