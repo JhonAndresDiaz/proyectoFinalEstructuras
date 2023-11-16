@@ -19,6 +19,10 @@ public class GestorMantenimiento extends Persona implements Serializable {
         this.ciudadResidencia = ciudadResidencia;
     }
 
+    public GestorMantenimiento(String identificacion, String nombres, String apellidos, int edad, String genero, String numTelefono, String correo, String contrasenia, String rol) {
+        super(identificacion, nombres, apellidos, edad, genero, numTelefono, correo, contrasenia, rol);
+    }
+    
     public String getEspecialidad() {
         return especialidad;
     }

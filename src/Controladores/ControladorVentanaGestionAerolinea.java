@@ -4,6 +4,7 @@ import Excepciones.*;
 import Modelos.*;
 import Singleton.Singleton;
 import Util.LSE;
+import Util.Pila;
 
 /**
  *
@@ -13,10 +14,50 @@ public class ControladorVentanaGestionAerolinea {
     
     private LSE<Aerolinea> listaAerolineas;
     private LSE<Usuario> listaUsuarios;
+    private Pila<LSE<Aerolinea>> z;
+    private Pila<LSE<Aerolinea>> y;
     
     public ControladorVentanaGestionAerolinea(){
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
         this.listaUsuarios = Singleton.getInstancia().getUsuarios();
+        this.z = new Pila<>();
+        this.y = new Pila<>();
+    }
+    
+    public Pila<LSE<Aerolinea>> getZ() {
+        return z;
+    }
+
+    public Pila<LSE<Aerolinea>> getY() {
+        return y;
+    }
+    
+    public void controlY(){
+        listaAerolineas = y.pop();
+        Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+        Singleton.getInstancia().escribirAerolineas();
+    }
+    
+    public void controlZ(){
+        listaAerolineas = z.pop();
+        Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+        Singleton.getInstancia().escribirAerolineas();
+    }
+    
+    public void limpiarY(){
+        if(!y.isEmpty()){
+            y = new Pila<>();
+        }
+    }
+    
+    public void respaldoZ(){  
+        LSE<Aerolinea> respaldoAerolinea = listaAerolineas.clone();
+        z.push(respaldoAerolinea);
+    }
+        
+    public void respaldoY(){  
+        LSE<Aerolinea> respaldoAerolinea = listaAerolineas.clone();
+        y.push(respaldoAerolinea);
     }
     
     public LSE<Aerolinea> obtenerAerolineas(){
@@ -180,6 +221,8 @@ public class ControladorVentanaGestionAerolinea {
                 throw new EmpleadoLogisticaRegistradoException();
             }else if(viajeroBuscado != null) {
                 if(validarMismaInfoAdministrador(admin)) {
+                    respaldoZ();
+                    limpiarY();
                     aerolinea.getListaEmpleadosAerolinea().add(admin);
                     listaAerolineas.add(aerolinea);
                     Singleton.getInstancia().escribirAerolineas();
@@ -188,6 +231,8 @@ public class ControladorVentanaGestionAerolinea {
                 }
             } 
         }else {
+            respaldoZ();
+            limpiarY();
             aerolinea.getListaEmpleadosAerolinea().add(admin);
             listaAerolineas.add(aerolinea);
             Singleton.getInstancia().escribirAerolineas();

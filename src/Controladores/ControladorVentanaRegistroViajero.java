@@ -15,15 +15,51 @@ public class ControladorVentanaRegistroViajero {
     
     private LSE<Usuario> listaUsuarios;
     private LSE<Aerolinea> listaAerolineas;
-    private Pila<Viajero> z;
-    private Pila<Viajero> y;
+    private Pila<LSE<Usuario>> z;
+    private Pila<LSE<Usuario>> y;
 
     public ControladorVentanaRegistroViajero(){
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
         this.listaUsuarios = Singleton.getInstancia().getUsuarios();
         this.z = new Pila<>();
         this.y = new Pila<>();
+    }
+    
+    public Pila<LSE<Usuario>> getZ() {
+        return z;
+    }
 
+    public Pila<LSE<Usuario>> getY() {
+        return y;
+    }
+    
+    public void controlY(){
+        listaUsuarios = y.pop();
+        Singleton.getInstancia().setListaUsuarios(listaUsuarios);
+        Singleton.getInstancia().escribirUsuarios();
+    }
+    
+    public void controlZ(){
+        listaUsuarios = z.pop();
+        Singleton.getInstancia().setListaUsuarios(listaUsuarios);
+        Singleton.getInstancia().escribirUsuarios();
+    }
+    
+    public void limpiarY(){
+        if(!y.isEmpty()){
+            y = new Pila<>();
+        }
+    }
+    
+    public void respaldoZ(){  
+        LSE<Usuario> respaldoUsuario = listaUsuarios.clone();
+        z.push(respaldoUsuario);
+        
+    }
+        
+    public void respaldoY(){  
+        LSE<Usuario> respaldoUsuario = listaUsuarios.clone();
+        y.push(respaldoUsuario);
     }
 
     public LSE<Viajero> obtenerViajerosTabla(){
@@ -172,8 +208,9 @@ public class ControladorVentanaRegistroViajero {
                 throw new CorreoRegistradoException();
             }else if (gestorBuscado != null || adAeroBuscado != null || capitanBuscado != null || empleadoBuscado != null) {
                 if(validarMismaInfoViajero(persona)) {
+                    respaldoZ();
+                    limpiarY();
                     listaUsuarios.add(persona);
-                    z.push(persona);
                     Singleton.getInstancia().escribirUsuarios();
                 }else {
                     if (gestorBuscado != null) {
@@ -188,100 +225,10 @@ public class ControladorVentanaRegistroViajero {
                 }
             }
         }else {
+            respaldoZ();
+            limpiarY();
             listaUsuarios.add(persona);
-            z.push(persona);
             Singleton.getInstancia().escribirUsuarios();
         }
     }  
-
-    public void activateZ(String action) {
-        if (!z.isEmpty()) {
-            Viajero user = z.pop();
-            validateAndPush(action, user, y);
-        } else {
-            System.out.println("La pila Z está vacía. No se puede realizar la operación.");
-        }
-    }
-
-    public void activateY(String action) {
-        if (!y.isEmpty()) {
-            Viajero user = y.pop();
-            validateAndPush(action, user, z);
-        } else {
-            System.out.println("La pila Y está vacía. No se puede realizar la operación.");
-        }
-    }
-
-    
-    private void validateAndPush(String action, Viajero user, Pila<Viajero> targetPila) {
-        if (action.equals("add")) {
-            guardarViajero(user);
-        } else {
-            deleteUsu(user.getCorreo());
-        }
-        targetPila.push(user);
-    }
-     
-//    private void validateAndPush(String action, Viajero user, Pila<Viajero> targetPila) {
-//    if (action.equals("add")) {  // Cambiado a "add" en lugar de "register"
-//        guardarViajero(user);  // Invertido: ahora guarda al usuario
-//    } else {
-//        deleteUsu(user.getCorreo());  // Invertido: ahora elimina al usuario
-//    }
-//    targetPila.push(user);
-//}
-
-    
-//    public void activateZ (String action) { 
-//        Viajero user = (Viajero)z.pop();
-//        validateZ(action, user); 
-//        y.push(user);
-//    }
-//    
-//    
-//    public void activateY(String action) { 
-//        Viajero user = (Viajero)y.pop();
-//        validateY(action, user);
-//        z.push(user);
-//    }
-
-
-//    private void validateZ (String action, Viajero user) { 
-//        if (action.equals("register")) { 
-//            deleteUsu(user.getCorreo());
-//        } else {
-//            
-//            guardarViajero(user);
-//        }
-//    }
-//
-//    private void validateY (String action, Viajero user) { 
-//        if (action.equals("register")) { 
-//             deleteUsu(user.getCorreo());
-//        } else {
-//            
-//            guardarViajero(user);
-//        }
-//    }
-//    
-    
-    private void deleteUsu(String correo) {
-        for (int i = 0; i < listaUsuarios.size(); i++) {
-            if (listaUsuarios.get(i).getCorreo().equals(correo)) {
-                listaUsuarios.remove(i);
-                Singleton.getInstancia().escribirUsuarios();
-                return; 
-            }
-        }
-    }
-
-
-    public boolean revisarZ(){
-        return z.isEmpty();
-    }
-    
-    public boolean revisarY(){
-        return y.isEmpty();
-    }
-            
 }

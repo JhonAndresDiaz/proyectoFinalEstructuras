@@ -3,7 +3,6 @@ package VistasAdminGeneral;
 import Controladores.ControladorVentanaGestionGestorMantenimiento;
 import Excepciones.*;
 import Modelos.GestorMantenimiento;
-import Modelos.Persona;
 import Util.LSE;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -15,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
  * @author diaza
  */
 public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
-
+    
     DefaultTableModel modelo;
     private ControladorVentanaGestionGestorMantenimiento controlador;
     
@@ -24,11 +23,9 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
      */
     public VentanaGestionGestorMantenimiento() {
         initComponents();
-        modelo = (DefaultTableModel)tabla.getModel();
+        modelo = (DefaultTableModel)tabla.getModel(); 
         this.controlador = new ControladorVentanaGestionGestorMantenimiento();
         actualizarTabla();
-        validarZ();
-        validarY();
     }
 
     /**
@@ -83,11 +80,11 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
         txtCertificaciones = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         txtCiudadResidencia = new javax.swing.JTextField();
-        btnY = new javax.swing.JButton();
-        btnZ = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
+        btZ = new javax.swing.JMenuItem();
+        btY = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -408,22 +405,6 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
         jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 110, -1));
         jPanel1.add(txtCiudadResidencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 120, -1));
 
-        btnY.setText("y");
-        btnY.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnYActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnY, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 480, 70, -1));
-
-        btnZ.setText("z");
-        btnZ.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnZActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnZ, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 480, 70, -1));
-
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
 
@@ -457,6 +438,24 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
             }
         });
         btnVolver.add(btnRegresar);
+
+        btZ.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btZ.setText("Deshacer");
+        btZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btZActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btZ);
+
+        btY.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btY.setText("Rehacer");
+        btY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btYActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btY);
 
         jMenuBar1.add(btnVolver);
 
@@ -506,7 +505,6 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Se registró correctamente el Gestor de mantenimiento " + nombres + " " + apellidos + "\n con identificación número: " + identificacion);
                 limpiarCampos();
                 actualizarTabla();
-                validarZ();
             }catch (GestorRegistradoException | CorreoRegistradoException | CapitanVueloRegistradoException | AdminAeroRegistradoException | EmpleadoLogisticaRegistradoException | InformacionViajeroException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
@@ -646,7 +644,6 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Gestor de mantenimiento eliminado correctamente");
                 limpiarCampos();
                 actualizarTabla();
-                validarZ();
             }catch(ExistenViajerosEnListaException  ex){
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -727,65 +724,25 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_txtIdBuscarKeyTyped
 
-    private void btnYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYActionPerformed
-
-    try {
-        controlador.activateY("add");
-        actualizarTabla();
-    } catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("Error al realizar la operación Y: " + e.getMessage());
-    }
-    validarDos();
-    validarZ();
-    validarY();
-
-    }//GEN-LAST:event_btnYActionPerformed
-
-    private void btnZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZActionPerformed
-
-    try {
-        controlador.activateZ("register");
-        actualizarTabla();
-    } catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("Error al realizar la operación Z: " + e.getMessage());
-    }
-    validarDos();
-    validarZ();
-    validarY();
-
-    }//GEN-LAST:event_btnZActionPerformed
-
-    public void validarZ(){
-        boolean r = controlador.revisarZ();
-        if(r){
-            btnZ.setEnabled(false);
-        }else {
-            btnZ.setEnabled(true);
+    private void btZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btZActionPerformed
+        if(!controlador.getZ().isEmpty()){
+            controlador.respaldoY();
+            controlador.controlZ();
+            actualizarTabla();
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por deshacer");
         }
-    }
-    
-    public void validarY(){
-        boolean r = controlador.revisarY();
-        if(r){
-            btnY.setEnabled(false);
-        }else {
-            btnY.setEnabled(true);
+    }//GEN-LAST:event_btZActionPerformed
+
+    private void btYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btYActionPerformed
+        if(!controlador.getY().isEmpty()){
+            controlador.respaldoZ();
+            controlador.controlY();
+            actualizarTabla();
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por rehacer");
         }
-    }
-    
-    public void validarDos(){
-        boolean r = controlador.revisarZ();
-        boolean otro = controlador.revisarY();
-        if(r && otro){
-            btnY.setEnabled(false);
-            btnZ.setEnabled(false);
-        }else {
-            btnY.setEnabled(true);
-            btnZ.setEnabled(true);
-        }
-    }
+    }//GEN-LAST:event_btYActionPerformed
     
     public void limpiarCampos() {
         txtNombres.setText(null);
@@ -824,6 +781,8 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
         }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btY;
+    private javax.swing.JMenuItem btZ;
     private javax.swing.JLabel btnBuscar;
     private javax.swing.JLabel btnCrearCuenta;
     private javax.swing.JLabel btnEditar;
@@ -831,8 +790,6 @@ public class VentanaGestionGestorMantenimiento extends javax.swing.JFrame {
     private javax.swing.JLabel btnLimpiar;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
-    private javax.swing.JButton btnY;
-    private javax.swing.JButton btnZ;
     private javax.swing.JComboBox<String> cboGenero;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

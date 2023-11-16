@@ -1,47 +1,64 @@
 package Util;
 
-/**
- *
- * @author diaza
- */
 public class Pila<T> {
-
-    private LSE<T> lista;
-
+    
+    private NodoPila<T> primero;
+    private int size;
     public Pila() {
-        this.lista = new LSE<>();
+        this.primero = null;
+        this.size=0;
     }
-
+    
     public void push(T dato) {
-        lista.add(dato, 0);  // Añadir al principio de la lista (top de la pila)
-    }
-
-    public T pop() {
-        if (isEmpty()) {
-            throw new IllegalStateException("La pila está vacía");
+        if (this.isEmpty()) {
+            this.setPrimero(new NodoPila<>(dato));
+        } else {
+            NodoPila<T> nuevoNodo = new NodoPila<>(dato);
+            nuevoNodo.setNodoAnterior(this.getPrimero());
+            this.setPrimero(nuevoNodo);
         }
-        T dato = lista.get(0);  // Obtener el elemento en la cima de la pila
-        lista.remove(0);        // Eliminar el elemento en la cima de la pila
-        return dato;
+        this.aumentarSize();
     }
-
-    public T top() {
-        if (isEmpty()) {
-            throw new IllegalStateException("La pila está vacía");
+    
+    public T pop(){
+        if (!this.isEmpty()) {
+            T aux = this.peek();
+            this.setPrimero(this.getPrimero().getNodoAnterior());
+            this.disminuirSize();
+            return aux;
+        }else{
+            throw new RuntimeException("La pila esta vacia");
         }
-        return lista.get(0);  
+    }
+    
+    public boolean isEmpty(){
+        return this.getPrimero()==null;
+    }
+    
+    public int getSize(){
+        return this.size;
+    }
+    
+    public T peek(){
+        if(!this.isEmpty()){
+            return this.getPrimero().getDato();
+        }else{
+            throw new RuntimeException("La pila esta vacia");
+        }
     }
 
-    public boolean isEmpty() {
-        return lista.isEmpty();
+    private void aumentarSize(){
+        this.size++;
     }
 
-    public int size() {
-        return lista.size();
+    private void disminuirSize(){
+        this.size--;
+    }
+
+    private NodoPila<T> getPrimero(){
+        return this.primero;
+    }
+    private void setPrimero(NodoPila<T> primero){
+        this.primero=primero;
     }
 }
-
-
-
-       
-

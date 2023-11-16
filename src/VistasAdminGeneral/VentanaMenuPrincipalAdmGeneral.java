@@ -235,6 +235,7 @@ public class VentanaMenuPrincipalAdmGeneral extends javax.swing.JFrame {
         btnGestionAdminAero.setForeground(new java.awt.Color(255, 255, 255));
         btnGestionAdminAero.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnGestionAdminAero.setText("Gestionar Aerolíneas");
+        btnGestionAdminAero.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGestionAdminAero.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnGestionAdminAeroMouseClicked(evt);

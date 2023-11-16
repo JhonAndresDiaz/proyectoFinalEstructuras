@@ -5,7 +5,7 @@ import java.io.Serializable;
  *
  * @author diaza
  */
-public class LSE<T> implements Serializable {
+public class LSE<T> implements Serializable, Cloneable {
     
     Nodo<T> primero;
     int size;
@@ -117,11 +117,10 @@ public class LSE<T> implements Serializable {
     
     public void remove(T dato) {
         if (primero == null) {
-            return; // La lista está vacía, no hay nada que eliminar.
+            return; 
         }
 
         if (primero.getDato().equals(dato)) {
-            // El nodo a eliminar es el primero de la lista.
             primero = primero.getNodoSiguiente();
             size--;
             return;
@@ -136,7 +135,6 @@ public class LSE<T> implements Serializable {
         }
 
         if (nodoActual != null) {
-            // El nodo a eliminar se encontró en la lista.
             nodoAnterior.setNodoSiguiente(nodoActual.getNodoSiguiente());
             size--;
         }
@@ -146,4 +144,13 @@ public class LSE<T> implements Serializable {
         return primero == null;
     }
 
+    @Override
+    public LSE<T> clone() {
+        try {
+            LSE<T> nuevaLista = (LSE<T>) super.clone();
+            return nuevaLista;
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 }

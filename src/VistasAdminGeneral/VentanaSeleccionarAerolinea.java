@@ -21,8 +21,7 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
     DefaultTableModel modelo;
     Date hoy = new Date();
     LocalDate fecha = new  java.sql.Date(hoy.getTime()).toLocalDate();
-
-        
+  
     /**
      * Creates new form VentanaGestionAdministradoresAerolineas
      */
@@ -93,10 +92,14 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         txtCodigoAerolinea = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnEditarAerolinea = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        btnEliminarAerolinea = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
+        btZ = new javax.swing.JMenuItem();
+        btY = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -375,9 +378,7 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         panelRegistro.setLayout(panelRegistroLayout);
         panelRegistroLayout.setHorizontalGroup(
             panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRegistroLayout.createSequentialGroup()
-                .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
+            .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
         );
         panelRegistroLayout.setVerticalGroup(
             panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -432,9 +433,9 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnEditarAerolinea, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(btnEditarAerolinea, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -443,9 +444,35 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
                 .addComponent(btnEditarAerolinea, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 130, -1));
+        jPanel4.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, 130, -1));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 310, 330));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        btnEliminarAerolinea.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminarAerolinea.setForeground(new java.awt.Color(65, 92, 117));
+        btnEliminarAerolinea.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEliminarAerolinea.setText("Eliminar");
+        btnEliminarAerolinea.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminarAerolinea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarAerolineaMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEliminarAerolinea, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEliminarAerolinea, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        jPanel4.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, -1, -1));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 310, 350));
 
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/aleta.png"))); // NOI18N
         jLabel23.setText("jLabel23");
@@ -485,6 +512,24 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         });
         btnVolver.add(btnRegresar);
 
+        btZ.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btZ.setText("Deshacer");
+        btZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btZActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btZ);
+
+        btY.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btY.setText("Rehacer");
+        btY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btYActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btY);
+
         jMenuBar1.add(btnVolver);
 
         setJMenuBar(jMenuBar1);
@@ -497,7 +542,7 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -591,7 +636,7 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
             try{
                 controlador.eliminarAdministradorAero(identificacion, aerolinea);
                 JOptionPane.showMessageDialog(null, "Administrador de eliminado correctamente");
-                limpiarCampos();
+                limpiarCampos2();
                 actualizarTabla(aerolinea.getCodigoAerolinea());
             }catch(Almenos1AdminException | IdentificacionNoExisteException ex){
                 JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -636,7 +681,7 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
             try{
                 controlador.guardarAerolinea(aerolinea, administradorAerolinea);
                 JOptionPane.showMessageDialog(null, "Se registró correctamente la aerolinea " + aerolineaGuardar.getNombreAerolinea() + "\n con Administrador de Aerolinea: " + nombres + " " + apellidos);
-                limpiarCampos();
+                limpiarCampos2();
                 actualizarTabla(aerolineaGuardar.getCodigoAerolinea());
             }catch (CodigoAerolineaExisteException | CorreoRegistradoException | AdminAeroRegistradoException | GestorRegistradoException | CapitanVueloRegistradoException | EmpleadoLogisticaRegistradoException | InformacionViajeroException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
@@ -744,6 +789,59 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEditarAerolineaMouseClicked
 
+    private void btZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btZActionPerformed
+        int codigo = Integer.parseInt(txtCodigoAerolinea.getText());
+        Aerolinea aerolinea = controlador.buscarAerolineaCodigo(codigo);
+
+        if (aerolinea != null) {
+            if (!controlador.getZ().isEmpty()) {
+                controlador.respaldoY();
+                controlador.controlZ();
+                actualizarTabla(aerolinea.getCodigoAerolinea());
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No hay acciones por deshacer");
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Aerolínea no encontrada");
+        }
+
+    }//GEN-LAST:event_btZActionPerformed
+
+    private void btYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btYActionPerformed
+        int codigo = Integer.parseInt(txtCodigoAerolinea.getText());
+        Aerolinea aerolinea = controlador.buscarAerolineaCodigo(codigo);
+
+        if (aerolinea != null) {
+            if (!controlador.getZ().isEmpty()) {
+                controlador.respaldoY();
+                controlador.controlZ();
+                actualizarTabla(aerolinea.getCodigoAerolinea());
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No hay acciones por deshacer");
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Aerolínea no encontrada");
+        }
+
+    }//GEN-LAST:event_btYActionPerformed
+
+    private void btnEliminarAerolineaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarAerolineaMouseClicked
+        if(txtCodigoAerolinea.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ingrese el codigo de una aerolinea para eliminarla");
+        }else {
+            int codigo = Integer.parseInt(txtCodigoAerolinea.getText());
+            try{
+                controlador.eliminarAerolinea(codigo);
+                JOptionPane.showMessageDialog(null, "Administrador de eliminado correctamente");
+                limpiarCampos();
+                cboAerolinea.removeAllItems();
+                actualizarComboBox(); 
+            }catch(ExistenViajerosEnListaException | NumeroCodigoVueloNoExisteException ex ){
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }  
+        }
+    }//GEN-LAST:event_btnEliminarAerolineaMouseClicked
+
     public void actualizarComboBox() {
         cboAerolinea.removeAllItems();
         LSE<String> lista = new LSE<>();
@@ -780,6 +878,18 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         cboAerolinea.setSelectedIndex(0);
     }
     
+    public void limpiarCampos2() {
+        txtNombres.setText(null);
+        txtApellidos.setText(null);
+        txtEdad.setText(null);
+        txtIdentificacion.setText(null);
+        cboGenero.setSelectedIndex(0);
+        txtTelefono.setText(null);
+        txtCorreo.setText(null);
+        txtContrasenia.setText(null);
+        txtConfirmarContrasenia.setText(null);
+    }
+    
     private void actualizarTabla(int codigo) {
         LSE<AdministradorAerolinea> administradores = controlador.obtenerAdministradoresDeAerolineas(codigo);
         modelo.setRowCount(0); 
@@ -795,33 +905,13 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
         }
     }
 
-    
-    
-//    private void actualizarTabla(int codigo){
-//        LSE<AdministradorAerolinea> administradores = controlador.obtenerAdministradoresDeAerolineas(codigo);
-//        try{
-//            for (int i = 0; i < 3 ; i++) {
-//                for (int j = 0; j < modelo.getRowCount(); j++) {
-//                    modelo.removeRow(j);
-//                }   
-//            }
-//        }catch(NullPointerException e){
-//        }
-//            try{
-//                for (int i = 0; i < administradores.size() ; i++) {
-//                    AdministradorAerolinea aux = administradores.get(i); 
-//                    Aerolinea aerolinea = controlador.buscarAdAerolinea(aux.getIdentificacion());
-//                    Object[] ob = {aux.getIdentificacion(), aux.getNombres() + " " + aux.getApellidos(), aux.getEdad(), aux.getCorreo(), aux.getContrasenia()};
-//                    modelo.addRow(ob);                    
-//                }
-//            }catch(NullPointerException e){        
-//            }
-//        }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btY;
+    private javax.swing.JMenuItem btZ;
     private javax.swing.JLabel btnEditar2;
     private javax.swing.JLabel btnEditarAerolinea;
     private javax.swing.JLabel btnEliminar1;
+    private javax.swing.JLabel btnEliminarAerolinea;
     private javax.swing.JLabel btnLimpiar;
     private javax.swing.JLabel btnRegistrar;
     private javax.swing.JMenu btnRegresar;
@@ -852,6 +942,7 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

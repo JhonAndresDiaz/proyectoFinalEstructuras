@@ -6,7 +6,6 @@ import Modelos.*;
 import Singleton.Singleton;
 import Util.LSE;
 import Util.Pila;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,14 +15,50 @@ public class ControladorVentanaGestionGestorMantenimiento {
     
     private LSE<Usuario> listaUsuarios;
     private LSE<Aerolinea> listaAerolineas;
-    private Pila<GestorMantenimiento> z;
-    private Pila<GestorMantenimiento> y;
+    private Pila<LSE<Usuario>> z;
+    private Pila<LSE<Usuario>> y;
     
     public ControladorVentanaGestionGestorMantenimiento(){
         this.listaUsuarios = Singleton.getInstancia().getUsuarios();
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
         this.z = new Pila<>();
         this.y = new Pila<>();
+    }
+
+    public Pila<LSE<Usuario>> getZ() {
+        return z;
+    }
+
+    public Pila<LSE<Usuario>> getY() {
+        return y;
+    }
+    
+    public void controlY(){
+        listaUsuarios = y.pop();
+        Singleton.getInstancia().setListaUsuarios(listaUsuarios);
+        Singleton.getInstancia().escribirUsuarios();
+    }
+    
+    public void controlZ(){
+        listaUsuarios = z.pop();
+        Singleton.getInstancia().setListaUsuarios(listaUsuarios);
+        Singleton.getInstancia().escribirUsuarios();
+    }
+    
+    public void limpiarY(){
+        if(!y.isEmpty()){
+            y = new Pila<>();
+        }
+    }
+    
+    public void respaldoZ(){  
+        LSE<Usuario> respaldoUsuario = listaUsuarios.clone();
+        z.push(respaldoUsuario);       
+    }
+        
+    public void respaldoY(){  
+        LSE<Usuario> respaldoUsuario = listaUsuarios.clone();
+        y.push(respaldoUsuario);
     }
     
     public LSE<GestorMantenimiento> obtenerGestores(){
@@ -178,16 +213,18 @@ public class ControladorVentanaGestionGestorMantenimiento {
                 throw new EmpleadoLogisticaRegistradoException();
             }else if (viajeroBuscado != null) {
                 if (validarMismaInfoGestor(persona)) {
+                    respaldoZ();
+                    limpiarY();
                     listaUsuarios.add(persona);
-                    z.push(persona);
                     Singleton.getInstancia().escribirUsuarios();
                 }else {
                     throw new InformacionViajeroException();   
                 }
             }
         }else {
+            respaldoZ();
+            limpiarY();
             listaUsuarios.add(persona);
-            z.push(persona);
             Singleton.getInstancia().escribirUsuarios();
         }
     }
@@ -203,7 +240,8 @@ public class ControladorVentanaGestionGestorMantenimiento {
                     || !gestorMant.getCorreo().equals(gestorBuscado.getCorreo())) {
                 throw new CambioCorreoIdentificacionException();
             }
-      
+            respaldoZ();
+            limpiarY();
             gestorBuscado.setNombres(gestorMant.getNombres());
             gestorBuscado.setApellidos(gestorMant.getApellidos());
             gestorBuscado.setEdad(gestorMant.getEdad());
@@ -213,14 +251,18 @@ public class ControladorVentanaGestionGestorMantenimiento {
             gestorBuscado.setCertificaciones(gestorMant.getCertificaciones());
             gestorBuscado.setCiudadResidencia(gestorMant.getCiudadResidencia());
             gestorBuscado.setEspecialidad(gestorMant.getEspecialidad());
+            
             Singleton.getInstancia().escribirUsuarios();
 
             if(viajeroBuscado != null) {
+                respaldoZ();
+                limpiarY();
                 viajeroBuscado.setNombres(gestorMant.getNombres());
                 viajeroBuscado.setApellidos(gestorMant.getApellidos());
                 viajeroBuscado.setEdad(gestorMant.getEdad());
                 viajeroBuscado.setNumTelefono(gestorMant.getNumTelefono());
                 viajeroBuscado.setGenero(gestorMant.getGenero());
+                
                 Singleton.getInstancia().escribirUsuarios();
             }
         }else {
@@ -229,15 +271,14 @@ public class ControladorVentanaGestionGestorMantenimiento {
     }
 
     public void eliminarGestor(String identificacion){
-        
         Persona aux = buscarGestorMantenimiento(identificacion);
-    	
         if (aux != null) {
             for (int i = 0; i < listaUsuarios.size(); i++) {
                 if(listaUsuarios.get(i).getRol().equals("Gestor Mantenimiento")){
                     GestorMantenimiento gestorMantenimiento = (GestorMantenimiento) listaUsuarios.get(i);
-                    if(gestorMantenimiento.getIdentificacion().equals(aux.getIdentificacion())){
-                        z.push(gestorMantenimiento);
+                    if(gestorMantenimiento.getIdentificacion().equals(aux.getIdentificacion())){                      
+                        respaldoZ();
+                        limpiarY();
                         listaUsuarios.remove(i);
                         Singleton.getInstancia().escribirUsuarios();
                     }
@@ -247,61 +288,5 @@ public class ControladorVentanaGestionGestorMantenimiento {
             throw new IdentificacionNoExisteException();
         }      
     }
-    
-    public void activateZ(String action) {
-        if (!z.isEmpty()) {
-            GestorMantenimiento user = z.pop();
-            validateAndPush(action, user);
-        } else {
-            JOptionPane.showMessageDialog(null, "La pila Z está vacía. No se puede realizar la operación.");
-        }
-    }
 
-    public void activateY(String action) {
-        if (!y.isEmpty()) {
-            GestorMantenimiento user = y.pop();
-            validateAndPush(action, user);
-        } else {
-            JOptionPane.showMessageDialog(null, "La pila Y está vacía. No se puede realizar la operación.");
-        }
-    }
-
-    private void validateAndPush(String action, GestorMantenimiento user) {
-        if (action.equals("register")) {
-            deleteUsu(user.getCorreo()); 
-        } else if (action.equals("add")) {
-            guardarGestorMantenimiento(user); 
-        }
-
-        // Agregar a la pila correspondiente
-        if (action.equals("register")) {
-            y.push(user);  // Agrega a la pila Y
-        } else if (action.equals("add")) {
-//            z.push(user);  // Agrega a la pila Z
-        }
-    }
-
-    private void deleteUsu(String correo) {
-        for (int i = 0; i < listaUsuarios.size(); i++) {
-            if (listaUsuarios.get(i).getCorreo().equals(correo)) {
-                listaUsuarios.remove(i);
-                Singleton.getInstancia().escribirUsuarios();
-                return; 
-            }
-        }
-    }
-
-    public boolean revisarZ(){
-        if(z.isEmpty()){
-            return true;
-        }
-        return false;
-    }
-    
-    public boolean revisarY(){
-        if(y.isEmpty()){
-            return true;
-        }
-        return false;
-    }
 }

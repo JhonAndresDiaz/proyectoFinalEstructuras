@@ -23,8 +23,6 @@ public class VentanaRegistroViajero extends javax.swing.JFrame {
     public VentanaRegistroViajero() {
         initComponents();
         this.controlador = new ControladorVentanaRegistroViajero();
-        validarZ();
-        validarY();
     }
 
     /**
@@ -62,11 +60,11 @@ public class VentanaRegistroViajero extends javax.swing.JFrame {
         txtCorreo = new javax.swing.JTextField();
         txtContrasenia = new javax.swing.JTextField();
         txtConfirmarContrasenia = new javax.swing.JTextField();
-        btnY = new javax.swing.JButton();
-        btnZ = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
+        btZ = new javax.swing.JMenuItem();
+        btY = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -198,22 +196,6 @@ public class VentanaRegistroViajero extends javax.swing.JFrame {
         jPanel1.add(txtContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 120, -1));
         jPanel1.add(txtConfirmarContrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, 120, -1));
 
-        btnY.setText("y");
-        btnY.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnYActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnY, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 480, 70, -1));
-
-        btnZ.setText("z");
-        btnZ.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnZActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnZ, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 70, -1));
-
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setForeground(new java.awt.Color(65, 92, 117));
 
@@ -248,6 +230,24 @@ public class VentanaRegistroViajero extends javax.swing.JFrame {
         });
         btnVolver.add(btnRegresar);
 
+        btZ.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btZ.setText("Deshacer");
+        btZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btZActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btZ);
+
+        btY.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btY.setText("Rehacer");
+        btY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btYActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btY);
+
         jMenuBar1.add(btnVolver);
 
         setJMenuBar(jMenuBar1);
@@ -260,7 +260,7 @@ public class VentanaRegistroViajero extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
         );
 
         pack();
@@ -293,7 +293,6 @@ public class VentanaRegistroViajero extends javax.swing.JFrame {
                 controlador.guardarViajero(viajero);
                 JOptionPane.showMessageDialog(null, "Se registró correctamente el viajero " + nombres + " " + apellidos);
                 limpiarCampos();
-                validarZ();
             } catch (ViajeroRegistradoException | CorreoRegistradoException | InformacionGestorException  | InformacionAdministradorAeroException | InformacionCapitanException | InformacionEmpleadoException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
@@ -369,63 +368,24 @@ public class VentanaRegistroViajero extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_txtTelefonoKeyTyped
 
-    private void btnYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYActionPerformed
-        
-    try {
-        controlador.activateY("");
-    } catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("Error al realizar la operación Y: " + e.getMessage());
-    }
-    validarDos();
-    validarZ();
-    validarY();
-
-    }//GEN-LAST:event_btnYActionPerformed
-
-    private void btnZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZActionPerformed
-        
-    try {
-        controlador.activateZ("register");
-    } catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("Error al realizar la operación Z: " + e.getMessage());
-    }
-    validarDos();
-    validarZ();
-    validarY();
-    }//GEN-LAST:event_btnZActionPerformed
-
-    public void validarZ(){
-        boolean r = controlador.revisarZ();
-        if(r){
-            btnZ.setEnabled(false);
-        }else {
-            btnZ.setEnabled(true);
+    private void btZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btZActionPerformed
+        if(!controlador.getZ().isEmpty()){
+            controlador.respaldoY();
+            controlador.controlZ();
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por deshacer");
         }
-    }
-    
-    public void validarY(){
-        boolean r = controlador.revisarY();
-        if(r){
-            btnY.setEnabled(false);
-        }else {
-            btnY.setEnabled(true);
+    }//GEN-LAST:event_btZActionPerformed
+
+    private void btYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btYActionPerformed
+        if(!controlador.getY().isEmpty()){
+            controlador.respaldoZ();
+            controlador.controlY();
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por rehacer");
         }
-    }
-    
-    public void validarDos(){
-        boolean r = controlador.revisarZ();
-        boolean otro = controlador.revisarY();
-        if(r && otro){
-            btnY.setEnabled(false);
-            btnZ.setEnabled(false);
-        }else {
-            btnY.setEnabled(true);
-            btnZ.setEnabled(true);
-        }
-    }
-    
+    }//GEN-LAST:event_btYActionPerformed
+
     public void limpiarCampos() {
         txtNombres.setText(null);
         txtApellidos.setText(null);
@@ -440,11 +400,11 @@ public class VentanaRegistroViajero extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btY;
+    private javax.swing.JMenuItem btZ;
     private javax.swing.JLabel btnCrearCuenta;
     private javax.swing.JMenu btnRegresar;
     private javax.swing.JMenu btnVolver;
-    private javax.swing.JButton btnY;
-    private javax.swing.JButton btnZ;
     private javax.swing.JComboBox<String> cboGenero;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

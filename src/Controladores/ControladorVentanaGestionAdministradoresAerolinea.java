@@ -5,8 +5,7 @@ import Modelos.*;
 import Singleton.Singleton;
 import Util.LSE;
 import Util.Nodo;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import Util.Pila;
 
 /**
  *
@@ -16,10 +15,50 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
     
     private LSE<Aerolinea> listaAerolineas;
     private LSE<Usuario> listaUsuarios;
+    private Pila<LSE<Aerolinea>> z;
+    private Pila<LSE<Aerolinea>> y;
     
     public ControladorVentanaGestionAdministradoresAerolinea(){
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
         this.listaUsuarios = Singleton.getInstancia().getUsuarios();
+        this.z = new Pila<>();
+        this.y = new Pila<>();
+    }
+    
+    public Pila<LSE<Aerolinea>> getZ() {
+        return z;
+    }
+
+    public Pila<LSE<Aerolinea>> getY() {
+        return y;
+    }
+    
+    public void controlY(){
+        listaAerolineas = y.pop();
+        Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+        Singleton.getInstancia().escribirAerolineas();
+    }
+    
+    public void controlZ(){
+        listaAerolineas = z.pop();
+        Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+        Singleton.getInstancia().escribirAerolineas();
+    }
+    
+    public void limpiarY(){
+        if(!y.isEmpty()){
+            y = new Pila<>();
+        }
+    }
+    
+    public void respaldoZ(){  
+        LSE<Aerolinea> respaldoAerolinea = listaAerolineas.clone();
+        z.push(respaldoAerolinea);
+    }
+        
+    public void respaldoY(){  
+        LSE<Aerolinea> respaldoAerolinea = listaAerolineas.clone();
+        y.push(respaldoAerolinea);
     }
     
     public LSE traerAerolineas(){
@@ -250,6 +289,8 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
                     for (int k = 0; k < avion.getCronograma().size(); k++) {
                         Vuelo vuelo = avion.getCronograma().get(k);
                         if(vuelo.getListaReservas().isEmpty()) {
+//                            respaldoZ();
+//                            limpiarY();
                             listaAerolineas.remove(i); 
                             Singleton.getInstancia().escribirAerolineas();
                             return;               
@@ -289,6 +330,8 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
                 if(validarMismaInfoAdministrador(admin)) {
                     Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
                     if(aerolineaBuscada != null){
+                        respaldoZ();
+                        limpiarY();
                         aerolineaBuscada.getListaEmpleadosAerolinea().add(admin);
                         Singleton.getInstancia().escribirAerolineas();
                     }
@@ -299,6 +342,8 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         }else {
             Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
             if(aerolineaBuscada != null){
+                respaldoZ();
+                limpiarY();
                 aerolineaBuscada.getListaEmpleadosAerolinea().add(admin);
                 Singleton.getInstancia().escribirAerolineas();
             }
@@ -367,8 +412,10 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
                 Aerolinea aerolineaBuscarPersona = listaAerolineas.get(i);
                 for (int j = 0; j < aerolineaBuscarPersona.getListaEmpleadosAerolinea().size(); j++) {
                     if(aerolineaBuscarPersona.getListaEmpleadosAerolinea().get(j).getIdentificacion().equals(aux.getIdentificacion()) && aerolineaBuscarPersona.getListaEmpleadosAerolinea().get(j).getRol().equals("Administrador Aerolinea")){
+                        respaldoZ();
+                        limpiarY();
                         listaAerolineas.remove(j);
-                        break;
+                        Singleton.getInstancia().escribirAerolineas();
                     }
                 }
             }

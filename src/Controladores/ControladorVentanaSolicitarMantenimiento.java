@@ -1,6 +1,5 @@
 package Controladores;
 
-import Excepciones.AvionEstaEnMantenimientoException;
 import Excepciones.CruzaHorariosMantenimientoException;
 import Excepciones.FechaMantenimientoVueloYaRegistradoException;
 import Excepciones.SolicitudYaEnviadaException;
@@ -12,6 +11,7 @@ import Modelos.Vuelo;
 import Singleton.Singleton;
 import Util.LSE;
 import Util.Nodo;
+import Util.Pila;
 import java.time.LocalDate;
 
 /**
@@ -22,10 +22,53 @@ public class ControladorVentanaSolicitarMantenimiento {
     
     private LSE<Aerolinea> listaAerolineas;
     private LSE<Mantenimiento> listaMantenimientos;
+    private Pila<LSE<Mantenimiento>> z;
+    private Pila<LSE<Mantenimiento>> y;
     
     public ControladorVentanaSolicitarMantenimiento() {
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
         this.listaMantenimientos = Singleton.getInstancia().getMantenimientos();
+        this.z = new Pila<>();
+        this.y = new Pila<>();
+    }
+    
+    public Pila<LSE<Mantenimiento>> getZ() {
+        return z;
+    }
+
+    public Pila<LSE<Mantenimiento>> getY() {
+        return y;
+    }
+    
+    public void controlY(){
+        listaMantenimientos = y.pop();
+        Singleton.getInstancia().setListaMantenimientos(listaMantenimientos);
+        Singleton.getInstancia().escribirMantenimientos();
+        Singleton.getInstancia().escribirAerolineas();
+    }
+    
+    public void controlZ(){
+        listaMantenimientos = z.pop();
+        Singleton.getInstancia().setListaMantenimientos(listaMantenimientos);
+        Singleton.getInstancia().escribirMantenimientos();
+        Singleton.getInstancia().escribirAerolineas();
+    }
+    
+    public void limpiarY(){
+        if(!y.isEmpty()){
+            y = new Pila<>();
+        }
+    }
+    
+    public void respaldoZ(){  
+        LSE<Mantenimiento> respaldoMante = listaMantenimientos.clone();
+        z.push(respaldoMante);
+        
+    }
+        
+    public void respaldoY(){  
+        LSE<Mantenimiento> respaldoMante = listaMantenimientos.clone();
+        y.push(respaldoMante);
     }
     
     public Avion buscarNumeroAvion(int numero){
@@ -196,6 +239,8 @@ public class ControladorVentanaSolicitarMantenimiento {
         Mantenimiento aux = mantenimientoBuscado(mantenimientoRecibido.getNum());
         
         if(aux != null){
+            respaldoZ();
+            limpiarY();
             aux.setFechaFin(mantenimientoRecibido.getFechaFin());
             aux.setEstado(mantenimientoRecibido.getEstado());
             Singleton.getInstancia().escribirAerolineas();
