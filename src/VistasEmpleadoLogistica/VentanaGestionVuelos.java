@@ -80,6 +80,8 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
+        btZ = new javax.swing.JMenuItem();
+        btY = new javax.swing.JMenuItem();
 
         jLabel2.setText("jLabel2");
 
@@ -350,6 +352,24 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         });
         btnVolver.add(btnRegresar);
 
+        btZ.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btZ.setText("Deshacer");
+        btZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btZActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btZ);
+
+        btY.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btY.setText("Rehacer");
+        btY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btYActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btY);
+
         jMenuBar1.add(btnVolver);
 
         setJMenuBar(jMenuBar1);
@@ -477,6 +497,26 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cboInicioHoraActionPerformed
 
+    private void btZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btZActionPerformed
+        Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
+        if(!controlador.getZ().isEmpty() && aerolinea != null){
+            controlador.respaldoY(aerolinea.getCodigoAerolinea());
+            controlador.controlZ(aerolinea.getCodigoAerolinea());
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por deshacer");
+        }
+    }//GEN-LAST:event_btZActionPerformed
+
+    private void btYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btYActionPerformed
+        Aerolinea aerolinea = controlador.buscarAerolineaPersona(empleadoLogistica.getIdentificacion());
+        if(!controlador.getY().isEmpty() && aerolinea != null){
+            controlador.respaldoZ(aerolinea.getCodigoAerolinea());
+            controlador.controlY(aerolinea.getCodigoAerolinea());
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por rehacer");
+        }
+    }//GEN-LAST:event_btYActionPerformed
+
     public void limpiarCampos() {
         dataChooserFecha.setDate(null);
         txtNumeroVuelo.setText(null);
@@ -591,6 +631,8 @@ public class VentanaGestionVuelos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btY;
+    private javax.swing.JMenuItem btZ;
     private javax.swing.JLabel btnGestion;
     private javax.swing.JLabel btnGuardar;
     private javax.swing.JLabel btnLimpiar;

@@ -85,6 +85,8 @@ public class VentanaGestionCapitanVuelo extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         btnVolver = new javax.swing.JMenu();
         btnRegresar = new javax.swing.JMenu();
+        btZ = new javax.swing.JMenuItem();
+        btY = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -435,6 +437,24 @@ public class VentanaGestionCapitanVuelo extends javax.swing.JFrame {
         });
         btnVolver.add(btnRegresar);
 
+        btZ.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btZ.setText("Deshacer");
+        btZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btZActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btZ);
+
+        btY.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        btY.setText("Rehacer");
+        btY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btYActionPerformed(evt);
+            }
+        });
+        btnVolver.add(btY);
+
         jMenuBar1.add(btnVolver);
 
         setJMenuBar(jMenuBar1);
@@ -699,6 +719,28 @@ public class VentanaGestionCapitanVuelo extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_txtIdBuscarKeyTyped
 
+    private void btZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btZActionPerformed
+        Aerolinea aerolinea = controlador.buscarAerolineaCodigo(administradorAerolinea.getIdentificacion());
+        if(!controlador.getZ().isEmpty() && aerolinea != null){
+            controlador.respaldoY(aerolinea.getCodigoAerolinea());
+            controlador.controlZ(aerolinea.getCodigoAerolinea());
+            actualizarTabla();
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por deshacer");
+        }
+    }//GEN-LAST:event_btZActionPerformed
+
+    private void btYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btYActionPerformed
+        Aerolinea aerolinea = controlador.buscarAerolineaCodigo(administradorAerolinea.getIdentificacion());
+        if(!controlador.getY().isEmpty() && aerolinea != null){
+            controlador.respaldoZ(aerolinea.getCodigoAerolinea());
+            controlador.controlY(aerolinea.getCodigoAerolinea());
+            actualizarTabla();
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por rehacer");
+        }
+    }//GEN-LAST:event_btYActionPerformed
+
     public void limpiarCampos() {
         txtNombres.setText(null);
         txtApellidos.setText(null);
@@ -736,6 +778,8 @@ public class VentanaGestionCapitanVuelo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btY;
+    private javax.swing.JMenuItem btZ;
     private javax.swing.JLabel btnBuscar;
     private javax.swing.JLabel btnCrearCuenta;
     private javax.swing.JLabel btnEditar;

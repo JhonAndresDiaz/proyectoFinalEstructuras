@@ -791,38 +791,26 @@ public class VentanaSeleccionarAerolinea extends javax.swing.JFrame {
 
     private void btZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btZActionPerformed
         int codigo = Integer.parseInt(txtCodigoAerolinea.getText());
-        Aerolinea aerolinea = controlador.buscarAerolineaCodigo(codigo);
-
-        if (aerolinea != null) {
-            if (!controlador.getZ().isEmpty()) {
-                controlador.respaldoY();
-                controlador.controlZ();
-                actualizarTabla(aerolinea.getCodigoAerolinea());
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "No hay acciones por deshacer");
-            }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Aerolínea no encontrada");
+        Aerolinea aerolinea = controlador.buscarAerolineaCodigoAero(codigo);
+        if(!controlador.getZ().isEmpty() && aerolinea != null){
+            controlador.respaldoY(aerolinea.getCodigoAerolinea());
+            controlador.controlZ(aerolinea.getCodigoAerolinea());
+            actualizarTabla(aerolinea.getCodigoAerolinea());
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por deshacer");
         }
-
     }//GEN-LAST:event_btZActionPerformed
 
     private void btYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btYActionPerformed
         int codigo = Integer.parseInt(txtCodigoAerolinea.getText());
-        Aerolinea aerolinea = controlador.buscarAerolineaCodigo(codigo);
-
-        if (aerolinea != null) {
-            if (!controlador.getZ().isEmpty()) {
-                controlador.respaldoY();
-                controlador.controlZ();
-                actualizarTabla(aerolinea.getCodigoAerolinea());
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "No hay acciones por deshacer");
-            }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Aerolínea no encontrada");
+        Aerolinea aerolinea = controlador.buscarAerolineaCodigoAero(codigo);
+        if(!controlador.getY().isEmpty() && aerolinea != null){
+            controlador.respaldoZ(aerolinea.getCodigoAerolinea());
+            controlador.controlY(aerolinea.getCodigoAerolinea());
+            actualizarTabla(aerolinea.getCodigoAerolinea());
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No hay acciones por rehacer");
         }
-
     }//GEN-LAST:event_btYActionPerformed
 
     private void btnEliminarAerolineaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarAerolineaMouseClicked

@@ -6,6 +6,7 @@ import Singleton.Singleton;
 import Util.Cola;
 import Util.LSE;
 import Util.Nodo;
+import Util.Pila;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -17,10 +18,115 @@ public class ControladorVentanaGestionVuelos {
     
     private LSE<Aerolinea> listaAerolineas;
     private LSE<Mantenimiento> listaMantenimientos;
+    private Pila<LSE<Vuelo>> z;
+    private Pila<LSE<Vuelo>> y;
+    
     
     public ControladorVentanaGestionVuelos() {
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
         this.listaMantenimientos = Singleton.getInstancia().getMantenimientos();
+        this.z = new Pila<>();
+        this.y = new Pila<>();
+    }
+    
+    public Pila<LSE<Vuelo>> getZ() {
+        return z;
+    }
+
+    public Pila<LSE<Vuelo>> getY() {
+        return y;
+    }
+
+    public void controlY(int codigo) {
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if (aerolineaRecibida != null) {
+            LSE<Vuelo> listasVuelos = y.pop();
+
+            if (listasVuelos != null) {
+                for (int i = 0; i < aerolineaRecibida.getListaAviones().size(); i++) {
+                    Avion avion = aerolineaRecibida.getListaAviones().get(i);
+                    if(avion != null){
+                        avion.setCronograma(listasVuelos);     
+                    }
+                }
+
+                Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+                Singleton.getInstancia().escribirAerolineas();
+            } else {
+            }
+        }
+    }
+    
+    public void controlZ(int codigo) {
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if (aerolineaRecibida != null) {
+            LSE<Vuelo> listaVuelos = z.pop();
+
+            if (listaVuelos != null) {
+                for (int i = 0; i < aerolineaRecibida.getListaAviones().size(); i++) {
+                    Avion avion = aerolineaRecibida.getListaAviones().get(i);
+                    if(avion != null){
+                        avion.getCronograma().limpiar();
+                    }
+                }
+
+                for (int j = 0; j < listaVuelos.size(); j++) {
+                    for (int k = 0; k < aerolineaRecibida.getListaAviones().size(); k++) {
+                        Avion avion = aerolineaRecibida.getListaAviones().get(k);
+                        if(avion != null){
+                            avion.getCronograma().insertarAlFinal(listaVuelos.get(j));
+                        }
+                    }
+                }
+                Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+                Singleton.getInstancia().escribirAerolineas();
+            } else {
+            }
+        }
+    }
+    
+    public void limpiarY(){
+        if(!y.isEmpty()){
+            y = new Pila<>();
+        }
+    }
+    
+    public void respaldoZ(int codigo) {
+        
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if(aerolineaRecibida != null){
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolinea = listaAerolineas.get(i);
+                if (aerolinea.getCodigoAerolinea() == aerolineaRecibida.getCodigoAerolinea()) {
+                    for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+                        Avion avion = aerolinea.getListaAviones().get(j);
+                        if(avion != null){
+                            LSE<Vuelo> respaldoVuelos = avion.getCronograma().clone();
+                            z.push(respaldoVuelos);
+                        }
+                    }
+                }
+            }
+        } 
+    }
+
+    public void respaldoY(int codigo) {
+        
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if(aerolineaRecibida != null){
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolinea = listaAerolineas.get(i);
+                if (aerolinea.getCodigoAerolinea() == aerolineaRecibida.getCodigoAerolinea()) {
+                    for (int j = 0; j < aerolinea.getListaAviones().size(); j++) {
+                        Avion avion = aerolinea.getListaAviones().get(j);
+                        if(avion != null){
+                            LSE<Vuelo> respaldoVuelos = avion.getCronograma().clone();
+                            y.push(respaldoVuelos);
+                        }
+                    }
+                }
+            }
+        }  
     }
     
     public LSE<Reserva> obtenerListaViajeros(int codigo) {
@@ -44,6 +150,14 @@ public class ControladorVentanaGestionVuelos {
             }
         }
         return listaAviones;
+    }
+    public Aerolinea buscarAerolineaCodigoAero(int codigo){
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            if(listaAerolineas.get(i).getCodigoAerolinea() == codigo){
+                return listaAerolineas.get(i);
+            }  
+        }
+        return null;    
     }
     
     public LSE<Vuelo> obtenerVuelos(Aerolinea aerolineaRecibida) {

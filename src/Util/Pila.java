@@ -4,6 +4,7 @@ public class Pila<T> {
     
     private NodoPila<T> primero;
     private int size;
+    
     public Pila() {
         this.primero = null;
         this.size=0;

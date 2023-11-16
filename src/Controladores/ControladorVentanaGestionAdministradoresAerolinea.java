@@ -15,8 +15,8 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
     
     private LSE<Aerolinea> listaAerolineas;
     private LSE<Usuario> listaUsuarios;
-    private Pila<LSE<Aerolinea>> z;
-    private Pila<LSE<Aerolinea>> y;
+    private Pila<LSE<Persona>> z;
+    private Pila<LSE<Persona>> y;
     
     public ControladorVentanaGestionAdministradoresAerolinea(){
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
@@ -25,24 +25,45 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         this.y = new Pila<>();
     }
     
-    public Pila<LSE<Aerolinea>> getZ() {
+    public Pila<LSE<Persona>> getZ() {
         return z;
     }
 
-    public Pila<LSE<Aerolinea>> getY() {
+    public Pila<LSE<Persona>> getY() {
         return y;
     }
-    
-    public void controlY(){
-        listaAerolineas = y.pop();
-        Singleton.getInstancia().setListaAerolineas(listaAerolineas);
-        Singleton.getInstancia().escribirAerolineas();
+    public void controlY(int codigo) {
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if (aerolineaRecibida != null) {
+            LSE<Persona> listaPersonas = y.pop();
+
+            if (listaPersonas != null) {
+                aerolineaRecibida.setListaEmpleadosAerolinea(listaPersonas);
+
+                Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+                Singleton.getInstancia().escribirAerolineas();
+            } else {
+            }
+        }
     }
     
-    public void controlZ(){
-        listaAerolineas = z.pop();
-        Singleton.getInstancia().setListaAerolineas(listaAerolineas);
-        Singleton.getInstancia().escribirAerolineas();
+    public void controlZ(int codigo) {
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if (aerolineaRecibida != null) {
+            LSE<Persona> listaPersonas = z.pop();
+
+            if (listaPersonas != null) {
+                aerolineaRecibida.getListaEmpleadosAerolinea().limpiar();
+
+                for (int i = 0; i < listaPersonas.size(); i++) {
+                    aerolineaRecibida.getListaEmpleadosAerolinea().insertarAlFinal(listaPersonas.get(i));
+                }
+
+                Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+                Singleton.getInstancia().escribirAerolineas();
+            } else {
+            }
+        }
     }
     
     public void limpiarY(){
@@ -51,14 +72,32 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         }
     }
     
-    public void respaldoZ(){  
-        LSE<Aerolinea> respaldoAerolinea = listaAerolineas.clone();
-        z.push(respaldoAerolinea);
-    }
+    public void respaldoZ(int codigo) {
         
-    public void respaldoY(){  
-        LSE<Aerolinea> respaldoAerolinea = listaAerolineas.clone();
-        y.push(respaldoAerolinea);
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if(aerolineaRecibida != null){
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolinea = listaAerolineas.get(i);
+                if (aerolinea.getCodigoAerolinea() == aerolineaRecibida.getCodigoAerolinea()) {
+                    LSE<Persona> respaldoPersonas = aerolineaRecibida.getListaEmpleadosAerolinea().clone();
+                    z.push(respaldoPersonas);
+                }
+            }
+        } 
+    }
+
+    public void respaldoY(int codigo) {
+        
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if(aerolineaRecibida != null){
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolinea = listaAerolineas.get(i);
+                if (aerolinea.getCodigoAerolinea() == aerolineaRecibida.getCodigoAerolinea()) {
+                    LSE<Persona> respaldoPersonas = aerolineaRecibida.getListaEmpleadosAerolinea().clone();
+                    y.push(respaldoPersonas);
+                }
+            }
+        }  
     }
     
     public LSE traerAerolineas(){
@@ -75,6 +114,15 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         }
         return new LSE<>();
     }  
+    
+    public Aerolinea buscarAerolineaCodigoAero(int codigo){
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            if(listaAerolineas.get(i).getCodigoAerolinea() == codigo){
+                return listaAerolineas.get(i);
+            }  
+        }
+        return null;    
+    }
     
     public LSE<AdministradorAerolinea> obtenerAdministradoresDeAerolineas(int codigo){
         LSE<AdministradorAerolinea> listaAdministradores = new LSE<>();
@@ -278,6 +326,18 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         }
     }
     
+    public Aerolinea buscarAerolineaCodigo(String id){
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            Aerolinea aerolinea = listaAerolineas.get(i);
+            for (int j = 0; j < aerolinea.getListaEmpleadosAerolinea().size(); j++) {
+                if(aerolinea.getListaEmpleadosAerolinea().get(j).getIdentificacion().equals(id)){
+                    return listaAerolineas.get(i);
+                }
+            }
+        }
+        return null;    
+    }
+    
     public void eliminarAerolinea(int codigo) {
         Aerolinea aux = buscarAerolineaCodigo(codigo);
 
@@ -289,8 +349,6 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
                     for (int k = 0; k < avion.getCronograma().size(); k++) {
                         Vuelo vuelo = avion.getCronograma().get(k);
                         if(vuelo.getListaReservas().isEmpty()) {
-//                            respaldoZ();
-//                            limpiarY();
                             listaAerolineas.remove(i); 
                             Singleton.getInstancia().escribirAerolineas();
                             return;               
@@ -330,7 +388,7 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
                 if(validarMismaInfoAdministrador(admin)) {
                     Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
                     if(aerolineaBuscada != null){
-                        respaldoZ();
+                        respaldoZ(aerolineaBuscada.getCodigoAerolinea());
                         limpiarY();
                         aerolineaBuscada.getListaEmpleadosAerolinea().add(admin);
                         Singleton.getInstancia().escribirAerolineas();
@@ -342,7 +400,7 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
         }else {
             Aerolinea aerolineaBuscada = buscarAerolineaCodigo(aerolinea.getCodigoAerolinea());
             if(aerolineaBuscada != null){
-                respaldoZ();
+                respaldoZ(aerolinea.getCodigoAerolinea());
                 limpiarY();
                 aerolineaBuscada.getListaEmpleadosAerolinea().add(admin);
                 Singleton.getInstancia().escribirAerolineas();
@@ -412,8 +470,6 @@ public class ControladorVentanaGestionAdministradoresAerolinea {
                 Aerolinea aerolineaBuscarPersona = listaAerolineas.get(i);
                 for (int j = 0; j < aerolineaBuscarPersona.getListaEmpleadosAerolinea().size(); j++) {
                     if(aerolineaBuscarPersona.getListaEmpleadosAerolinea().get(j).getIdentificacion().equals(aux.getIdentificacion()) && aerolineaBuscarPersona.getListaEmpleadosAerolinea().get(j).getRol().equals("Administrador Aerolinea")){
-                        respaldoZ();
-                        limpiarY();
                         listaAerolineas.remove(j);
                         Singleton.getInstancia().escribirAerolineas();
                     }

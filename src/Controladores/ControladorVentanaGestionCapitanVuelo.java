@@ -12,6 +12,7 @@ import Modelos.Viajero;
 import Singleton.Singleton;
 import Util.LSE;
 import Util.Nodo;
+import Util.Pila;
 
 /**
  *
@@ -21,12 +22,92 @@ public class ControladorVentanaGestionCapitanVuelo {
     
     private LSE<Aerolinea> listaAerolineas;
     private LSE<Usuario> listaUsuarios;
+    private Pila<LSE<Persona>> z;
+    private Pila<LSE<Persona>> y;
 
     public ControladorVentanaGestionCapitanVuelo(){
         this.listaAerolineas = Singleton.getInstancia().getAerolineas();
         this.listaUsuarios = Singleton.getInstancia().getUsuarios();
+        this.z = new Pila<>();
+        this.y = new Pila<>();
+    }
+    
+    public Pila<LSE<Persona>> getZ() {
+        return z;
     }
 
+    public Pila<LSE<Persona>> getY() {
+        return y;
+    }
+
+    public void controlY(int codigo) {
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if (aerolineaRecibida != null) {
+            LSE<Persona> listaPersonas = y.pop();
+
+            if (listaPersonas != null) {
+                aerolineaRecibida.setListaEmpleadosAerolinea(listaPersonas);
+
+                Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+                Singleton.getInstancia().escribirAerolineas();
+            } else {
+            }
+        }
+    }
+    
+    public void controlZ(int codigo) {
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if (aerolineaRecibida != null) {
+            LSE<Persona> listaPersonas = z.pop();
+
+            if (listaPersonas != null) {
+                aerolineaRecibida.getListaEmpleadosAerolinea().limpiar();
+
+                for (int i = 0; i < listaPersonas.size(); i++) {
+                    aerolineaRecibida.getListaEmpleadosAerolinea().insertarAlFinal(listaPersonas.get(i));
+                }
+
+                Singleton.getInstancia().setListaAerolineas(listaAerolineas);
+                Singleton.getInstancia().escribirAerolineas();
+            } else {
+            }
+        }
+    }
+    
+    public void limpiarY(){
+        if(!y.isEmpty()){
+            y = new Pila<>();
+        }
+    }
+    
+    public void respaldoZ(int codigo) {
+        
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if(aerolineaRecibida != null){
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolinea = listaAerolineas.get(i);
+                if (aerolinea.getCodigoAerolinea() == aerolineaRecibida.getCodigoAerolinea()) {
+                    LSE<Persona> respaldoPersonas = aerolineaRecibida.getListaEmpleadosAerolinea().clone();
+                    z.push(respaldoPersonas);
+                }
+            }
+        } 
+    }
+
+    public void respaldoY(int codigo) {
+        
+        Aerolinea aerolineaRecibida = buscarAerolineaCodigoAero(codigo);
+        if(aerolineaRecibida != null){
+            for (int i = 0; i < listaAerolineas.size(); i++) {
+                Aerolinea aerolinea = listaAerolineas.get(i);
+                if (aerolinea.getCodigoAerolinea() == aerolineaRecibida.getCodigoAerolinea()) {
+                    LSE<Persona> respaldoPersonas = aerolineaRecibida.getListaEmpleadosAerolinea().clone();
+                    y.push(respaldoPersonas);
+                }
+            }
+        }  
+    }
+    
     public Aerolinea buscarAdAerolinea(String id) {
         for (int i = 0; i < listaAerolineas.size(); i++) {
             Aerolinea aerolinea = listaAerolineas.get(i);
@@ -47,6 +128,18 @@ public class ControladorVentanaGestionCapitanVuelo {
             if(listaAerolineas.get(i).getCodigoAerolinea() == codigo){
                 return listaAerolineas.get(i);
             }  
+        }
+        return null;    
+    }
+    
+    public Aerolinea buscarAerolineaCodigo(String id){
+        for (int i = 0; i < listaAerolineas.size(); i++) {
+            Aerolinea aerolinea = listaAerolineas.get(i);
+            for (int j = 0; j < aerolinea.getListaEmpleadosAerolinea().size(); j++) {
+                if(aerolinea.getListaEmpleadosAerolinea().get(j).getIdentificacion().equals(id)){
+                    return listaAerolineas.get(i);
+                }
+            }
         }
         return null;    
     }

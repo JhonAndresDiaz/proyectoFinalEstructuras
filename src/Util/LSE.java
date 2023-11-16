@@ -144,6 +144,56 @@ public class LSE<T> implements Serializable, Cloneable {
         return primero == null;
     }
 
+    public void limpiar() {
+        primero = null;
+        size = 0;
+    }
+
+    public void insertarAlFinal(T dato) {
+        Nodo<T> nuevo = new Nodo<>(dato);
+        if (primero == null) {
+            primero = nuevo;
+        } else {
+            Nodo<T> aux = primero;
+            while (aux.getNodoSiguiente() != null) {
+                aux = aux.getNodoSiguiente();
+            }
+            aux.setNodoSiguiente(nuevo);
+        }
+        size++;
+    }
+    
+    public T eliminarAlFinal() {
+        if (primero == null) {
+            return null;  // Lista vacía
+        }
+
+        if (primero.getNodoSiguiente() == null) {
+            T dato = primero.getDato();
+            primero = null;  // La lista queda vacía
+            size--;
+            return dato;
+        }
+
+        Nodo<T> aux = primero;
+        while (aux.getNodoSiguiente().getNodoSiguiente() != null) {
+            aux = aux.getNodoSiguiente();
+        }
+
+        T dato = aux.getNodoSiguiente().getDato();
+        aux.setNodoSiguiente(null);
+        size--;
+        return dato;
+    }
+    
+    public void clonar(LSE<T> otraLista) {
+        this.limpiar();
+        for (int i = 0; i < otraLista.size(); i++) {
+            this.insertarAlFinal(otraLista.get(i));
+        }
+    }
+
+    
     @Override
     public LSE<T> clone() {
         try {
